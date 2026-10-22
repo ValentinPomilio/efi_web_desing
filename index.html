@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaludBarrial - Guía de Salud Pública y Comunitaria | Río Cuarto</title>
+  <meta name="description" content="Guía médica comunitaria de dispensarios, guardias 24hs, médicos y turnos en Río Cuarto (Banda Norte, Alberdi, Villa Dalcar, Centro).">
+
+  <!-- Prevención de destello de tema (Anti-FOUC) -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 (CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- TailwindCSS v3 (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            page: {
+              light: '#C7DCEB',
+              dark: '#10243A'
+            },
+            surface: {
+              light: '#DCEAF4',
+              dark: '#18364F',
+              insetLight: '#EAF3F9',
+              insetDark: '#21445F'
+            },
+            natural: {
+              50: '#F8FAF7',
+              100: '#EFF4EE',
+              200: '#DCE5DC',
+              700: '#26382F',
+              800: '#1A2520',
+              900: '#111714',
+              cardDark: '#18221E'
+            },
+            brand: {
+              teal: '#0d9488',
+              emerald: '#059669',
+              sos: '#dc2626',
+              sosHover: '#b91c1c'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Scrollbar estilizada para la lista scrolleable de profesionales */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(148, 163, 184, 0.5);
+      border-radius: 9999px;
+    }
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(71, 85, 105, 0.6);
+    }
+
+    /* Fondo de Video en Viewport Completo (Scroll-Driven Video) */
+    #scrollBgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      pointer-events: none;
+      z-index: -1;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+  </style>
+</head>
+<body class="bg-[#143830] text-slate-100 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden transition-colors duration-200">
+
+  <!-- ========================================================================= -->
+  <!-- VIDEO DE FONDO CONTROLADO POR SCROLL (SCROLL-DRIVEN VIDEO: fondo.mp4)    -->
+  <!-- ========================================================================= -->
+  <video 
+    id="scrollBgVideo" 
+    src="img/fondo.mp4" 
+    preload="auto" 
+    muted 
+    playsinline 
+    tabindex="-1" 
+    aria-hidden="true"
+  ></video>
+
+  <!-- ========================================================================= -->
+  <!-- 1. HEADER Y NAVEGACIÓN ACCESIBLE (SIEMPRE TRANSPARENTE)                  -->
+  <!-- ========================================================================= -->
+  <header id="mainHeader" class="fixed top-0 left-0 w-full z-40 bg-transparent border-none pointer-events-auto">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20 gap-2">
+        
+        <!-- Logo Oficial (img/logo.jpg) -->
+        <a href="#" class="flex items-center gap-2 sm:gap-2.5 group py-1 select-none min-w-0 flex-shrink" aria-label="Inicio de SaludBarrial">
+          <img src="img/logo.jpg" alt="Logo de SaludBarrial" class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-cover border border-white/30 shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+          <div class="min-w-0">
+            <span class="text-base sm:text-xl md:text-2xl font-black tracking-tight text-white flex items-center gap-1 drop-shadow-md leading-tight truncate">
+              Salud<span class="text-emerald-400">Barrial</span>
+            </span>
+            <span class="block text-[9px] sm:text-[10px] md:text-xs font-semibold text-emerald-100/90 uppercase tracking-wider drop-shadow-sm truncate">
+              SaludPrimero • Río Cuarto
+            </span>
+          </div>
+        </a>
+
+        <!-- Navegación Desktop: Botones en blanco con contraste sobre fondo verde -->
+        <nav class="hidden md:flex items-center gap-1.5" aria-label="Navegación principal">
+          <a href="#mapa-section" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none drop-shadow-md">
+            <i class="fa-solid fa-map-location-dot text-emerald-400 mr-1.5 pointer-events-none"></i> Mapa de Centros
+          </a>
+          <a href="#profesionales-section" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none drop-shadow-md">
+            <i class="fa-solid fa-user-doctor text-emerald-400 mr-1.5 pointer-events-none"></i> Directorio Médico
+          </a>
+          <a href="#donaciones" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none drop-shadow-md">
+            <i class="fa-solid fa-hand-holding-heart text-emerald-400 mr-1.5 pointer-events-none"></i> Donaciones
+          </a>
+          <button type="button" onclick="openFloatingSuggestionModal()" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none drop-shadow-md">
+            <i class="fa-solid fa-comment-dots text-emerald-400 mr-1.5 pointer-events-none"></i> Sugerencias
+          </button>
+        </nav>
+
+        <!-- Acciones en Header (Modo Claro/Oscuro y Menú Hamburguesa) -->
+        <div class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+          
+          <!-- Botón de Conmutación Claro / Oscuro -->
+          <button 
+            id="themeToggleBtn" 
+            type="button" 
+            class="w-9 h-9 sm:w-10 sm:h-10 inline-flex items-center justify-center rounded-xl border border-white/25 bg-black/25 hover:bg-white/20 text-white transition-all cursor-pointer select-none shadow-sm backdrop-blur-xs" 
+            aria-label="Cambiar entre modo claro y oscuro"
+          >
+            <i id="themeIcon" class="fa-solid fa-moon text-base pointer-events-none select-none"></i>
+          </button>
+
+          <!-- Botón Menú Hamburguesa Móvil -->
+          <button 
+            id="mobileMenuBtn" 
+            type="button" 
+            class="md:hidden w-9 h-9 sm:w-10 sm:h-10 inline-flex items-center justify-center rounded-xl border border-white/25 bg-black/25 hover:bg-white/20 text-white transition-all cursor-pointer select-none shadow-sm" 
+            aria-expanded="false" 
+            aria-controls="mobileMenu" 
+            aria-label="Abrir menú de navegación"
+          >
+            <i id="menuIcon" class="fa-solid fa-bars text-lg pointer-events-none select-none"></i>
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Menú Desplegable Móvil con Desenfoque de Fondo -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-white/15 bg-slate-900/95 backdrop-blur-lg px-4 pt-3 pb-5 space-y-2 shadow-2xl">
+      <a href="#mapa-section" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-white hover:bg-white/15 select-none">
+        <i class="fa-solid fa-map-location-dot w-6 text-emerald-400 pointer-events-none"></i> Mapa de Centros y Guardias
+      </a>
+      <a href="#profesionales-section" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-white hover:bg-white/15 select-none">
+        <i class="fa-solid fa-user-doctor w-6 text-emerald-400 pointer-events-none"></i> Directorio de Profesionales
+      </a>
+      <a href="#donaciones" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-white hover:bg-white/15 select-none">
+        <i class="fa-solid fa-hand-holding-heart w-6 text-emerald-400 pointer-events-none"></i> Donaciones Comunitarias
+      </a>
+      <button type="button" onclick="closeMobileMenu(); openFloatingSuggestionModal();" class="w-full text-left py-2.5 px-3 rounded-xl text-base font-semibold text-white hover:bg-white/15 cursor-pointer select-none">
+        <i class="fa-solid fa-comment-dots w-6 text-emerald-400 pointer-events-none"></i> Buzón de Sugerencias
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 2. ESPACIO INICIAL HERO ZONE (100VH): AMBULANCIA PROTAGONISTA EN VIDEO   -->
+  <!-- ========================================================================= -->
+  <section class="min-h-screen flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-10 text-center relative z-10 select-none">
+    
+    <!-- Espacio superior amplio y limpio que da protagonismo visual total a la ambulancia sobre fondo verde -->
+    <div class="flex-1 min-h-[42vh] sm:min-h-[50vh] pointer-events-none" aria-hidden="true"></div>
+
+    <!-- Bloque de Texto e Identidad en la parte inferior del primer impacto visual (100% TRANSPARENTE) -->
+    <div class="w-full px-3 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <div class="p-2 sm:p-4 text-center bg-transparent">
+        
+        <!-- Etiqueta de Ubicación -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/30 backdrop-blur-xs text-emerald-300 text-xs sm:text-sm font-semibold mb-2.5 border border-emerald-500/30 shadow-md">
+          <i class="fa-solid fa-location-dot text-emerald-400 animate-pulse"></i>
+          <span>Red Barrial de Salud Primaria • Río Cuarto</span>
+        </div>
+
+        <!-- Título Principal -->
+        <h1 class="text-xl sm:text-3xl md:text-5xl font-black text-white tracking-tight leading-snug sm:leading-tight max-w-4xl mx-auto drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] break-words">
+          Encontrá tu dispensario, guardia médica y turnos <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-cyan-300">en tu barrio</span>
+        </h1>
+
+        <!-- Subtítulo Explicativo -->
+        <p class="mt-2 text-xs sm:text-sm lg:text-base text-slate-100 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+          Consultá horarios de atención médica gratuita en <strong>Banda Norte</strong>, <strong>Alberdi</strong>, <strong>Villa Dalcar</strong> y el <strong>Centro</strong>, con o sin obra social.
+        </p>
+
+        <!-- Indicador Visual de Scroll -->
+        <div class="mt-3.5 flex flex-col items-center justify-center gap-1 text-emerald-300 text-xs font-bold tracking-wide animate-bounce drop-shadow-md">
+          <span>Deslizá hacia abajo para explorar centros y guardias</span>
+          <i class="fa-solid fa-chevron-down text-emerald-400 text-xs"></i>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL REVELADO CON EL SCROLL (SOBRE EL VIDEO: z-index: 10)  -->
+  <!-- ========================================================================= -->
+  <main class="relative z-10 space-y-12 sm:space-y-16 pb-16">
+
+    <!-- ======================================================================= -->
+    <!-- 3. LAS 4 CARDS DE CONTACTO DIRECTO DE AUXILIO RÁPIDO                    -->
+    <!-- ======================================================================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-left">
+        
+        <!-- Contacto 1: Línea 107 -->
+        <a href="tel:107" class="p-4 rounded-2xl border-2 border-red-500/80 bg-black/40 backdrop-blur-md hover:bg-black/55 transition-all group flex items-center gap-3.5 shadow-xl hover:shadow-2xl cursor-pointer">
+          <div class="w-12 h-12 rounded-xl bg-red-600 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+            <i class="fa-solid fa-truck-medical animate-pulse"></i>
+          </div>
+          <div>
+            <span class="block text-xs font-black text-red-400 uppercase tracking-wider">Emergencias Médicas</span>
+            <span class="text-xl font-extrabold text-white">Línea 107</span>
+            <span class="block text-[11px] text-slate-200">Gratuito • Río Cuarto</span>
+          </div>
+        </a>
+
+        <!-- Contacto 2: CardioMed -->
+        <a href="tel:08004445454" class="p-4 rounded-2xl border border-white/20 bg-black/40 backdrop-blur-md hover:bg-black/55 transition-all group flex items-center gap-3.5 shadow-xl hover:shadow-2xl cursor-pointer">
+          <div class="w-12 h-12 rounded-xl bg-sky-600 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <div>
+            <span class="block text-xs font-black text-sky-300 uppercase tracking-wider">CardioMed Privado</span>
+            <span class="text-base font-extrabold text-white">0800 444 5454</span>
+            <span class="block text-[11px] text-slate-200">Urgencias y Traslados</span>
+          </div>
+        </a>
+
+        <!-- Contacto 3: Policía de Córdoba -->
+        <a href="tel:911" class="p-4 rounded-2xl border border-white/20 bg-black/40 backdrop-blur-md hover:bg-black/55 transition-all group flex items-center gap-3.5 shadow-xl hover:shadow-2xl cursor-pointer">
+          <div class="w-12 h-12 rounded-xl bg-sky-700 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <span class="block text-xs font-black text-slate-300 uppercase tracking-wider">Policía / Seguridad</span>
+            <span class="text-xl font-extrabold text-white">911 / 101</span>
+            <span class="block text-[11px] text-slate-200">Comando Radioeléctrico</span>
+          </div>
+        </a>
+
+        <!-- Contacto 4: Ojos en Alerta -->
+        <a href="https://wa.me/5493584283673?text=Hola,%20solicito%20asistencia%20en%20Río%20Cuarto" target="_blank" rel="noopener noreferrer" class="p-4 rounded-2xl border border-white/20 bg-black/40 backdrop-blur-md hover:bg-black/55 transition-all group flex items-center gap-3.5 shadow-xl hover:shadow-2xl cursor-pointer">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+            <i class="fa-brands fa-whatsapp"></i>
+          </div>
+          <div>
+            <span class="block text-xs font-black text-emerald-300 uppercase tracking-wider">Ojos en Alerta</span>
+            <span class="text-base font-extrabold text-white">358 428 3673</span>
+            <span class="block text-[11px] text-slate-200">WhatsApp Comunitario</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 4. MAPA REAL FUNCIONAL DE RÍO CUARTO (100% TRANSPARENTE)                 -->
+    <!-- ======================================================================= -->
+    <section id="mapa-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
+      <div class="bg-transparent p-2 sm:p-5">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-white/15">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/70 text-emerald-300 text-xs font-bold mb-1.5 border border-emerald-500/40">
+              <i class="fa-solid fa-map-location-dot"></i> Georreferenciación Sanitaria de Río Cuarto
+            </span>
+            <h2 class="text-xl sm:text-2xl font-black text-white drop-shadow-md">
+              Mapa Real de Dispensarios, Clínicas y Guardias
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-200 mt-0.5 drop-shadow-xs">
+              Mapa callejero en vivo de la ciudad de Río Cuarto. Podés hacer zoom y navegar por cada barrio.
+            </p>
+          </div>
+
+          <!-- Botón GPS al Centro Más Cercano: BLANCO CON LETRAS NEGRAS -->
+          <button 
+            type="button" 
+            onclick="locateNearestCenterGps()" 
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-white hover:bg-slate-100 active:scale-95 text-black font-black text-xs sm:text-sm shadow-xl flex items-center justify-center gap-2.5 transition-all cursor-pointer flex-shrink-0"
+          >
+            <i class="fa-solid fa-location-arrow text-base text-black animate-pulse"></i>
+            <span class="text-black font-black">Ver el centro más cercano (GPS)</span>
+          </button>
+        </div>
+
+        <!-- IFRAME DEL MAPA REAL FUNCIONAL DE RÍO CUARTO -->
+        <div class="mt-5 rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black/30 backdrop-blur-xs">
+          <iframe 
+            id="realGoogleMap"
+            class="w-full h-[380px] sm:h-[450px] md:h-[480px] border-0" 
+            loading="lazy" 
+            allowfullscreen 
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=hospitales+y+dispensarios+en+Rio+Cuarto+Cordoba&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            title="Mapa de Centros de Salud en Río Cuarto"
+          ></iframe>
+
+          <!-- Barra Inferior de Estado GPS -->
+          <div class="p-3 bg-black/50 backdrop-blur-md border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-2 text-slate-200">
+              <i class="fa-solid fa-circle-info text-emerald-400"></i>
+              <span id="gpsStatusMessage">Mostrando centros asistenciales, guardias y hospitales en Río Cuarto.</span>
+            </div>
+            <a 
+              href="https://maps.google.com/?q=hospitales+y+dispensarios+en+Rio+Cuarto+Cordoba" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-xs font-bold text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 cursor-pointer"
+            >
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir en App de Mapas
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 5. DIRECTORIO PROFESIONAL (100% TRANSPARENTE)                           -->
+    <!-- ======================================================================= -->
+    <section id="profesionales-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
+      
+      <!-- FRAME CONTENEDOR TOTALMENTE TRANSPARENTE -->
+      <div class="bg-transparent p-2 sm:p-5">
+        
+        <!-- Cabecera del Directorio con Buscador y Filtros -->
+        <div class="pb-6 border-b border-white/15">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+            <div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-950/70 text-emerald-300 text-xs font-bold mb-1 border border-emerald-500/40">
+                <i class="fa-solid fa-certificate"></i> Colegio de Médicos de Córdoba • Delegación Río Cuarto
+              </span>
+              <h2 class="text-xl sm:text-2xl font-black text-white drop-shadow-md">
+                Directorio de Profesionales Médicos y Lugares de Atención
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-200 drop-shadow-xs">
+                Buscá por médico, matrícula o especialidad y revisá en qué dispensario o clínica atienden con sus horarios.
+              </p>
+            </div>
+            
+            <div class="flex items-center gap-2 self-start sm:self-auto">
+              <span id="doctorsCountBadge" class="text-xs bg-black/40 text-emerald-300 font-bold px-3 py-1 rounded-full border border-white/20 backdrop-blur-xs">
+                Cargando médicos...
+              </span>
+              <button id="resetDoctorFiltersBtn" type="button" onclick="resetDoctorFilters()" class="hidden text-xs font-bold text-rose-300 hover:underline py-1 px-2 rounded-lg bg-rose-950/60 border border-rose-800/60 cursor-pointer">
+                <i class="fa-solid fa-rotate-left"></i> Restablecer
+              </button>
+            </div>
+          </div>
+
+          <!-- Controles de Búsqueda y Filtros en Grid Móvil / Desktop -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            
+            <!-- Búsqueda por Texto -->
+            <div>
+              <label for="doctorSearchInput" class="block text-xs font-bold text-slate-200 mb-1">
+                <i class="fa-solid fa-magnifying-glass mr-1 text-emerald-400"></i> Buscar Nombre o Matrícula
+              </label>
+              <input 
+                type="text" 
+                id="doctorSearchInput" 
+                placeholder="Ej: González, MP 12345, Pellegrini..." 
+                class="w-full px-3.5 py-2.5 text-sm bg-black/40 border border-white/20 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:outline-none text-white placeholder-slate-400 backdrop-blur-xs"
+              >
+            </div>
+
+            <!-- Filtro por Especialidad -->
+            <div>
+              <label for="specialtyFilterSelect" class="block text-xs font-bold text-slate-200 mb-1">
+                <i class="fa-solid fa-stethoscope mr-1 text-emerald-400"></i> Especialidad Médica
+              </label>
+              <select 
+                id="specialtyFilterSelect" 
+                class="w-full px-3.5 py-2.5 text-sm bg-black/50 border border-white/20 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:outline-none text-white cursor-pointer backdrop-blur-xs [&>option]:text-slate-900 [&>option]:bg-white"
+              >
+                <option value="todas">Todas las especialidades</option>
+                <option value="Pediatría">Pediatría</option>
+                <option value="Clínica Médica">Clínica Médica / General</option>
+                <option value="Cardiología">Cardiología</option>
+                <option value="Traumatología">Traumatología / Guardia</option>
+                <option value="Vacunatorio">Vacunatorio e Inmunizaciones</option>
+              </select>
+            </div>
+
+            <!-- Filtro por Barrio / Establecimiento -->
+            <div>
+              <label for="locationFilterSelect" class="block text-xs font-bold text-slate-200 mb-1">
+                <i class="fa-solid fa-hospital mr-1 text-emerald-400"></i> Dónde Atiende (Barrio)
+              </label>
+              <select 
+                id="locationFilterSelect" 
+                class="w-full px-3.5 py-2.5 text-sm bg-black/50 border border-white/20 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:outline-none text-white cursor-pointer backdrop-blur-xs [&>option]:text-slate-900 [&>option]:bg-white"
+              >
+                <option value="todos">Todos los barrios de Río Cuarto</option>
+                <option value="Banda Norte">Banda Norte</option>
+                <option value="Alberdi">Alberdi</option>
+                <option value="Villa Dalcar">Villa Dalcar</option>
+                <option value="Centro">Centro</option>
+              </select>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- LISTA SCROLLEABLE ÚNICA DE PROFESIONALES (CADA UNO TRANSPARENTE PERO UN POQUITO MÁS OPACO) -->
+        <div class="mt-4">
+          <div id="doctorsListContainer" class="max-h-[520px] overflow-y-auto pr-1.5 custom-scrollbar space-y-3">
+            <!-- Inyectado dinámicamente con JavaScript -->
+          </div>
+
+          <!-- Estado Vacío dentro de la Card si no hay coincidencias -->
+          <div id="noDoctorsEmptyState" class="hidden py-12 px-4 text-center bg-black/30 backdrop-blur-xs rounded-2xl border border-white/10">
+            <div class="w-14 h-14 rounded-full bg-white/10 text-emerald-400 flex items-center justify-center mx-auto text-xl mb-3">
+              <i class="fa-solid fa-user-xmark"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">No se encontraron profesionales</h3>
+            <p class="text-xs text-slate-300 mb-4">
+              No hay médicos registrados que coincidan con los filtros seleccionados.
+            </p>
+            <button type="button" onclick="resetDoctorFilters()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow cursor-pointer">
+              <i class="fa-solid fa-arrows-rotate mr-1"></i> Restablecer búsqueda
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 6. MÓDULO DE DONACIONES COMUNITARIAS (TOTALMENTE TRANSPARENTE)          -->
+    <!-- ======================================================================= -->
+    <section id="donaciones" class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div class="relative isolate overflow-hidden grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto] items-center gap-6 sm:gap-8 rounded-3xl bg-transparent p-4 sm:p-7 text-white">
+        <div class="absolute right-2 bottom-2 text-7xl sm:text-8xl text-emerald-400 opacity-10 pointer-events-none select-none" aria-hidden="true">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+        </div>
+
+        <div class="relative z-10 min-w-0 max-w-2xl text-center lg:text-left">
+          <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/70 text-emerald-300 text-xs font-bold mb-3 border border-emerald-500/40">
+            <i class="fa-solid fa-heart"></i> Solidaridad Barrial • Río Cuarto
+          </span>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight mb-3 text-white drop-shadow-md">
+            Apoyá a los Dispensarios y Consultorios de tu Barrio
+          </h2>
+          <p class="text-slate-200 text-sm sm:text-base leading-relaxed mb-4 font-medium drop-shadow-xs">
+            Tus donaciones de insumos descartables (gasas, apósitos, alcohol) o aportes voluntarios ayudan a mantener equipados los centros de salud de Alberdi, Banda Norte y Villa Dalcar.
+          </p>
+
+          <!-- Datos Bancarios Transparentes pero Legibles -->
+          <div class="p-3.5 rounded-2xl bg-black/40 backdrop-blur-sm border border-white/20 text-xs text-slate-100 max-w-lg mx-auto lg:mx-0 text-left shadow-lg">
+            <strong class="block font-bold mb-1 text-white"><i class="fa-solid fa-building-columns mr-1 text-emerald-400"></i> Aporte Bancario Oficial (Cooperadora de Salud):</strong>
+            <div class="space-y-0.5">
+              <span><strong>Alias:</strong> <code class="bg-white/15 px-2 py-0.5 rounded font-mono break-all text-white border border-white/10">SALUD.BARRIAL.RIO4</code></span><br>
+              <span><strong>CBU:</strong> <code class="bg-white/15 px-2 py-0.5 rounded font-mono break-all text-white border border-white/10">0110432920043200981234</code></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de Acción Directa -->
+        <div class="relative z-10 w-full lg:w-auto">
+          <button 
+            type="button" 
+            onclick="openDonationModal()" 
+            class="w-full lg:w-auto px-6 sm:px-8 py-4 rounded-2xl bg-white hover:bg-slate-100 active:scale-95 text-black font-black text-sm shadow-2xl transition-all cursor-pointer flex items-center justify-center gap-2"
+          >
+            <i class="fa-solid fa-hand-holding-dollar text-base text-black"></i> Realizar una Donación o Aporte
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 7. FOOTER INSTITUCIONAL (100% TRANSPARENTE)                            -->
+    <!-- ======================================================================= -->
+    <footer class="bg-transparent text-slate-200 border-t border-white/10 pt-8 pb-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pb-6 border-b border-white/10">
+          
+          <!-- Columna 1: Identidad con Logo Oficial -->
+          <div>
+            <div class="flex items-center gap-2.5 mb-2">
+              <img src="img/logo.jpg" alt="Logo de SaludBarrial" class="w-8 h-8 rounded-lg object-cover border border-white/30">
+              <span class="text-lg font-bold text-white tracking-tight drop-shadow-sm">SaludBarrial</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed">
+              Plataforma comunitaria de acceso a la salud para <strong>SaludPrimero</strong>. Promoviendo la descentralización de turnos y la atención primaria en los barrios de Río Cuarto.
+            </p>
+          </div>
+
+          <!-- Columna 2: Datos de Contacto Oficial -->
+          <div>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-2">Sede Central y Contacto</h3>
+            <ul class="space-y-1.5 text-[11px] text-slate-300">
+              <li class="flex items-center gap-2">
+                <i class="fa-solid fa-map-pin text-emerald-400 w-4"></i> Constitución 988, Río Cuarto, Cba.
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="fa-solid fa-phone text-emerald-400 w-4"></i> Tel: 0800 444 5454
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="fa-brands fa-whatsapp text-emerald-400 w-4"></i> WhatsApp: 358 428 3673
+              </li>
+            </ul>
+          </div>
+
+          <!-- Columna 3: Enlaces y Redes -->
+          <div>
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-2">Redes Comunitarias</h3>
+            <p class="text-[11px] text-slate-300 mb-2">Seguí las novedades de salud barrial y campañas de vacunación:</p>
+            <div class="flex items-center gap-2">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs transition-colors cursor-pointer" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs transition-colors cursor-pointer" aria-label="Facebook">
+                <i class="fa-brands fa-facebook"></i>
+              </a>
+              <a href="mailto:contacto@saludprimero.gob.ar" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs transition-colors cursor-pointer" aria-label="Correo de SaludPrimero">
+                <i class="fa-solid fa-envelope"></i>
+              </a>
+            </div>
+            <span class="block text-[10px] text-slate-400 mt-1.5">@MuniSaludDigital • @munisalud_app</span>
+          </div>
+
+        </div>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-slate-400">
+          <p>© 2026 SaludBarrial • Entidad SaludPrimero. Todos los derechos reservados.</p>
+          <p>Desarrollado con HTML5 Semántico, TailwindCSS y JS Vanilla para Río Cuarto.</p>
+        </div>
+
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 8. BOTÓN FLOTANTE DE EMERGENCIA (FAB) ABAJO A LA DERECHA                  -->
+  <!-- ========================================================================= -->
+  <button 
+    id="floatingEmergencyBtn"
+    type="button" 
+    onclick="openFloatingEmergencyModal()"
+    class="fixed bottom-6 right-4 md:right-8 z-50 flex items-center gap-2.5 px-4 md:px-5 py-3 md:py-3.5 bg-red-600 hover:bg-red-700 active:scale-95 text-white font-black text-xs md:text-sm rounded-full shadow-2xl shadow-red-600/60 animate-pulse transition-all cursor-pointer border-2 border-white/40"
+    aria-label="Abrir asistente de emergencias médicas y botón 107"
+  >
+    <div class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-base">
+      <i class="fa-solid fa-phone-volume"></i>
+    </div>
+    <span>EMERGENCIA 107</span>
+  </button>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: CARD FLOTANTE DE SUGERENCIAS Y REPORTES BARRIALES                  -->
+  <!-- ========================================================================= -->
+  <div id="suggestionsFloatingModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modalSuggestionsHeader" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm transition-opacity" onclick="closeFloatingSuggestionModal()"></div>
+
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-sky-200 dark:border-sky-800">
+        
+        <div class="bg-gradient-to-r from-sky-600 to-cyan-600 px-6 py-5 text-white flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-comment-medical"></i>
+            </div>
+            <div>
+              <h3 id="modalSuggestionsHeader" class="text-lg font-black leading-tight">Buzón de Sugerencias Barriales</h3>
+              <p class="text-xs text-sky-100">SaludPrimero • Participación Ciudadana Río Cuarto</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeFloatingSuggestionModal()" class="text-white/80 hover:text-white text-xl p-1 cursor-pointer" aria-label="Cerrar modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="floatingSuggestionForm" onsubmit="handleFloatingSuggestion(event)" class="p-6 space-y-4 text-slate-900 dark:text-slate-100">
+          
+          <div>
+            <label for="sugName" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nombre y Apellido</label>
+            <input type="text" id="sugName" required placeholder="Tu nombre" class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white">
+          </div>
+
+          <div>
+            <label for="sugBarrio" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tu Barrio en Río Cuarto</label>
+            <select id="sugBarrio" required class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white cursor-pointer">
+              <option value="Banda Norte">Banda Norte</option>
+              <option value="Alberdi">Alberdi</option>
+              <option value="Villa Dalcar">Villa Dalcar</option>
+              <option value="Centro">Centro</option>
+              <option value="Otro">Otro barrio</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="sugType" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tipo de Mensaje</label>
+            <select id="sugType" required class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white cursor-pointer">
+              <option value="Horario desactualizado">Reportar horario de atención desactualizado</option>
+              <option value="Falta de especialista">Falta de médico de turno o insumos</option>
+              <option value="Sugerencia general">Sugerencia para mejorar el servicio</option>
+              <option value="Nuevo centro">Informar un nuevo consultorio o dispensario</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="sugMessage" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Detalle de tu Sugerencia</label>
+            <textarea id="sugMessage" rows="3" required placeholder="Escribí aquí tu mensaje..." class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white"></textarea>
+          </div>
+
+          <div class="pt-2 flex justify-end gap-2">
+            <button type="button" onclick="closeFloatingSuggestionModal()" class="px-4 py-2 bg-surface-insetLight dark:bg-surface-insetDark text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer">
+              Cancelar
+            </button>
+            <button type="submit" class="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md transition-colors flex items-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-paper-plane"></i> Enviar Sugerencia
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ASISTENTE DE EMERGENCIA Y TRIAJE RÁPIDO                            -->
+  <!-- ========================================================================= -->
+  <div id="floatingEmergencyModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modalEmergencyHeader" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="closeFloatingEmergencyModal()"></div>
+
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-xl border-2 border-sky-300 dark:border-sky-700">
+        
+        <div class="bg-gradient-to-r from-sky-700 to-cyan-700 px-6 py-5 text-white flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-truck-medical animate-bounce"></i>
+            </div>
+            <div>
+              <h3 id="modalEmergencyHeader" class="text-lg font-black leading-tight">Asistente Rápido de Emergencias</h3>
+              <p class="text-xs text-red-100 font-medium">Guía de maniobras inmediatas • Río Cuarto</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeFloatingEmergencyModal()" class="text-white/80 hover:text-white text-xl p-1 cursor-pointer" aria-label="Cerrar modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-5">
+          
+          <div>
+            <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
+              ¿Qué situación está ocurriendo ahora mismo?
+            </label>
+            <div class="grid grid-cols-2 gap-2" id="triageTabs">
+              <button type="button" onclick="selectTriageScenario('rcp')" class="triage-tab active p-2.5 rounded-xl border text-left text-xs font-bold transition-all cursor-pointer bg-red-50 border-red-400 text-red-700 dark:bg-red-950/60 dark:border-red-700 dark:text-red-300">
+                <i class="fa-solid fa-heart-pulse mr-1"></i> 1. Paro / No Respira
+              </button>
+              <button type="button" onclick="selectTriageScenario('heimlich')" class="triage-tab p-2.5 rounded-xl border border-sky-200 dark:border-sky-700 text-left text-xs font-bold transition-all cursor-pointer text-slate-700 dark:text-slate-200 hover:bg-sky-100 dark:hover:bg-sky-900">
+                <i class="fa-solid fa-person-burst mr-1"></i> 2. Atragantamiento
+              </button>
+              <button type="button" onclick="selectTriageScenario('hemorragia')" class="triage-tab p-2.5 rounded-xl border border-sky-200 dark:border-sky-700 text-left text-xs font-bold transition-all cursor-pointer text-slate-700 dark:text-slate-200 hover:bg-sky-100 dark:hover:bg-sky-900">
+                <i class="fa-solid fa-droplet mr-1"></i> 3. Hemorragia
+              </button>
+              <button type="button" onclick="selectTriageScenario('desmayo')" class="triage-tab p-2.5 rounded-xl border border-sky-200 dark:border-sky-700 text-left text-xs font-bold transition-all cursor-pointer text-slate-700 dark:text-slate-200 hover:bg-sky-100 dark:hover:bg-sky-900">
+                <i class="fa-solid fa-bed mr-1"></i> 4. Desmayo / Caída
+              </button>
+            </div>
+          </div>
+
+          <div id="triageContent" class="p-4 rounded-2xl bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 text-xs sm:text-sm text-slate-700 dark:text-slate-200 space-y-2.5">
+            <!-- Inyectado por JS -->
+          </div>
+
+          <div class="pt-2">
+            <a href="tel:107" class="w-full py-3.5 px-4 bg-red-600 hover:bg-red-700 text-white font-black text-sm rounded-2xl shadow-xl shadow-red-600/40 flex items-center justify-center gap-2 active:scale-95 transition-all text-center">
+              <i class="fa-solid fa-phone-volume text-lg animate-pulse"></i>
+              <span>LLAMAR AHORA AL 107 (AMBULANCIA)</span>
+            </a>
+            <span class="block text-center text-[11px] text-slate-400 mt-2">
+              Llamada gratuita inmediata conectada a la central de emergencias de Río Cuarto.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="bg-surface-insetLight dark:bg-surface-insetDark px-6 py-3.5 flex justify-end border-t border-sky-200 dark:border-sky-800">
+          <button type="button" onclick="closeFloatingEmergencyModal()" class="px-4 py-2 bg-surface-insetLight dark:bg-surface-insetDark text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer">
+            Cerrar Asistente
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: FORMULARIO DE DONACIONES COMUNITARIAS                              -->
+  <!-- ========================================================================= -->
+  <div id="donationModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modalDonationTitle" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm transition-opacity" onclick="closeDonationModal()"></div>
+    
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-sky-200 dark:border-sky-800">
+        
+        <div class="bg-gradient-to-r from-sky-700 to-cyan-700 px-6 py-5 text-white flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-hand-holding-heart"></i>
+            </div>
+            <div>
+              <h3 id="modalDonationTitle" class="text-lg font-bold leading-6">Formulario de Donación</h3>
+              <p class="text-xs text-emerald-100">Apoyo a dispensarios de Río Cuarto</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeDonationModal()" class="text-white/80 hover:text-white text-lg p-1 cursor-pointer" aria-label="Cerrar modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="donationForm" onsubmit="handleDonationSubmit(event)" class="p-6 space-y-4 text-slate-900 dark:text-slate-100">
+          
+          <div class="p-3.5 rounded-2xl bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 text-xs text-slate-800 dark:text-slate-100">
+            <strong class="block font-bold mb-1"><i class="fa-solid fa-building-columns mr-1"></i> Aporte Bancario Directo (Cooperadora de Salud):</strong>
+            <div class="space-y-0.5">
+              <span><strong>Alias:</strong> <code class="bg-white/70 dark:bg-surface-dark px-1.5 py-0.5 rounded font-mono">SALUD.BARRIAL.RIO4</code></span><br>
+              <span><strong>CBU:</strong> <code class="bg-white/70 dark:bg-surface-dark px-1.5 py-0.5 rounded font-mono">0110432920043200981234</code></span><br>
+              <span class="text-[10px] text-sky-800 dark:text-sky-200">Banco de Córdoba • CUIT: 30-99912345-4</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="donorName" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nombre y Apellido / Entidad</label>
+              <input type="text" id="donorName" required placeholder="Tu nombre o empresa" class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white">
+            </div>
+
+            <div>
+              <label for="donorContact" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Teléfono / WhatsApp</label>
+              <input type="tel" id="donorContact" required placeholder="Ej: 358 412 3456" class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="donationType" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tipo de Donación</label>
+              <select id="donationType" required class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white cursor-pointer">
+                <option value="Insumos descartables">Insumos (Gasas, jeringas, apósitos)</option>
+                <option value="Medicamentos">Medicamentos esenciales</option>
+                <option value="Equipamiento médico">Equipamiento (Tensiómetro, balanza)</option>
+                <option value="Aporte económico">Aporte económico voluntario</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="targetClinic" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Dispensario Destino</label>
+              <select id="targetClinic" required class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white cursor-pointer">
+                <option value="Cualquiera que lo necesite">Cualquiera según prioridad</option>
+                <option value="Dispensario N° 3 - Banda Norte">Dispensario N° 3 - Banda Norte</option>
+                <option value="Centro de Salud Municipal - Alberdi">Centro Municipal - Alberdi</option>
+                <option value="Dispensario Villa Dalcar">Dispensario Villa Dalcar</option>
+                <option value="Hospital S24">Guardia Hospital S24</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="donationNotes" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Detalles de la donación / Horario para entrega</label>
+            <textarea id="donationNotes" rows="2" placeholder="Ej: 5 cajas de gasas estériles y 10 frascos de alcohol..." class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white"></textarea>
+          </div>
+
+          <div class="pt-2 flex justify-end gap-2">
+            <button type="button" onclick="closeDonationModal()" class="px-4 py-2 bg-surface-insetLight dark:bg-surface-insetDark text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer">
+              Cancelar
+            </button>
+            <button type="submit" class="px-5 py-2 bg-sky-700 hover:bg-sky-800 text-white font-bold text-xs rounded-xl shadow-md transition-colors flex items-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-heart mr-1"></i> Confirmar Aporte
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TOASTS DE CONFIRMACIÓN VISUAL (ESTADO DE ÉXITO)                            -->
+  <!-- ========================================================================= -->
+  <div id="successToast" class="fixed top-20 right-4 z-50 transform translate-y-[-150%] opacity-0 pointer-events-none transition-all duration-300 max-w-sm bg-emerald-600 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-lg flex-shrink-0">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <div>
+      <h4 id="toastTitle" class="font-bold text-xs">¡Acción realizada con éxito!</h4>
+      <p id="toastMessage" class="text-[11px] text-emerald-100">Gracias por colaborar con la comunidad de SaludBarrial.</p>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT VANILLA ES6+ : SCROLL-DRIVEN VIDEO, MAPA, DIRECTORIO Y MODALES -->
+  <!-- ========================================================================= -->
+  <script>
+    // =========================================================================
+    // 1. CONTROLADOR DE VIDEO CON SCROLL (SCROLL-DRIVEN VIDEO CON LERP SUAVE)
+    // =========================================================================
+    (function initScrollDrivenVideoEngine() {
+      const video = document.getElementById('scrollBgVideo');
+      if (!video) return;
+
+      let targetTime = 0;
+      let currentLerpTime = 0;
+      let isReady = false;
+      let isSeeking = false;
+
+      // Factor de suavizado (lerp): 0.08 proporciona una respuesta natural entre 0.5s y 0.8s
+      const LERP_FACTOR = 0.08;
+
+      function onVideoMetadataReady() {
+        isReady = true;
+        video.pause();
+        // Asegurar primer fotograma visible de inmediato sin parpadeo negro
+        video.currentTime = 0.001;
+        updateVideoTargetTime();
+      }
+
+      if (video.readyState >= 1) {
+        onVideoMetadataReady();
+      } else {
+        video.addEventListener('loadedmetadata', onVideoMetadataReady);
+      }
+
+      // Calcula el segundo exacto del video según la posición vertical del scroll
+      function updateVideoTargetTime() {
+        if (!isReady || !video.duration) return;
+
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        const scrollProgress = Math.min(1, Math.max(0, scrollY / maxScroll));
+
+        // Margen sutil (0.04s) antes del final absoluto para no disparar evento 'ended' del navegador
+        const playableDuration = Math.max(0, video.duration - 0.04);
+        targetTime = scrollProgress * playableDuration;
+      }
+
+      // Bucle continuo con requestAnimationFrame para sincronización fluida a 60fps/120fps
+      function videoRenderLoop() {
+        if (isReady && video.duration) {
+          const delta = targetTime - currentLerpTime;
+
+          if (Math.abs(delta) > 0.003) {
+            currentLerpTime += delta * LERP_FACTOR;
+            
+            // Delimitar dentro de rango seguro
+            currentLerpTime = Math.max(0, Math.min(currentLerpTime, video.duration - 0.02));
+
+            // Actualizar tiempo de reproducción si el navegador no está saturado
+            if (!isSeeking) {
+              isSeeking = true;
+              try {
+                video.currentTime = currentLerpTime;
+              } catch (e) {
+                isSeeking = false;
+              }
+            }
+          } else if (targetTime === 0 && currentLerpTime !== 0) {
+            // Forzar fotograma inicial en el tope de la página
+            currentLerpTime = 0;
+            try { video.currentTime = 0.001; } catch (e) {}
+          }
+        }
+
+        requestAnimationFrame(videoRenderLoop);
+      }
+
+      video.addEventListener('seeked', () => {
+        isSeeking = false;
+      });
+
+      // Listeners pasivos de alto rendimiento sin bloqueo de hilo
+      window.addEventListener('scroll', updateVideoTargetTime, { passive: true });
+      window.addEventListener('resize', updateVideoTargetTime, { passive: true });
+
+      requestAnimationFrame(videoRenderLoop);
+    })();
+
+    // =========================================================================
+    // 2. TRANSPARENCIA PERMANENTE DEL HEADER (SIN OSCURECERSE AL SCROLLEAR)
+    // =========================================================================
+    // El menú principal se mantiene siempre 100% transparente a petición del diseño
+
+
+    // =========================================================================
+    // 3. REGISTRO DE PROFESIONALES MÉDICOS (COLEGIO DE MÉDICOS DE CÓRDOBA - RÍO 4)
+    // =========================================================================
+    const directorioMedicos = [
+      {
+        id: "med-1",
+        nombre: "Dra. María González",
+        matricula: "MP 12345",
+        especialidad: "Pediatría",
+        centro: "Centro de Salud Municipal - Alberdi",
+        direccion: "Av. Colombres 850, Alberdi",
+        barrio: "Alberdi",
+        diasHorarios: "Lunes, Miércoles y Viernes de 08:30 a 13:30 hs",
+        cobertura: "Atención Gratuita (Sin Obra Social)",
+        telefono: "03584671104",
+        esGratuito: true,
+        fotoIcon: "fa-baby",
+        lat: -33.1380,
+        lng: -64.3290
+      },
+      {
+        id: "med-2",
+        nombre: "Dr. Carlos Pellegrini",
+        matricula: "MP 18452",
+        especialidad: "Clínica Médica",
+        centro: "Dispensario N° 3 - Banda Norte",
+        direccion: "Marcelo T. de Alvear 1240, Banda Norte",
+        barrio: "Banda Norte",
+        diasHorarios: "Lunes a Jueves de 08:00 a 14:00 hs",
+        cobertura: "Atención Gratuita (Sin Obra Social)",
+        telefono: "03584671103",
+        esGratuito: true,
+        fotoIcon: "fa-user-doctor",
+        lat: -33.1095,
+        lng: -64.3412
+      },
+      {
+        id: "med-3",
+        nombre: "Dra. Lucía Ferreyra",
+        matricula: "MP 20981",
+        especialidad: "Clínica Médica",
+        centro: "Dispensario Villa Dalcar",
+        direccion: "Av. San Martín 2100, Villa Dalcar",
+        barrio: "Villa Dalcar",
+        diasHorarios: "Martes y Jueves de 08:00 a 14:00 hs",
+        cobertura: "Atención Gratuita y Vacunatorio",
+        telefono: "03584671108",
+        esGratuito: true,
+        fotoIcon: "fa-stethoscope",
+        lat: -33.1180,
+        lng: -64.3750
+      },
+      {
+        id: "med-4",
+        nombre: "Dr. Roberto Rossi",
+        matricula: "MP 14502",
+        especialidad: "Cardiología",
+        centro: "Servicio CardioMed / Emergencias Privadas",
+        direccion: "Constitución 430, Centro",
+        barrio: "Centro",
+        diasHorarios: "Unidad Coronaria 24 horas • Consultas Lun a Vie de 15 a 19 hs",
+        cobertura: "Obras Sociales, Prepagas y Particular",
+        telefono: "08004445454",
+        esGratuito: false,
+        fotoIcon: "fa-heart-pulse",
+        lat: -33.1270,
+        lng: -64.3510
+      },
+      {
+        id: "med-5",
+        nombre: "Dr. Marcos Benítez",
+        matricula: "MP 23110",
+        especialidad: "Traumatología",
+        centro: "Guardia Central de Emergencias - Hospital S24",
+        direccion: "Ruta 8 y Av. Las Heras, Banda Norte",
+        barrio: "Banda Norte",
+        diasHorarios: "Guardias Activas 24 horas continuas",
+        cobertura: "Pública y Obras Sociales (Guardia Hospitalaria)",
+        telefono: "107",
+        esGratuito: true,
+        fotoIcon: "fa-bone",
+        lat: -33.1040,
+        lng: -64.3350
+      },
+      {
+        id: "med-6",
+        nombre: "Dra. Sofía Albarracín",
+        matricula: "MP 17890",
+        especialidad: "Vacunatorio",
+        centro: "Dispensario N° 3 - Vacunatorio Banda Norte",
+        direccion: "Marcelo T. de Alvear 1240, Banda Norte",
+        barrio: "Banda Norte",
+        diasHorarios: "Lunes a Viernes de 07:00 a 18:00 hs",
+        cobertura: "Calendario Nacional Oficial Gratuito",
+        telefono: "03584671103",
+        esGratuito: true,
+        fotoIcon: "fa-syringe",
+        lat: -33.1095,
+        lng: -64.3412
+      }
+    ];
+
+    // Elementos del Directorio Scrolleable
+    const doctorsListContainer = document.getElementById('doctorsListContainer');
+    const noDoctorsEmptyState = document.getElementById('noDoctorsEmptyState');
+    const doctorSearchInput = document.getElementById('doctorSearchInput');
+    const specialtyFilterSelect = document.getElementById('specialtyFilterSelect');
+    const locationFilterSelect = document.getElementById('locationFilterSelect');
+    const resetDoctorFiltersBtn = document.getElementById('resetDoctorFiltersBtn');
+    const doctorsCountBadge = document.getElementById('doctorsCountBadge');
+
+    function renderDoctorsList(doctors) {
+      doctorsListContainer.innerHTML = '';
+
+      if (doctors.length === 0) {
+        doctorsListContainer.classList.add('hidden');
+        noDoctorsEmptyState.classList.remove('hidden');
+        doctorsCountBadge.textContent = '0 médicos encontrados';
+        return;
+      }
+
+      doctorsListContainer.classList.remove('hidden');
+      noDoctorsEmptyState.classList.add('hidden');
+      doctorsCountBadge.textContent = `${doctors.length} profesional${doctors.length > 1 ? 'es' : ''} registrado${doctors.length > 1 ? 's' : ''}`;
+
+      doctors.forEach(med => {
+        const item = document.createElement('div');
+        item.className = "py-4 px-3 sm:px-4 rounded-2xl bg-black/45 backdrop-blur-md hover:bg-black/60 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4 border border-white/20 hover:border-emerald-400/40 shadow-xl";
+
+        const badgeGratis = med.esGratuito 
+          ? `<span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">
+               <i class="fa-solid fa-check"></i> Gratuito
+             </span>`
+          : `<span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-white/15 text-slate-100 border border-white/20">
+               <i class="fa-solid fa-file-medical"></i> Obras Sociales
+             </span>`;
+
+        const telLink = med.telefono === '107' ? 'tel:107' : `tel:${med.telefono}`;
+
+        item.innerHTML = `
+          <!-- Datos del Profesional -->
+          <div class="flex items-start gap-3.5 flex-1">
+            <div class="w-11 h-11 rounded-2xl bg-white/10 text-emerald-400 flex items-center justify-center text-lg flex-shrink-0 shadow-sm mt-0.5 border border-white/15">
+              <i class="fa-solid ${med.fotoIcon}"></i>
+            </div>
+            
+            <div class="space-y-1 flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h4 class="text-base font-black text-white leading-tight">
+                  ${med.nombre}
+                </h4>
+                <span class="inline-block text-[11px] font-extrabold px-2 py-0.5 bg-white/15 text-white rounded-md border border-white/10">
+                  ${med.matricula}
+                </span>
+                ${badgeGratis}
+              </div>
+
+              <div class="text-xs font-semibold text-emerald-300">
+                ${med.especialidad}
+              </div>
+
+              <!-- Dónde Atiende -->
+              <div class="text-xs text-slate-200 pt-1 space-y-0.5">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <i class="fa-solid fa-hospital text-emerald-400 w-3.5"></i>
+                  <span><strong>Dónde atiende:</strong> ${med.centro}</span>
+                  <span class="text-slate-400">•</span>
+                  <span class="text-slate-300">${med.direccion}</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-slate-200 font-medium">
+                  <i class="fa-regular fa-clock text-amber-300 w-3.5"></i>
+                  <span>${med.diasHorarios}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Acciones Rápidas -->
+          <div class="flex items-center gap-2 self-end md:self-center flex-shrink-0 w-full sm:w-auto pt-2 md:pt-0">
+            <a 
+              href="https://www.google.com/maps/dir/?api=1&destination=${med.lat},${med.lng}" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="flex-1 sm:flex-initial py-2 px-3 text-xs font-bold rounded-xl border border-white/25 text-white hover:bg-white/15 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <i class="fa-solid fa-location-dot text-emerald-400"></i> Cómo llegar
+            </a>
+            <a 
+              href="${telLink}" 
+              class="flex-1 sm:flex-initial py-2 px-3.5 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-colors flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
+            >
+              <i class="fa-solid fa-phone"></i> Consultar Turno
+            </a>
+          </div>
+        `;
+
+        doctorsListContainer.appendChild(item);
+      });
+    }
+
+    // Filtrado Reactivo de Médicos
+    function filterDoctors() {
+      const q = doctorSearchInput.value.toLowerCase().trim();
+      const spec = specialtyFilterSelect.value;
+      const loc = locationFilterSelect.value;
+
+      let hasFilters = (q !== '' || spec !== 'todas' || loc !== 'todos');
+
+      const filtered = directorioMedicos.filter(m => {
+        const matchQ = q === '' ||
+          m.nombre.toLowerCase().includes(q) ||
+          m.matricula.toLowerCase().includes(q) ||
+          m.especialidad.toLowerCase().includes(q) ||
+          m.centro.toLowerCase().includes(q);
+
+        const matchSpec = spec === 'todas' || m.especialidad === spec;
+        const matchLoc = loc === 'todos' || m.barrio === loc;
+
+        return matchQ && matchSpec && matchLoc;
+      });
+
+      if (hasFilters) {
+        resetDoctorFiltersBtn.classList.remove('hidden');
+      } else {
+        resetDoctorFiltersBtn.classList.add('hidden');
+      }
+
+      renderDoctorsList(filtered);
+    }
+
+    function resetDoctorFilters() {
+      doctorSearchInput.value = '';
+      specialtyFilterSelect.value = 'todas';
+      locationFilterSelect.value = 'todos';
+      filterDoctors();
+    }
+
+    doctorSearchInput.addEventListener('input', filterDoctors);
+    specialtyFilterSelect.addEventListener('change', filterDoctors);
+    locationFilterSelect.addEventListener('change', filterDoctors);
+
+    // =========================================================================
+    // 4. GEOLOCALIZACIÓN GPS HACIA EL CENTRO ASISTENCIAL MÁS CERCANO
+    // =========================================================================
+    const gpsStatusMessage = document.getElementById('gpsStatusMessage');
+
+    function locateNearestCenterGps() {
+      gpsStatusMessage.textContent = "Calculando coordenadas GPS de tu ubicación actual...";
+
+      if (!navigator.geolocation) {
+        window.open('https://maps.google.com/?q=hospitales+y+dispensarios+en+Rio+Cuarto+Cordoba', '_blank');
+        gpsStatusMessage.textContent = "Abriendo Google Maps con hospitales en Río Cuarto...";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const userLat = pos.coords.latitude;
+          const userLng = pos.coords.longitude;
+
+          let nearest = null;
+          let minDistance = Infinity;
+
+          directorioMedicos.forEach(m => {
+            const d = Math.sqrt(Math.pow(m.lat - userLat, 2) + Math.pow(m.lng - userLng, 2));
+            if (d < minDistance) {
+              minDistance = d;
+              nearest = m;
+            }
+          });
+
+          if (nearest) {
+            gpsStatusMessage.innerHTML = `El centro de salud más cercano es: <strong class="text-sky-600 dark:text-sky-400 font-bold">${nearest.centro}</strong> (${nearest.barrio}).`;
+            setTimeout(() => {
+              window.open(`https://www.google.com/maps/dir/?api=1&destination=${nearest.lat},${nearest.lng}`, '_blank');
+            }, 800);
+          }
+        },
+        (err) => {
+          gpsStatusMessage.innerHTML = `GPS no autorizado. Abriendo ruta hacia <strong>Hospital S24 (Guardia 24hs Río Cuarto)</strong>...`;
+          setTimeout(() => {
+            window.open('https://maps.google.com/?q=Hospital+Central+Rio+Cuarto', '_blank');
+          }, 800);
+        },
+        { timeout: 7000 }
+      );
+    }
+
+    // =========================================================================
+    // 5. CONMUTADOR DE TEMA CLARO / OSCURO CALIBRADO
+    // =========================================================================
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function updateThemeIcon() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        themeIcon.className = "fa-solid fa-sun text-amber-300 text-base pointer-events-none";
+        themeToggleBtn.setAttribute('aria-label', 'Cambiar a modo claro');
+      } else {
+        themeIcon.className = "fa-solid fa-moon text-white text-base pointer-events-none";
+        themeToggleBtn.setAttribute('aria-label', 'Cambiar a modo oscuro');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateThemeIcon();
+    });
+    updateThemeIcon();
+
+    // =========================================================================
+    // 6. MENÚ MÓVIL DESPLEGABLE
+    // =========================================================================
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMobileMenu();
+      } else {
+        mobileMenu.classList.remove('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        menuIcon.className = 'fa-solid fa-xmark text-lg pointer-events-none';
+      }
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.add('hidden');
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      menuIcon.className = 'fa-solid fa-bars text-lg pointer-events-none';
+    }
+
+    // =========================================================================
+    // 7. MODAL FLOTANTE DE SUGERENCIAS Y REPORTES
+    // =========================================================================
+    const suggestionsFloatingModal = document.getElementById('suggestionsFloatingModal');
+
+    function openFloatingSuggestionModal() {
+      suggestionsFloatingModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeFloatingSuggestionModal() {
+      suggestionsFloatingModal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function handleFloatingSuggestion(e) {
+      e.preventDefault();
+      const name = document.getElementById('sugName').value;
+      closeFloatingSuggestionModal();
+      document.getElementById('floatingSuggestionForm').reset();
+      showToast("¡Sugerencia recibida!", `Gracias ${name}, tu mensaje ha sido enviado a SaludPrimero.`);
+    }
+
+    // =========================================================================
+    // 8. ASISTENTE FLOTANTE DE EMERGENCIAS Y TRIAJE RÁPIDO
+    // =========================================================================
+    const floatingEmergencyModal = document.getElementById('floatingEmergencyModal');
+    const triageContent = document.getElementById('triageContent');
+
+    const triageScenarios = {
+      rcp: {
+        title: "Paro Cardíaco / Paciente No Respira",
+        color: "text-red-600 dark:text-red-400",
+        steps: [
+          "<strong>1. Llamar de inmediato al 107</strong> solicitando ambulancia y desfibrilador (DEA).",
+          "<strong>2. Colocar al paciente boca arriba</strong> sobre una superficie plana y firme.",
+          "<strong>3. Posición de manos:</strong> Apoyá el talón de una mano en el centro del esternón y la otra entrelazada encima.",
+          "<strong>4. Compresiones continuas:</strong> Comprimí a un ritmo constante de 100 a 120 compresiones por minuto sin parar hasta que llegue el personal del 107."
+        ]
+      },
+      heimlich: {
+        title: "Atragantamiento Severo / Maniobra de Heimlich",
+        color: "text-amber-600 dark:text-amber-400",
+        steps: [
+          "<strong>1. Identificar signo de asfixia:</strong> Manos al cuello sin emitir sonido ni poder toser.",
+          "<strong>2. Posicionate detrás:</strong> Rodeá la cintura de la persona con tus brazos.",
+          "<strong>3. Posicioná tu puño:</strong> Un puño cerrado con el pulgar hacia adentro, 2 dedos arriba del ombligo.",
+          "<strong>4. Compresión hacia adentro y arriba:</strong> Abrazá tu puño con la otra mano y tirá con fuerza hacia adentro y hacia arriba para expulsar el cuerpo extraño."
+        ]
+      },
+      hemorragia: {
+        title: "Hemorragia Severa / Corte Profundo",
+        color: "text-rose-600 dark:text-rose-400",
+        steps: [
+          "<strong>1. Presión directa continua:</strong> Colocá una gasa estéril o paño limpio y apretá con firmeza.",
+          "<strong>2. No retirar apósitos:</strong> Si se empapa de sangre, no lo saques; colocá otro encima y continuá presionando.",
+          "<strong>3. Elevar la extremidad:</strong> Mantené el miembro sangrante por encima del nivel del corazón.",
+          "<strong>4. Llamar al 107</strong> para asistencia médica urgente."
+        ]
+      },
+      desmayo: {
+        title: "Desmayo / Pérdida Transitoria de Conocimiento",
+        color: "text-sky-600 dark:text-sky-400",
+        steps: [
+          "<strong>1. Despejar el entorno:</strong> Asegurar aire fresco y aflojar corbatas o cinturones.",
+          "<strong>2. Elevar piernas:</strong> Subir las piernas a 30 cm para facilitar el retorno venoso al cerebro.",
+          "<strong>3. Posición Lateral de Seguridad (PLS):</strong> Si no recobra rápido la conciencia pero respira, colocarlo de costado.",
+          "<strong>4. No dar líquidos ni comida</strong> mientras permanezca aturdido."
+        ]
+      }
+    };
+
+    function selectTriageScenario(key) {
+      const tabs = document.querySelectorAll('.triage-tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('bg-red-50', 'border-red-400', 'text-red-700', 'dark:bg-red-950/60', 'dark:border-red-700', 'dark:text-red-300');
+        tab.classList.add('border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
+      });
+
+      const clickedBtn = event.currentTarget;
+      if (clickedBtn) {
+        clickedBtn.classList.remove('border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
+        clickedBtn.classList.add('bg-red-50', 'border-red-400', 'text-red-700', 'dark:bg-red-950/60', 'dark:border-red-700', 'dark:text-red-300');
+      }
+
+      const data = triageScenarios[key] || triageScenarios.rcp;
+      triageContent.innerHTML = `
+        <h4 class="font-black ${data.color} text-sm flex items-center gap-1.5 mb-2">
+          <i class="fa-solid fa-circle-exclamation"></i> ${data.title}
+        </h4>
+        <ul class="space-y-2">
+          ${data.steps.map(step => `<li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-red-500 mt-1 flex-shrink-0"></i><span>${step}</span></li>`).join('')}
+        </ul>
+      `;
+    }
+
+    function openFloatingEmergencyModal() {
+      selectTriageScenario('rcp');
+      floatingEmergencyModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeFloatingEmergencyModal() {
+      floatingEmergencyModal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // =========================================================================
+    // 9. MODAL DE DONACIONES COMUNITARIAS
+    // =========================================================================
+    const donationModal = document.getElementById('donationModal');
+
+    function openDonationModal() {
+      donationModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeDonationModal() {
+      donationModal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function handleDonationSubmit(e) {
+      e.preventDefault();
+      closeDonationModal();
+      document.getElementById('donationForm').reset();
+      showToast("¡Donación registrada con éxito!", "El equipo de SaludBarrial se comunicará para coordinar la entrega o recepción.");
+    }
+
+    // =========================================================================
+    // 10. TOAST GENÉRICO REUTILIZABLE
+    // =========================================================================
+    const successToast = document.getElementById('successToast');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastMessage = document.getElementById('toastMessage');
+
+    function showToast(title, message) {
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+
+      successToast.classList.remove('translate-y-[-150%]', 'opacity-0');
+      successToast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        successToast.classList.add('translate-y-[-150%]', 'opacity-0');
+        successToast.classList.remove('translate-y-0', 'opacity-100');
+      }, 4000);
+    }
+
+    // Cerrar modales con tecla Escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeFloatingEmergencyModal();
+        closeFloatingSuggestionModal();
+        closeDonationModal();
+        closeMobileMenu();
+      }
+    });
+
+    // =========================================================================
+    // 11. INICIALIZACIÓN AL CARGAR DOM
+    // =========================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      renderDoctorsList(directorioMedicos);
+    });
+  </script>
+</body>
+</html>
