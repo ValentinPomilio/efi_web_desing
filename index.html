@@ -34,30 +34,25 @@
             sans: ['Inter', 'sans-serif'],
           },
           colors: {
-            page: {
-              light: '#C7DCEB',
-              dark: '#10243A'
-            },
-            surface: {
-              light: '#DCEAF4',
-              dark: '#18364F',
-              insetLight: '#EAF3F9',
-              insetDark: '#21445F'
-            },
-            natural: {
-              50: '#F8FAF7',
-              100: '#EFF4EE',
-              200: '#DCE5DC',
-              700: '#26382F',
-              800: '#1A2520',
-              900: '#111714',
-              cardDark: '#18221E'
-            },
             brand: {
-              teal: '#0d9488',
-              emerald: '#059669',
-              sos: '#dc2626',
-              sosHover: '#b91c1c'
+              blue: '#2563EB',
+              blueDark: '#4D8EFF',
+              red: '#DC2626',
+              redDark: '#FF5451',
+              green: '#059669',
+              greenDark: '#00A572',
+            },
+            app: {
+              bgLight: '#F8FAFC',
+              bgDark: '#0B1326',
+              cardLight: '#FFFFFF',
+              cardDark: '#222A3D',
+              borderLight: '#EAEEF4',
+              borderDark: '#172138',
+              textLight: '#0F172A',
+              textDark: '#DAE2FD',
+              mutedLight: '#64748B',
+              mutedDark: '#94A3B8',
             }
           }
         }
@@ -74,219 +69,797 @@
       background: transparent;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background-color: rgba(148, 163, 184, 0.5);
+      background-color: rgba(37, 99, 235, 0.3);
       border-radius: 9999px;
     }
     .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-      background-color: rgba(71, 85, 105, 0.6);
+      background-color: rgba(77, 142, 255, 0.4);
     }
 
-    /* Fondo de Video en Viewport Completo (Scroll-Driven Video) */
-    #scrollBgVideo {
+    /* ===================================================================
+       SISTEMA DE SOMBRAS AZULES INSTITUCIONALES (Card Shadow System)
+       Token: --shadow-blue-sm  / --shadow-blue-md / --shadow-blue-lg
+    =================================================================== */
+    .card-shadow {
+      box-shadow:
+        0 1px 3px rgba(37, 99, 235, 0.08),
+        0 4px 12px rgba(37, 99, 235, 0.10);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .card-shadow:hover {
+      box-shadow:
+        0 4px 16px rgba(37, 99, 235, 0.18),
+        0 8px 28px rgba(37, 99, 235, 0.12);
+      transform: translateY(-1px);
+    }
+    .dark .card-shadow {
+      box-shadow:
+        0 1px 3px rgba(77, 142, 255, 0.10),
+        0 4px 14px rgba(77, 142, 255, 0.14);
+    }
+    .dark .card-shadow:hover {
+      box-shadow:
+        0 4px 18px rgba(77, 142, 255, 0.26),
+        0 8px 32px rgba(77, 142, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    /* ===================================================================
+       SISTEMA DE PUBLICIDAD RESPONSIVE
+       - Desktop ≥1200px : Skyscrapers laterales fijos de 160px c/u
+       - Tablet/Mobile   : Sticky Bottom Banner horizontal de 320x50 / 728x90
+    =================================================================== */
+
+    /* --- Wrapper global que contiene los 3 columnas (izq-contenido-der) --- */
+    .ad-layout-wrapper {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+    }
+
+    /* --- Columna de contenido central junto a los anuncios laterales --- */
+    .ad-layout-wrapper > .ad-layout-content {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    /* --- Skyscrapers laterales (solo desktop ≥1200px) --- */
+    .ad-skyscraper {
+      display: none;
+      flex: 0 0 160px;
+      width: 160px;
+    }
+    .ad-skyscraper-inner {
+      position: sticky;
+      top: 80px; /* debajo del header sticky de 56-64px */
+      width: 160px;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+    .ad-skyscraper-left  { margin-right: 12px; }
+    .ad-skyscraper-right { margin-left:  12px; }
+
+    @media (min-width: 1200px) {
+      .ad-layout-wrapper {
+        padding-inline: 16px;
+      }
+      .ad-skyscraper { display: flex; }
+    }
+
+    /* --- Sticky Bottom Banner (tablet/mobile <1200px) --- */
+    .ad-sticky-bottom {
+      display: none;
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
+      right: 0;
+      z-index: 50;
+      background: #fff;
+      border-top: 1px solid #EAEEF4;
+      padding: 6px 0;
+      align-items: center;
+      justify-content: center;
+      min-height: 60px;
+    }
+    .dark .ad-sticky-bottom {
+      background: #0B1326;
+      border-color: #172138;
+    }
+    @media (max-width: 1199px) {
+      .ad-sticky-bottom {
+        display: flex;
+        bottom: 0;
+        min-height: 60px;
+        padding: 0;
+      }
+      .ad-promo-horizontal {
+        width: 100%;
+        max-width: none;
+        height: 60px;
+        border-radius: 0;
+      }
+      #floatingEmergencyBtn {
+        bottom: 72px;
+        z-index: 60;
+      }
+      body { padding-bottom: 136px; }
+    }
+    @media (max-width: 767px) {
+      #floatingEmergencyBtn {
+        width: 52px;
+        height: 52px;
+        padding: 0;
+        gap: 0;
+        justify-content: center;
+      }
+      #floatingEmergencyBtn > span {
+        display: none;
+      }
+      #floatingEmergencyBtn > div {
+        width: 24px;
+        height: 24px;
+        font-size: 17px;
+      }
+    }
+
+    /* --- Promociones internas de SaludBarrial en espacios publicitarios --- */
+    .ad-unit {
+      background: #fff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #0f172a;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      text-align: center;
+      overflow: hidden;
+      padding: 8px;
+    }
+    .dark .ad-unit {
+      background: #162035;
+      border-color: #263b67;
+      color: #f8fafc;
+    }
+    .ad-unit-label {
+      font-size: 9px;
+      opacity: 0.85;
+      font-weight: 700;
+    }
+    .ad-promo-tall {
+      justify-content: space-between;
+      padding: 14px 12px;
+      color: #fff;
+      background: linear-gradient(160deg, #06152d 0%, #0a3476 58%, #2563eb 100%);
+      border-color: rgba(255,255,255,0.2);
+      text-transform: none;
+    }
+    .dark .ad-promo-tall {
+      background: linear-gradient(160deg, #06152d 0%, #0a3476 58%, #2563eb 100%);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .ad-promo-square {
+      gap: 6px;
+      color: #0f172a;
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      text-transform: none;
+    }
+    .dark .ad-promo-square {
+      color: #f8fafc;
+      background: #162035;
+      border-color: #263b67;
+    }
+    .ad-promo-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 20px;
+    }
+    .ad-promo-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      min-height: 36px;
+      padding: 7px 8px;
+      border-radius: 10px;
+      background: #fff;
+      color: #20309a;
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: center;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .ad-promo-action:hover {
+      background: #dbeafe;
+      transform: translateY(-1px);
+    }
+    .ad-promo-square .ad-promo-action {
+      color: #fff;
+      background: #20309a;
+    }
+    .ad-promo-square .ad-promo-action:hover {
+      background: #172675;
+    }
+    .ad-promo-horizontal {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 5px 32px 5px 8px;
+      width: min(728px, calc(100vw - 32px));
+      height: 50px;
+      border-radius: 8px;
+      color: #fff;
+      background: linear-gradient(90deg, #06152d, #20309a);
+      border: 0;
+      text-transform: none;
+      text-align: left;
+    }
+    .ad-promo-mini {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-width: 0;
+      padding: 4px 6px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 9px;
+      color: #fff;
+      text-decoration: none;
+    }
+    .ad-promo-mini strong {
+      display: block;
+      overflow: hidden;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ad-promo-mini span {
+      display: block;
+      color: #dbeafe;
+      font-size: 8px;
+      line-height: 1.1;
+    }
+    .ad-promo-mini i {
+      flex: 0 0 auto;
+      color: #bfdbfe;
+      font-size: 15px;
+    }
+    @media (max-width: 420px) {
+      .ad-promo-horizontal {
+        gap: 5px;
+        padding-right: 28px;
+      }
+      .ad-promo-mini {
+        gap: 5px;
+        padding-inline: 3px;
+      }
+      .ad-promo-mini strong {
+        font-size: 9px;
+      }
+      .ad-promo-mini > span > span {
+        display: none;
+      }
+    }
+    @media (max-width: 1199px) {
+      .ad-sticky-bottom .ad-promo-horizontal {
+        width: 100%;
+        max-width: none;
+        height: 60px;
+        border-radius: 0;
+      }
+    }
+
+    /* Donaciones: misma fotografía y paleta azul del Hero */
+    .donation-hero-img {
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+    .donation-overlay {
+      background: linear-gradient(108deg, #06152d 0%, rgba(7,32,77,0.97) 43%, rgba(10,65,132,0.88) 68%, rgba(0,116,218,0.76) 100%);
+    }
+    .donation-card {
+      min-height: 320px;
+    }
+    .donation-blue-shape {
+      position: absolute;
+      inset-block: 0;
+      right: 0;
+      width: 48%;
+      background: linear-gradient(135deg, rgba(20,126,220,0.12), rgba(20,145,245,0.5));
+      clip-path: polygon(37% 0, 100% 0, 100% 100%, 0 100%);
       pointer-events: none;
-      z-index: -1;
-      transform: translateZ(0);
-      will-change: transform;
+    }
+    .donation-action {
+      display: flex;
+      width: 100%;
+      min-height: 60px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 9999px;
+      background: linear-gradient(100deg, #ff2936, #e7192c);
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(220,38,38,0.32), inset 0 1px 0 rgba(255,255,255,0.22);
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.2;
+      text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .donation-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(220,38,38,0.4), inset 0 1px 0 rgba(255,255,255,0.22);
+    }
+    .donation-action-icon {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      font-size: 18px;
+    }
+    .donation-action-arrow {
+      flex: 0 0 auto;
+      font-size: 16px;
+    }
+    .donation-bank-panel {
+      border-left: 2px solid #60a5fa;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    @media (max-width: 640px) {
+      .donation-card {
+        min-height: 0;
+      }
+      .donation-action {
+        min-height: 54px;
+        font-size: 12px;
+      }
+      .donation-blue-shape {
+        width: 70%;
+      }
+    }
+
+    #floatingEmergencyModal .emergency-modal-card {
+      height: min(680px, calc(100dvh - 1rem));
+      max-height: calc(100dvh - 1rem);
+    }
+    #floatingEmergencyModal .emergency-modal-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #floatingEmergencyModal .emergency-triage-content {
+      display: flex;
+      min-height: 0;
+      flex: 1;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #floatingEmergencyModal .triage-tab {
+      display: flex;
+      min-height: 2.5rem;
+      min-width: 0;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.5rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 0.75rem;
+      background: #fff;
+      color: #334155;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    #floatingEmergencyModal .triage-tab i {
+      flex: 0 0 auto;
+      color: #dc2626;
+    }
+    #floatingEmergencyModal .triage-tab:hover {
+      border-color: #94a3b8;
+    }
+    #floatingEmergencyModal .triage-tab:focus-visible {
+      outline: 3px solid #2563eb;
+      outline-offset: 2px;
+    }
+    #floatingEmergencyModal .triage-tab.active,
+    #floatingEmergencyModal .triage-tab[aria-pressed="true"] {
+      border-color: #dc2626;
+      background: #fef2f2;
+      color: #991b1b;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+    }
+    .dark #floatingEmergencyModal .triage-tab {
+      border-color: #475569;
+      background: #162035;
+      color: #dae2fd;
+    }
+    .dark #floatingEmergencyModal .triage-tab i {
+      color: #ff7b79;
+    }
+    .dark #floatingEmergencyModal .triage-tab.active,
+    .dark #floatingEmergencyModal .triage-tab[aria-pressed="true"] {
+      border-color: #ff5451;
+      background: rgba(127, 29, 29, 0.45);
+      color: #fff;
+      box-shadow: 0 0 0 2px rgba(255, 84, 81, 0.3);
+    }
+    #floatingEmergencyModal .emergency-guide-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.5rem;
+      object-fit: contain;
+    }
+    #suggestionsFloatingModal .suggestions-modal-header {
+      background: linear-gradient(110deg, #06152d 0%, #0a2347 55%, #071534 100%);
+    }
+    #floatingEmergencyModal .emergency-modal-body > :not([hidden]) ~ :not([hidden]) {
+      margin-top: 0.375rem;
+    }
+    #floatingEmergencyModal .emergency-triage-content {
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      background: #fff;
+    }
+    .dark #floatingEmergencyModal .emergency-triage-content {
+      background: #fff;
+    }
+    @media (max-width: 640px), (max-height: 700px) {
+      #floatingEmergencyModal .emergency-call-note {
+        display: none;
+      }
+      #floatingEmergencyModal .emergency-call-link {
+        padding-top: 0.375rem;
+        padding-bottom: 0.375rem;
+      }
+    }
+
+    @media (max-height: 700px) {
+      #floatingEmergencyModal .emergency-modal-header {
+        padding: 0.5rem 0.75rem;
+      }
+      #floatingEmergencyModal .emergency-modal-header-icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+      }
+      #floatingEmergencyModal .emergency-modal-body {
+        gap: 0.5rem;
+        padding: 0.625rem 0.75rem;
+      }
+      #floatingEmergencyModal .emergency-scenario-label {
+        margin-bottom: 0.25rem;
+      }
+      #floatingEmergencyModal .triage-tab { padding: 0.375rem; }
+      #floatingEmergencyModal .emergency-call-link {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        font-size: 0.75rem;
+      }
+      #floatingEmergencyModal .emergency-modal-footer {
+        padding: 0.375rem 0.75rem;
+      }
+    }
+
+    @media (max-height: 600px) {
+      #floatingEmergencyModal .emergency-modal-header {
+        padding: 0.375rem 0.5rem;
+      }
+      #floatingEmergencyModal .emergency-modal-header-icon {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.875rem;
+      }
+      #floatingEmergencyModal .emergency-modal-header h3 {
+        font-size: 0.8125rem;
+      }
+      #floatingEmergencyModal .emergency-modal-body {
+        gap: 0.375rem;
+        padding: 0.375rem 0.5rem;
+      }
+      #floatingEmergencyModal .triage-tab {
+        min-height: 2.25rem;
+        padding: 0.25rem;
+        font-size: 0.6875rem;
+      }
+      #floatingEmergencyModal .emergency-modal-body > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.25rem;
+      }
+      #floatingEmergencyModal .emergency-modal-footer {
+        padding: 0.25rem 0.5rem;
+      }
+      #floatingEmergencyModal .emergency-modal-footer button {
+        padding: 0.25rem 0.5rem;
+      }
     }
   </style>
 </head>
-<body class="bg-[#143830] text-slate-100 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden transition-colors duration-200">
+<body class="bg-[#F8FAFC] dark:bg-[#0B1326] text-[#0F172A] dark:text-[#DAE2FD] font-sans antialiased min-h-screen flex flex-col overflow-x-hidden transition-colors duration-200">
 
   <!-- ========================================================================= -->
-  <!-- VIDEO DE FONDO CONTROLADO POR SCROLL (SCROLL-DRIVEN VIDEO: fondo.mp4)    -->
+  <!-- 1. HEADER Y NAVEGACIÓN ACCESIBLE FINO CON GLASS EFFECT                    -->
   <!-- ========================================================================= -->
-  <video 
-    id="scrollBgVideo" 
-    src="img/fondo.mp4" 
-    preload="auto" 
-    muted 
-    playsinline 
-    tabindex="-1" 
-    aria-hidden="true"
-  ></video>
-
-  <!-- ========================================================================= -->
-  <!-- 1. HEADER Y NAVEGACIÓN ACCESIBLE (SIEMPRE TRANSPARENTE)                  -->
-  <!-- ========================================================================= -->
-  <header id="mainHeader" class="fixed top-0 left-0 w-full z-40 bg-transparent border-none pointer-events-auto">
+  <header id="mainHeader" class="sticky top-0 left-0 w-full z-40 bg-white/85 dark:bg-[#0B1326]/85 backdrop-blur-md text-[#0F172A] dark:text-white shadow-xs border-b border-[#EAEEF4] dark:border-[#172138] transition-all">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 md:h-20 gap-2">
+      <div class="flex items-center justify-between h-12 sm:h-14 gap-2">
         
-        <!-- Logo Oficial (img/logo.jpg) -->
-        <a href="#" class="flex items-center gap-2 sm:gap-2.5 group py-1 select-none min-w-0 flex-shrink" aria-label="Inicio de SaludBarrial">
-          <img src="img/logo.jpg" alt="Logo de SaludBarrial" class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl object-cover border border-white/30 shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+        <!-- Logo Tipográfico Oficial (Sin Imagen y Sin Recuadro en "Barrial") -->
+        <a href="#" class="flex items-center py-1 select-none min-w-0 flex-shrink group" aria-label="Inicio de SaludBarrial">
           <div class="min-w-0">
-            <span class="text-base sm:text-xl md:text-2xl font-black tracking-tight text-white flex items-center gap-1 drop-shadow-md leading-tight truncate">
-              Salud<span class="text-emerald-400">Barrial</span>
+            <span class="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-[#0F172A] dark:text-white flex items-center leading-tight truncate">
+              Salud<span class="text-[#DC2626] dark:text-[#FF5451]">Barrial</span>
             </span>
-            <span class="block text-[9px] sm:text-[10px] md:text-xs font-semibold text-emerald-100/90 uppercase tracking-wider drop-shadow-sm truncate">
+            <span class="block text-[8px] sm:text-[9px] md:text-[10px] font-semibold text-[#2563EB] dark:text-[#89C7FD] uppercase tracking-wider truncate">
               SaludPrimero • Río Cuarto
             </span>
           </div>
         </a>
 
-        <!-- Navegación Desktop: Botones en blanco con contraste sobre fondo verde -->
-        <nav class="hidden md:flex items-center gap-1.5" aria-label="Navegación principal">
-          <a href="#mapa-section" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none drop-shadow-md">
-            <i class="fa-solid fa-map-location-dot text-emerald-400 mr-1.5 pointer-events-none"></i> Mapa de Centros
+        <!-- Navegación Desktop: Botones finos con efecto glass -->
+        <nav class="hidden md:flex items-center gap-1" aria-label="Navegación principal">
+          <a href="#mapa-section" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-[#2563EB] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 backdrop-blur-xs transition-all cursor-pointer select-none">
+            <i class="fa-solid fa-map-location-dot text-[#2563EB] dark:text-[#89C7FD] mr-1.5 pointer-events-none"></i> Mapa de Centros
           </a>
-          <a href="#profesionales-section" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none drop-shadow-md">
-            <i class="fa-solid fa-user-doctor text-emerald-400 mr-1.5 pointer-events-none"></i> Directorio Médico
+          <a href="#profesionales-section" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-[#2563EB] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 backdrop-blur-xs transition-all cursor-pointer select-none">
+            <i class="fa-solid fa-user-doctor text-[#2563EB] dark:text-[#89C7FD] mr-1.5 pointer-events-none"></i> Directorio Médico
           </a>
-          <a href="#donaciones" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none drop-shadow-md">
-            <i class="fa-solid fa-hand-holding-heart text-emerald-400 mr-1.5 pointer-events-none"></i> Donaciones
+          <a href="#donaciones" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-[#2563EB] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 backdrop-blur-xs transition-all cursor-pointer select-none">
+            <i class="fa-solid fa-hand-holding-heart text-[#2563EB] dark:text-[#89C7FD] mr-1.5 pointer-events-none"></i> Donaciones
           </a>
-          <button type="button" onclick="openFloatingSuggestionModal()" class="px-3.5 py-2 rounded-xl text-sm font-semibold text-white/90 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none drop-shadow-md">
-            <i class="fa-solid fa-comment-dots text-emerald-400 mr-1.5 pointer-events-none"></i> Sugerencias
+          <button type="button" onclick="openFloatingSuggestionModal()" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:text-[#2563EB] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 backdrop-blur-xs transition-all cursor-pointer select-none">
+            <i class="fa-solid fa-comment-dots text-[#2563EB] dark:text-[#89C7FD] mr-1.5 pointer-events-none"></i> Sugerencias
           </button>
         </nav>
 
         <!-- Acciones en Header (Modo Claro/Oscuro y Menú Hamburguesa) -->
-        <div class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+        <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           
           <!-- Botón de Conmutación Claro / Oscuro -->
           <button 
             id="themeToggleBtn" 
             type="button" 
-            class="w-9 h-9 sm:w-10 sm:h-10 inline-flex items-center justify-center rounded-xl border border-white/25 bg-black/25 hover:bg-white/20 text-white transition-all cursor-pointer select-none shadow-sm backdrop-blur-xs" 
+            class="w-8 h-8 sm:w-9 sm:h-9 inline-flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-[#162035] text-slate-700 dark:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 backdrop-blur-sm transition-all cursor-pointer select-none shadow-xs" 
             aria-label="Cambiar entre modo claro y oscuro"
           >
-            <i id="themeIcon" class="fa-solid fa-moon text-base pointer-events-none select-none"></i>
+            <i id="themeIcon" class="fa-solid fa-moon text-xs sm:text-sm pointer-events-none select-none"></i>
           </button>
 
           <!-- Botón Menú Hamburguesa Móvil -->
           <button 
             id="mobileMenuBtn" 
             type="button" 
-            class="md:hidden w-9 h-9 sm:w-10 sm:h-10 inline-flex items-center justify-center rounded-xl border border-white/25 bg-black/25 hover:bg-white/20 text-white transition-all cursor-pointer select-none shadow-sm" 
+            class="md:hidden w-8 h-8 sm:w-9 sm:h-9 inline-flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-[#162035] text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 backdrop-blur-sm transition-all cursor-pointer select-none shadow-xs" 
             aria-expanded="false" 
             aria-controls="mobileMenu" 
             aria-label="Abrir menú de navegación"
           >
-            <i id="menuIcon" class="fa-solid fa-bars text-lg pointer-events-none select-none"></i>
+            <i id="menuIcon" class="fa-solid fa-bars text-sm pointer-events-none select-none"></i>
           </button>
 
         </div>
       </div>
     </div>
 
-    <!-- Menú Desplegable Móvil con Desenfoque de Fondo -->
-    <div id="mobileMenu" class="hidden md:hidden border-t border-white/15 bg-slate-900/95 backdrop-blur-lg px-4 pt-3 pb-5 space-y-2 shadow-2xl">
-      <a href="#mapa-section" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-white hover:bg-white/15 select-none">
-        <i class="fa-solid fa-map-location-dot w-6 text-emerald-400 pointer-events-none"></i> Mapa de Centros y Guardias
+    <!-- Menú Desplegable Móvil con Desenfoque de Vidrio (Glass Effect) -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-[#EAEEF4] dark:border-[#172138] bg-white/95 dark:bg-[#0B1326]/95 backdrop-blur-xl px-4 pt-3 pb-5 space-y-2 shadow-xl">
+      <a href="#mapa-section" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 select-none">
+        <i class="fa-solid fa-map-location-dot w-6 text-[#2563EB] dark:text-[#89C7FD] pointer-events-none"></i> Mapa de Centros y Guardias
       </a>
-      <a href="#profesionales-section" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-white hover:bg-white/15 select-none">
-        <i class="fa-solid fa-user-doctor w-6 text-emerald-400 pointer-events-none"></i> Directorio de Profesionales
+      <a href="#profesionales-section" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 select-none">
+        <i class="fa-solid fa-user-doctor w-6 text-[#2563EB] dark:text-[#89C7FD] pointer-events-none"></i> Directorio de Profesionales
       </a>
-      <a href="#donaciones" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-white hover:bg-white/15 select-none">
-        <i class="fa-solid fa-hand-holding-heart w-6 text-emerald-400 pointer-events-none"></i> Donaciones Comunitarias
+      <a href="#donaciones" onclick="closeMobileMenu()" class="block py-2.5 px-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 select-none">
+        <i class="fa-solid fa-hand-holding-heart w-6 text-[#2563EB] dark:text-[#89C7FD] pointer-events-none"></i> Donaciones Comunitarias
       </a>
-      <button type="button" onclick="closeMobileMenu(); openFloatingSuggestionModal();" class="w-full text-left py-2.5 px-3 rounded-xl text-base font-semibold text-white hover:bg-white/15 cursor-pointer select-none">
-        <i class="fa-solid fa-comment-dots w-6 text-emerald-400 pointer-events-none"></i> Buzón de Sugerencias
+      <button type="button" onclick="closeMobileMenu(); openFloatingSuggestionModal();" class="w-full text-left py-2.5 px-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 cursor-pointer select-none">
+        <i class="fa-solid fa-comment-dots w-6 text-[#2563EB] dark:text-[#89C7FD] pointer-events-none"></i> Buzón de Sugerencias
       </button>
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- 2. ESPACIO INICIAL HERO ZONE (100VH): AMBULANCIA PROTAGONISTA EN VIDEO   -->
+  <!-- CONTENEDOR PRINCIPAL: PANTALLA LIMPIA SEGÚN MOCKUP                       -->
   <!-- ========================================================================= -->
-  <section class="min-h-screen flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-10 text-center relative z-10 select-none">
-    
-    <!-- Espacio superior amplio y limpio que da protagonismo visual total a la ambulancia sobre fondo verde -->
-    <div class="flex-1 min-h-[42vh] sm:min-h-[50vh] pointer-events-none" aria-hidden="true"></div>
 
-    <!-- Bloque de Texto e Identidad en la parte inferior del primer impacto visual (100% TRANSPARENTE) -->
-    <div class="w-full px-3 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-      <div class="p-2 sm:p-4 text-center bg-transparent">
-        
-        <!-- Etiqueta de Ubicación -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/30 backdrop-blur-xs text-emerald-300 text-xs sm:text-sm font-semibold mb-2.5 border border-emerald-500/30 shadow-md">
-          <i class="fa-solid fa-location-dot text-emerald-400 animate-pulse"></i>
-          <span>Red Barrial de Salud Primaria • Río Cuarto</span>
-        </div>
+  <main class="w-full flex flex-col gap-8 sm:gap-10">
 
-        <!-- Título Principal -->
-        <h1 class="text-xl sm:text-3xl md:text-5xl font-black text-white tracking-tight leading-snug sm:leading-tight max-w-4xl mx-auto drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] break-words">
-          Encontrá tu dispensario, guardia médica y turnos <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-cyan-300">en tu barrio</span>
-        </h1>
-
-        <!-- Subtítulo Explicativo -->
-        <p class="mt-2 text-xs sm:text-sm lg:text-base text-slate-100 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-          Consultá horarios de atención médica gratuita en <strong>Banda Norte</strong>, <strong>Alberdi</strong>, <strong>Villa Dalcar</strong> y el <strong>Centro</strong>, con o sin obra social.
-        </p>
-
-        <!-- Indicador Visual de Scroll -->
-        <div class="mt-3.5 flex flex-col items-center justify-center gap-1 text-emerald-300 text-xs font-bold tracking-wide animate-bounce drop-shadow-md">
-          <span>Deslizá hacia abajo para explorar centros y guardias</span>
-          <i class="fa-solid fa-chevron-down text-emerald-400 text-xs"></i>
-        </div>
-
+  <!-- ========================================================================= -->
+  <!-- HERO PRINCIPAL — ANCHO COMPLETO ANTES DE LA PUBLICIDAD                   -->
+  <!-- ========================================================================= -->
+  <section id="hero-section" class="relative w-full overflow-hidden bg-[#071739] min-h-[380px] sm:min-h-[440px] md:min-h-[480px] lg:min-h-[520px] flex items-center border-b border-[#EAEEF4] dark:border-[#172138] select-none shadow-sm">
+      
+      <!-- Imagen de Fondo Hero con Posicionamiento a la Derecha -->
+      <div class="absolute inset-0 w-full h-full pointer-events-none">
+        <img 
+          src="img/Hero.jpg" 
+          alt="Profesionales de la salud comunitaria en SaludBarrial Río Cuarto" 
+          class="w-full h-full object-cover object-right md:object-[85%_center] lg:object-right"
+          fetchpriority="high"
+          loading="eager"
+        >
+        <!-- Overlay Gradiente Inteligente: Protege la legibilidad del texto en la izquierda y resalta a los profesionales en la derecha -->
+        <div class="absolute inset-0 bg-gradient-to-r from-[#06152d]/95 via-[#0a2347]/80 to-transparent sm:via-[#0a2347]/65 sm:to-transparent md:w-3/4 lg:w-3/5"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#06152d]/50 via-transparent to-transparent md:hidden"></div>
       </div>
-    </div>
-  </section>
 
-  <!-- ========================================================================= -->
-  <!-- CONTENEDOR PRINCIPAL REVELADO CON EL SCROLL (SOBRE EL VIDEO: z-index: 10)  -->
-  <!-- ========================================================================= -->
-  <main class="relative z-10 space-y-12 sm:space-y-16 pb-16">
+      <!-- Contenedor de Contenido Alineado a la Izquierda -->
+      <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
+        <div class="max-w-xl lg:max-w-2xl text-left">
+          
+          <!-- Badge de Ubicación Institucional -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 dark:bg-black/30 backdrop-blur-md text-white text-xs sm:text-sm font-bold mb-4 border border-white/20 shadow-xs">
+            <i class="fa-solid fa-location-dot text-[#89C7FD]"></i>
+            <span>RED BARRIAL DE SALUD PRIMARIA • RÍO CUARTO</span>
+          </div>
+
+          <!-- Título Oficial de la App con Acento de Marca -->
+          <div class="mb-3">
+            <span class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight drop-shadow-md flex items-center">
+              Salud<span class="text-[#FF5451]">Barrial</span>
+            </span>
+            <span class="block text-xs sm:text-sm md:text-base font-semibold text-[#89C7FD] uppercase tracking-wider mt-1 drop-shadow-xs">
+              SaludPrimero • Río Cuarto
+            </span>
+          </div>
+
+          <!-- Encabezado Principal H1 -->
+          <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight max-w-lg drop-shadow-sm">
+            Encontrá tu dispensario, guardia médica y turnos en tu barrio
+          </h1>
+
+          <!-- Bajada de Accesibilidad Inmediata -->
+          <p class="text-xs sm:text-sm md:text-base text-slate-200 mt-3 max-w-lg leading-relaxed drop-shadow-xs">
+            Información comunitaria actualizada de centros de salud pública, guardias de urgencia 24hs y profesionales de proximidad.
+          </p>
+
+          <!-- Indicador Sutil de Desplazamiento -->
+          <div class="mt-6 flex items-center gap-2.5 text-slate-200 text-xs sm:text-sm font-semibold">
+            <a href="#lineas-urgencia" class="inline-flex items-center gap-2 text-white hover:text-[#89C7FD] transition-colors group">
+              <span class="w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-xs group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-chevron-down animate-bounce text-xs"></i>
+              </span>
+              <span>Deslizá para explorar guardias y médicos</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  <!-- =========================================================================
+       LAYOUT PUBLICITARIO RESPONSIVE — COMIENZA DEBAJO DEL HERO
+       Desktop ≥1200px : Skyscrapers de 160px a cada lado + contenido central
+       Tablet/Mobile   : Sin skyscrapers (se ocultan por CSS)
+  ========================================================================= -->
+  <div class="ad-layout-wrapper">
+
+    <aside class="ad-skyscraper ad-skyscraper-left" aria-label="Publicidad de autos">
+      <div class="ad-skyscraper-inner">
+        <div class="ad-unit ad-promo-tall ad-promo-auto" style="width:160px;height:600px;">
+          <span class="ad-unit-label uppercase tracking-[0.16em] text-blue-100">Guía de autos</span>
+          <div class="ad-promo-icon"><i class="fa-solid fa-car-side"></i></div>
+          <div>
+            <h2 class="text-lg font-black leading-tight">Encontrá tu próximo auto</h2>
+            <p class="mt-3 text-xs leading-relaxed text-blue-100">Explorá opciones de autos nuevos y usados en un solo lugar.</p>
+          </div>
+          <div class="w-full space-y-2 text-left text-[11px] leading-snug text-blue-50">
+            <p><i class="fa-solid fa-car mr-1.5 text-sky-200"></i>Autos para cada necesidad</p>
+            <p><i class="fa-solid fa-gauge-high mr-1.5 text-sky-200"></i>Compará modelos y versiones</p>
+            <p><i class="fa-solid fa-magnifying-glass mr-1.5 text-sky-200"></i>Buscá opciones disponibles</p>
+          </div>
+          <a href="https://www.google.com/search?q=autos+nuevos+y+usados+en+venta" target="_blank" rel="noopener noreferrer" class="ad-promo-action">Explorar autos <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="ad-unit ad-promo-square" style="width:160px;height:160px;">
+          <i class="fa-solid fa-key text-2xl text-[#20309A] dark:text-blue-300"></i>
+          <h2 class="text-xs font-black leading-tight">¿Buscás cambiar el auto?</h2>
+          <p class="text-[10px] leading-tight text-slate-600 dark:text-slate-300">Consultá opciones y modelos.</p>
+          <a href="https://www.google.com/search?q=autos+en+venta+cerca+de+mi" target="_blank" rel="noopener noreferrer" class="ad-promo-action"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver opciones</a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="ad-layout-content min-w-0 flex-1 flex flex-col gap-8 sm:gap-10">
 
     <!-- ======================================================================= -->
-    <!-- 3. LAS 4 CARDS DE CONTACTO DIRECTO DE AUXILIO RÁPIDO                    -->
+    <!-- 2. LÍNEAS RÁPIDAS DE URGENCIA (EXACTAMENTE SEGÚN LA IMAGEN DE REFERENCIA) -->
     <!-- ======================================================================= -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 text-left">
+    <section id="lineas-urgencia" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+      
+      <!-- Cabecera de la sección de urgencia -->
+      <div class="flex items-center justify-between gap-2 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-red-100 dark:bg-red-950/60 text-[#DC2626] dark:text-[#FF5451] flex items-center justify-center text-sm shadow-xs flex-shrink-0">
+            <i class="fa-solid fa-phone-volume"></i>
+          </div>
+          <h2 class="text-base sm:text-lg font-black tracking-tight text-[#0F172A] dark:text-white uppercase">
+            Líneas Rápidas de Urgencia
+          </h2>
+        </div>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 dark:bg-[#162035] text-emerald-600 dark:text-[#00A572] border border-emerald-200 dark:border-emerald-800/40 select-none">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> 24 HORAS ACTIVAS
+        </span>
+      </div>
+
+      <!-- Las 4 Cards de Urgencia según la imagen -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-left">
         
-        <!-- Contacto 1: Línea 107 -->
-        <a href="tel:107" class="p-4 rounded-2xl border-2 border-red-500/80 bg-black/40 backdrop-blur-md hover:bg-black/55 transition-all group flex items-center gap-3.5 shadow-xl hover:shadow-2xl cursor-pointer">
-          <div class="w-12 h-12 rounded-xl bg-red-600 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+        <!-- Card 1: Emergencias Médicas Línea 107 -->
+        <a href="tel:107" class="p-3 rounded-xl border border-[#EAEEF4] dark:border-[#172138] bg-white dark:bg-[#222A3D] transition-all group flex items-center gap-3 cursor-pointer card-shadow">
+          <div class="w-10 h-10 rounded-lg bg-[#DC2626] dark:bg-[#FF5451] text-white flex items-center justify-center text-lg shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
             <i class="fa-solid fa-truck-medical animate-pulse"></i>
           </div>
           <div>
-            <span class="block text-xs font-black text-red-400 uppercase tracking-wider">Emergencias Médicas</span>
-            <span class="text-xl font-extrabold text-white">Línea 107</span>
-            <span class="block text-[11px] text-slate-200">Gratuito • Río Cuarto</span>
+            <span class="block text-[11px] font-black text-[#DC2626] dark:text-[#FF5451] uppercase tracking-wider">Emergencias Médicas</span>
+            <span class="text-lg font-extrabold text-[#0F172A] dark:text-white">Línea 107</span>
+            <span class="block text-[10px] text-[#64748B] dark:text-[#94A3B8]">Gratuito • Río Cuarto</span>
           </div>
         </a>
 
-        <!-- Contacto 2: CardioMed -->
-        <a href="tel:08004445454" class="p-4 rounded-2xl border border-white/20 bg-black/40 backdrop-blur-md hover:bg-black/55 transition-all group flex items-center gap-3.5 shadow-xl hover:shadow-2xl cursor-pointer">
-          <div class="w-12 h-12 rounded-xl bg-sky-600 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+        <!-- Card 2: CardioMed Privado -->
+        <a href="tel:08004445454" class="p-3 rounded-xl border border-[#EAEEF4] dark:border-[#172138] bg-white dark:bg-[#222A3D] transition-all group flex items-center gap-3 cursor-pointer card-shadow">
+          <div class="w-10 h-10 rounded-lg bg-[#2563EB] dark:bg-[#4D8EFF] text-white flex items-center justify-center text-lg shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
             <i class="fa-solid fa-heart-pulse"></i>
           </div>
           <div>
-            <span class="block text-xs font-black text-sky-300 uppercase tracking-wider">CardioMed Privado</span>
-            <span class="text-base font-extrabold text-white">0800 444 5454</span>
-            <span class="block text-[11px] text-slate-200">Urgencias y Traslados</span>
+            <span class="block text-[11px] font-black text-[#2563EB] dark:text-[#89C7FD] uppercase tracking-wider">CardioMed Privado</span>
+            <span class="text-sm font-extrabold text-[#0F172A] dark:text-white">0800 444 5454</span>
+            <span class="block text-[10px] text-[#64748B] dark:text-[#94A3B8]">Urgencias y Traslados</span>
           </div>
         </a>
 
-        <!-- Contacto 3: Policía de Córdoba -->
-        <a href="tel:911" class="p-4 rounded-2xl border border-white/20 bg-black/40 backdrop-blur-md hover:bg-black/55 transition-all group flex items-center gap-3.5 shadow-xl hover:shadow-2xl cursor-pointer">
-          <div class="w-12 h-12 rounded-xl bg-sky-700 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+        <!-- Card 3: Policía / Seguridad -->
+        <a href="tel:911" class="p-3 rounded-xl border border-[#EAEEF4] dark:border-[#172138] bg-white dark:bg-[#222A3D] transition-all group flex items-center gap-3 cursor-pointer card-shadow">
+          <div class="w-10 h-10 rounded-lg bg-[#0F172A] dark:bg-[#060E20] border dark:border-[#172138] text-white flex items-center justify-center text-lg shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
             <i class="fa-solid fa-shield-halved"></i>
           </div>
           <div>
-            <span class="block text-xs font-black text-slate-300 uppercase tracking-wider">Policía / Seguridad</span>
-            <span class="text-xl font-extrabold text-white">911 / 101</span>
-            <span class="block text-[11px] text-slate-200">Comando Radioeléctrico</span>
+            <span class="block text-[11px] font-black text-[#475569] dark:text-[#94A3B8] uppercase tracking-wider">Policía / Seguridad</span>
+            <span class="text-lg font-extrabold text-[#0F172A] dark:text-white">911 / 101</span>
+            <span class="block text-[10px] text-[#64748B] dark:text-[#94A3B8]">Comando Radioeléctrico</span>
           </div>
         </a>
 
-        <!-- Contacto 4: Ojos en Alerta -->
-        <a href="https://wa.me/5493584283673?text=Hola,%20solicito%20asistencia%20en%20Río%20Cuarto" target="_blank" rel="noopener noreferrer" class="p-4 rounded-2xl border border-white/20 bg-black/40 backdrop-blur-md hover:bg-black/55 transition-all group flex items-center gap-3.5 shadow-xl hover:shadow-2xl cursor-pointer">
-          <div class="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
+        <!-- Card 4: Ojos en Alerta -->
+        <a href="https://wa.me/5493584283673?text=Hola,%20solicito%20asistencia%20en%20Río%20Cuarto" target="_blank" rel="noopener noreferrer" class="p-3 rounded-xl border border-[#EAEEF4] dark:border-[#172138] bg-white dark:bg-[#222A3D] transition-all group flex items-center gap-3 cursor-pointer card-shadow">
+          <div class="w-10 h-10 rounded-lg bg-[#059669] dark:bg-[#00A572] text-white flex items-center justify-center text-lg shadow-md group-hover:scale-105 transition-transform flex-shrink-0">
             <i class="fa-brands fa-whatsapp"></i>
           </div>
           <div>
-            <span class="block text-xs font-black text-emerald-300 uppercase tracking-wider">Ojos en Alerta</span>
-            <span class="text-base font-extrabold text-white">358 428 3673</span>
-            <span class="block text-[11px] text-slate-200">WhatsApp Comunitario</span>
+            <span class="block text-[11px] font-black text-[#059669] dark:text-[#00A572] uppercase tracking-wider">Ojos en Alerta</span>
+            <span class="text-sm font-extrabold text-[#0F172A] dark:text-white">358 428 3673</span>
+            <span class="block text-[10px] text-[#64748B] dark:text-[#94A3B8]">WhatsApp Comunitario</span>
           </div>
         </a>
 
@@ -294,37 +867,37 @@
     </section>
 
     <!-- ======================================================================= -->
-    <!-- 4. MAPA REAL FUNCIONAL DE RÍO CUARTO (100% TRANSPARENTE)                 -->
+    <!-- 3. MAPA REAL FUNCIONAL DE RÍO CUARTO                                    -->
     <!-- ======================================================================= -->
-    <section id="mapa-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
-      <div class="bg-transparent p-2 sm:p-5">
+    <section id="mapa-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-20">
+      <div class="bg-white dark:bg-[#222A3D] rounded-3xl p-5 sm:p-7 border border-[#EAEEF4] dark:border-[#172138] card-shadow">
         
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-white/15">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-200 dark:border-slate-700/60">
           <div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/70 text-emerald-300 text-xs font-bold mb-1.5 border border-emerald-500/40">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-[#162035] text-[#2563EB] dark:text-[#89C7FD] text-xs font-bold mb-1.5 border border-blue-200 dark:border-blue-900/50">
               <i class="fa-solid fa-map-location-dot"></i> Georreferenciación Sanitaria de Río Cuarto
             </span>
-            <h2 class="text-xl sm:text-2xl font-black text-white drop-shadow-md">
+            <h2 class="text-xl sm:text-2xl font-black text-[#0F172A] dark:text-white">
               Mapa Real de Dispensarios, Clínicas y Guardias
             </h2>
-            <p class="text-xs sm:text-sm text-slate-200 mt-0.5 drop-shadow-xs">
+            <p class="text-xs sm:text-sm text-slate-500 dark:text-[#94A3B8] mt-0.5">
               Mapa callejero en vivo de la ciudad de Río Cuarto. Podés hacer zoom y navegar por cada barrio.
             </p>
           </div>
 
-          <!-- Botón GPS al Centro Más Cercano: BLANCO CON LETRAS NEGRAS -->
+          <!-- Botón GPS al Centro Más Cercano -->
           <button 
             type="button" 
             onclick="locateNearestCenterGps()" 
-            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-white hover:bg-slate-100 active:scale-95 text-black font-black text-xs sm:text-sm shadow-xl flex items-center justify-center gap-2.5 transition-all cursor-pointer flex-shrink-0"
+            class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-[#2563EB] dark:bg-[#4D8EFF] hover:opacity-90 active:scale-95 text-white font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-2.5 transition-all cursor-pointer flex-shrink-0"
           >
-            <i class="fa-solid fa-location-arrow text-base text-black animate-pulse"></i>
-            <span class="text-black font-black">Ver el centro más cercano (GPS)</span>
+            <i class="fa-solid fa-location-arrow text-base text-white animate-pulse"></i>
+            <span>Ver el centro más cercano (GPS)</span>
           </button>
         </div>
 
         <!-- IFRAME DEL MAPA REAL FUNCIONAL DE RÍO CUARTO -->
-        <div class="mt-5 rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black/30 backdrop-blur-xs">
+        <div class="mt-5 rounded-2xl overflow-hidden border border-[#EAEEF4] dark:border-[#172138] shadow-xs bg-slate-100 dark:bg-slate-900">
           <iframe 
             id="realGoogleMap"
             class="w-full h-[380px] sm:h-[450px] md:h-[480px] border-0" 
@@ -336,16 +909,16 @@
           ></iframe>
 
           <!-- Barra Inferior de Estado GPS -->
-          <div class="p-3 bg-black/50 backdrop-blur-md border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+          <div class="p-3.5 bg-[#0F172A] dark:bg-[#060E20] text-white border-t border-slate-700/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
             <div class="flex items-center gap-2 text-slate-200">
-              <i class="fa-solid fa-circle-info text-emerald-400"></i>
+              <i class="fa-solid fa-circle-info text-[#2563EB] dark:text-[#89C7FD]"></i>
               <span id="gpsStatusMessage">Mostrando centros asistenciales, guardias y hospitales en Río Cuarto.</span>
             </div>
             <a 
               href="https://maps.google.com/?q=hospitales+y+dispensarios+en+Rio+Cuarto+Cordoba" 
               target="_blank" 
               rel="noopener noreferrer" 
-              class="text-xs font-bold text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 cursor-pointer"
+              class="text-xs font-bold text-[#89C7FD] hover:underline flex items-center gap-1 cursor-pointer"
             >
               <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir en App de Mapas
             </a>
@@ -356,35 +929,34 @@
     </section>
 
     <!-- ======================================================================= -->
-    <!-- 5. DIRECTORIO PROFESIONAL (100% TRANSPARENTE)                           -->
+    <!-- 4. DIRECTORIO PROFESIONAL EN CARD ÚNICA SCROLLEABLE                     -->
     <!-- ======================================================================= -->
-    <section id="profesionales-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-24">
+    <section id="profesionales-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full scroll-mt-20">
       
-      <!-- FRAME CONTENEDOR TOTALMENTE TRANSPARENTE -->
-      <div class="bg-transparent p-2 sm:p-5">
+      <div class="bg-white dark:bg-[#222A3D] rounded-3xl p-5 sm:p-7 border border-[#EAEEF4] dark:border-[#172138] card-shadow">
         
         <!-- Cabecera del Directorio con Buscador y Filtros -->
-        <div class="pb-6 border-b border-white/15">
+        <div class="pb-6 border-b border-slate-200 dark:border-slate-700/60">
           
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <div>
-              <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-950/70 text-emerald-300 text-xs font-bold mb-1 border border-emerald-500/40">
+              <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-blue-50 dark:bg-[#162035] text-[#2563EB] dark:text-[#89C7FD] text-xs font-bold mb-1 border border-blue-200 dark:border-blue-900/50">
                 <i class="fa-solid fa-certificate"></i> Colegio de Médicos de Córdoba • Delegación Río Cuarto
               </span>
-              <h2 class="text-xl sm:text-2xl font-black text-white drop-shadow-md">
+              <h2 class="text-xl sm:text-2xl font-black text-[#0F172A] dark:text-white">
                 Directorio de Profesionales Médicos y Lugares de Atención
               </h2>
-              <p class="text-xs sm:text-sm text-slate-200 drop-shadow-xs">
+              <p class="text-xs sm:text-sm text-slate-500 dark:text-[#94A3B8]">
                 Buscá por médico, matrícula o especialidad y revisá en qué dispensario o clínica atienden con sus horarios.
               </p>
             </div>
             
             <div class="flex items-center gap-2 self-start sm:self-auto">
-              <span id="doctorsCountBadge" class="text-xs bg-black/40 text-emerald-300 font-bold px-3 py-1 rounded-full border border-white/20 backdrop-blur-xs">
+              <span id="doctorsCountBadge" class="text-xs bg-blue-50 dark:bg-[#162035] text-[#2563EB] dark:text-[#89C7FD] font-bold px-3.5 py-1.5 rounded-full border border-blue-200 dark:border-blue-900/50 shadow-xs">
                 Cargando médicos...
               </span>
-              <button id="resetDoctorFiltersBtn" type="button" onclick="resetDoctorFilters()" class="hidden text-xs font-bold text-rose-300 hover:underline py-1 px-2 rounded-lg bg-rose-950/60 border border-rose-800/60 cursor-pointer">
-                <i class="fa-solid fa-rotate-left"></i> Restablecer
+              <button id="resetDoctorFiltersBtn" type="button" onclick="resetDoctorFilters()" class="hidden text-xs font-bold text-white py-1.5 px-3 rounded-full bg-[#DC2626] dark:bg-[#FF5451] hover:opacity-90 shadow-xs cursor-pointer">
+                <i class="fa-solid fa-rotate-left mr-1"></i> Restablecer
               </button>
             </div>
           </div>
@@ -394,25 +966,25 @@
             
             <!-- Búsqueda por Texto -->
             <div>
-              <label for="doctorSearchInput" class="block text-xs font-bold text-slate-200 mb-1">
-                <i class="fa-solid fa-magnifying-glass mr-1 text-emerald-400"></i> Buscar Nombre o Matrícula
+              <label for="doctorSearchInput" class="block text-xs font-bold text-[#0F172A] dark:text-slate-200 mb-1">
+                <i class="fa-solid fa-magnifying-glass mr-1 text-[#2563EB] dark:text-[#89C7FD]"></i> Buscar Nombre o Matrícula
               </label>
               <input 
                 type="text" 
                 id="doctorSearchInput" 
                 placeholder="Ej: González, MP 12345, Pellegrini..." 
-                class="w-full px-3.5 py-2.5 text-sm bg-black/40 border border-white/20 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:outline-none text-white placeholder-slate-400 backdrop-blur-xs"
+                class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none text-[#0F172A] dark:text-white placeholder-slate-400"
               >
             </div>
 
             <!-- Filtro por Especialidad -->
             <div>
-              <label for="specialtyFilterSelect" class="block text-xs font-bold text-slate-200 mb-1">
-                <i class="fa-solid fa-stethoscope mr-1 text-emerald-400"></i> Especialidad Médica
+              <label for="specialtyFilterSelect" class="block text-xs font-bold text-[#0F172A] dark:text-slate-200 mb-1">
+                <i class="fa-solid fa-stethoscope mr-1 text-[#2563EB] dark:text-[#89C7FD]"></i> Especialidad Médica
               </label>
               <select 
                 id="specialtyFilterSelect" 
-                class="w-full px-3.5 py-2.5 text-sm bg-black/50 border border-white/20 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:outline-none text-white cursor-pointer backdrop-blur-xs [&>option]:text-slate-900 [&>option]:bg-white"
+                class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none text-[#0F172A] dark:text-white cursor-pointer"
               >
                 <option value="todas">Todas las especialidades</option>
                 <option value="Pediatría">Pediatría</option>
@@ -425,12 +997,12 @@
 
             <!-- Filtro por Barrio / Establecimiento -->
             <div>
-              <label for="locationFilterSelect" class="block text-xs font-bold text-slate-200 mb-1">
-                <i class="fa-solid fa-hospital mr-1 text-emerald-400"></i> Dónde Atiende (Barrio)
+              <label for="locationFilterSelect" class="block text-xs font-bold text-[#0F172A] dark:text-slate-200 mb-1">
+                <i class="fa-solid fa-hospital mr-1 text-[#2563EB] dark:text-[#89C7FD]"></i> Dónde Atiende (Barrio)
               </label>
               <select 
                 id="locationFilterSelect" 
-                class="w-full px-3.5 py-2.5 text-sm bg-black/50 border border-white/20 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:outline-none text-white cursor-pointer backdrop-blur-xs [&>option]:text-slate-900 [&>option]:bg-white"
+                class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none text-[#0F172A] dark:text-white cursor-pointer"
               >
                 <option value="todos">Todos los barrios de Río Cuarto</option>
                 <option value="Banda Norte">Banda Norte</option>
@@ -444,22 +1016,22 @@
 
         </div>
 
-        <!-- LISTA SCROLLEABLE ÚNICA DE PROFESIONALES (CADA UNO TRANSPARENTE PERO UN POQUITO MÁS OPACO) -->
+        <!-- LISTA SCROLLEABLE ÚNICA DE PROFESIONALES -->
         <div class="mt-4">
           <div id="doctorsListContainer" class="max-h-[520px] overflow-y-auto pr-1.5 custom-scrollbar space-y-3">
             <!-- Inyectado dinámicamente con JavaScript -->
           </div>
 
           <!-- Estado Vacío dentro de la Card si no hay coincidencias -->
-          <div id="noDoctorsEmptyState" class="hidden py-12 px-4 text-center bg-black/30 backdrop-blur-xs rounded-2xl border border-white/10">
-            <div class="w-14 h-14 rounded-full bg-white/10 text-emerald-400 flex items-center justify-center mx-auto text-xl mb-3">
+          <div id="noDoctorsEmptyState" class="hidden py-12 px-4 text-center bg-slate-50 dark:bg-[#0B1326] rounded-2xl border border-slate-200 dark:border-slate-800">
+            <div class="w-14 h-14 rounded-full bg-blue-100 dark:bg-[#162035] text-[#2563EB] dark:text-[#89C7FD] flex items-center justify-center mx-auto text-xl mb-3">
               <i class="fa-solid fa-user-xmark"></i>
             </div>
-            <h3 class="text-base font-bold text-white mb-1">No se encontraron profesionales</h3>
-            <p class="text-xs text-slate-300 mb-4">
+            <h3 class="text-base font-bold text-[#0F172A] dark:text-white mb-1">No se encontraron profesionales</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
               No hay médicos registrados que coincidan con los filtros seleccionados.
             </p>
-            <button type="button" onclick="resetDoctorFilters()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow cursor-pointer">
+            <button type="button" onclick="resetDoctorFilters()" class="px-5 py-2 bg-[#2563EB] dark:bg-[#4D8EFF] hover:opacity-90 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer">
               <i class="fa-solid fa-arrows-rotate mr-1"></i> Restablecer búsqueda
             </button>
           </div>
@@ -469,126 +1041,183 @@
     </section>
 
     <!-- ======================================================================= -->
-    <!-- 6. MÓDULO DE DONACIONES COMUNITARIAS (TOTALMENTE TRANSPARENTE)          -->
+    <!-- 5. MÓDULO DE DONACIONES COMUNITARIAS                                    -->
     <!-- ======================================================================= -->
-    <section id="donaciones" class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
-      <div class="relative isolate overflow-hidden grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto] items-center gap-6 sm:gap-8 rounded-3xl bg-transparent p-4 sm:p-7 text-white">
-        <div class="absolute right-2 bottom-2 text-7xl sm:text-8xl text-emerald-400 opacity-10 pointer-events-none select-none" aria-hidden="true">
-          <i class="fa-solid fa-hand-holding-heart"></i>
+    <section id="donaciones" class="mb-8 sm:mb-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+      <div class="donation-card relative isolate overflow-hidden grid grid-cols-1 lg:grid-cols-[minmax(0,1.55fr)_minmax(280px,0.8fr)] items-center gap-6 sm:gap-8 rounded-3xl p-6 sm:p-8 lg:p-10 text-white shadow-xl border border-white/20" style="background: linear-gradient(110deg, #06152d 0%, #0a3476 55%, #168be8 100%);">
+
+        <div class="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none" aria-hidden="true">
+          <img
+            src="img/Hero.jpg"
+            alt=""
+            class="donation-hero-img w-full h-full object-cover object-right"
+            loading="lazy"
+          >
+          <div class="donation-overlay absolute inset-0"></div>
         </div>
 
-        <div class="relative z-10 min-w-0 max-w-2xl text-center lg:text-left">
-          <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/70 text-emerald-300 text-xs font-bold mb-3 border border-emerald-500/40">
-            <i class="fa-solid fa-heart"></i> Solidaridad Barrial • Río Cuarto
+        <div class="donation-blue-shape z-0" aria-hidden="true"></div>
+
+        <div class="absolute right-8 top-5 z-0 text-6xl sm:right-12 sm:top-6 sm:text-7xl text-sky-200/50 pointer-events-none select-none" aria-hidden="true">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+        <div class="absolute right-7 bottom-8 z-0 flex flex-col gap-2 opacity-25 pointer-events-none" aria-hidden="true">
+          <span class="h-3 w-16 rounded-full bg-sky-200 sm:w-20"></span>
+          <span class="h-3 w-20 rounded-full bg-sky-200 sm:w-24"></span>
+        </div>
+
+        <div class="relative z-10 min-w-0 max-w-3xl text-left">
+          <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1D5A9A]/80 text-white text-xs font-bold mb-3 border border-sky-200/40 shadow-sm">
+            <i class="fa-solid fa-heart text-red-500"></i> Solidaridad Barrial • Río Cuarto
           </span>
-          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight mb-3 text-white drop-shadow-md">
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-[1.05] mb-2 text-white">
             Apoyá a los Dispensarios y Consultorios de tu Barrio
           </h2>
-          <p class="text-slate-200 text-sm sm:text-base leading-relaxed mb-4 font-medium drop-shadow-xs">
+          <p class="text-blue-50 text-sm sm:text-base leading-snug mb-3 font-medium">
             Tus donaciones de insumos descartables (gasas, apósitos, alcohol) o aportes voluntarios ayudan a mantener equipados los centros de salud de Alberdi, Banda Norte y Villa Dalcar.
           </p>
 
-          <!-- Datos Bancarios Transparentes pero Legibles -->
-          <div class="p-3.5 rounded-2xl bg-black/40 backdrop-blur-sm border border-white/20 text-xs text-slate-100 max-w-lg mx-auto lg:mx-0 text-left shadow-lg">
-            <strong class="block font-bold mb-1 text-white"><i class="fa-solid fa-building-columns mr-1 text-emerald-400"></i> Aporte Bancario Oficial (Cooperadora de Salud):</strong>
-            <div class="space-y-0.5">
-              <span><strong>Alias:</strong> <code class="bg-white/15 px-2 py-0.5 rounded font-mono break-all text-white border border-white/10">SALUD.BARRIAL.RIO4</code></span><br>
-              <span><strong>CBU:</strong> <code class="bg-white/15 px-2 py-0.5 rounded font-mono break-all text-white border border-white/10">0110432920043200981234</code></span>
+          <div class="donation-bank-panel max-w-xl p-3 sm:p-4 text-xs text-white backdrop-blur-sm">
+            <strong class="block font-bold mb-1.5 text-white"><i class="fa-solid fa-building-columns mr-1 text-sky-200"></i> Aporte Bancario Oficial (Cooperadora de Salud):</strong>
+            <div class="flex flex-col gap-1">
+              <span><strong>Alias:</strong> <code class="break-all bg-white/15 px-2 py-0.5 rounded-lg font-mono text-white font-bold">SALUD.BARRIAL.RIO4</code></span>
+              <span><strong>CBU:</strong> <code class="break-all bg-white/15 px-2 py-0.5 rounded-lg font-mono text-white font-bold">0110432920043200981234</code></span>
             </div>
           </div>
         </div>
 
-        <!-- Botón de Acción Directa -->
-        <div class="relative z-10 w-full lg:w-auto">
-          <button 
+        <div class="relative z-10 w-full lg:justify-self-end">
+          <button
             type="button" 
             onclick="openDonationModal()" 
-            class="w-full lg:w-auto px-6 sm:px-8 py-4 rounded-2xl bg-white hover:bg-slate-100 active:scale-95 text-black font-black text-sm shadow-2xl transition-all cursor-pointer flex items-center justify-center gap-2"
+            class="donation-action cursor-pointer active:scale-[0.98]"
           >
-            <i class="fa-solid fa-hand-holding-dollar text-base text-black"></i> Realizar una Donación o Aporte
+            <span class="donation-action-icon"><i class="fa-solid fa-hand-holding-heart"></i></span>
+            <span class="flex-1">Realizar una Donación o Aporte</span>
+            <i class="donation-action-arrow fa-solid fa-chevron-right"></i>
           </button>
         </div>
 
       </div>
     </section>
 
-    <!-- ======================================================================= -->
-    <!-- 7. FOOTER INSTITUCIONAL (100% TRANSPARENTE)                            -->
-    <!-- ======================================================================= -->
-    <footer class="bg-transparent text-slate-200 border-t border-white/10 pt-8 pb-6">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pb-6 border-b border-white/10">
-          
-          <!-- Columna 1: Identidad con Logo Oficial -->
-          <div>
-            <div class="flex items-center gap-2.5 mb-2">
-              <img src="img/logo.jpg" alt="Logo de SaludBarrial" class="w-8 h-8 rounded-lg object-cover border border-white/30">
-              <span class="text-lg font-bold text-white tracking-tight drop-shadow-sm">SaludBarrial</span>
-            </div>
-            <p class="text-[11px] text-slate-300 leading-relaxed">
-              Plataforma comunitaria de acceso a la salud para <strong>SaludPrimero</strong>. Promoviendo la descentralización de turnos y la atención primaria en los barrios de Río Cuarto.
-            </p>
-          </div>
+    </div><!-- /ad-layout-content -->
 
-          <!-- Columna 2: Datos de Contacto Oficial -->
+    <!-- ── Skyscraper DERECHO (solo desktop ≥1200px) ── -->
+    <aside class="ad-skyscraper ad-skyscraper-right" aria-label="Publicidad de productos para computadoras">
+      <div class="ad-skyscraper-inner">
+        <div class="ad-unit ad-promo-tall ad-promo-computing" style="width:160px;height:600px;">
+          <span class="ad-unit-label uppercase tracking-[0.16em] text-blue-100">Tecnología para tu espacio</span>
+          <div class="ad-promo-icon"><i class="fa-solid fa-computer"></i></div>
           <div>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-2">Sede Central y Contacto</h3>
-            <ul class="space-y-1.5 text-[11px] text-slate-300">
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-map-pin text-emerald-400 w-4"></i> Constitución 988, Río Cuarto, Cba.
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-solid fa-phone text-emerald-400 w-4"></i> Tel: 0800 444 5454
-              </li>
-              <li class="flex items-center gap-2">
-                <i class="fa-brands fa-whatsapp text-emerald-400 w-4"></i> WhatsApp: 358 428 3673
-              </li>
-            </ul>
+            <h2 class="text-lg font-black leading-tight">Equipá tu computadora</h2>
+            <p class="mt-3 text-xs leading-relaxed text-blue-100">Encontrá componentes y accesorios para trabajar, estudiar o jugar.</p>
           </div>
-
-          <!-- Columna 3: Enlaces y Redes -->
-          <div>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-2">Redes Comunitarias</h3>
-            <p class="text-[11px] text-slate-300 mb-2">Seguí las novedades de salud barrial y campañas de vacunación:</p>
-            <div class="flex items-center gap-2">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs transition-colors cursor-pointer" aria-label="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs transition-colors cursor-pointer" aria-label="Facebook">
-                <i class="fa-brands fa-facebook"></i>
-              </a>
-              <a href="mailto:contacto@saludprimero.gob.ar" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs transition-colors cursor-pointer" aria-label="Correo de SaludPrimero">
-                <i class="fa-solid fa-envelope"></i>
-              </a>
-            </div>
-            <span class="block text-[10px] text-slate-400 mt-1.5">@MuniSaludDigital • @munisalud_app</span>
+          <div class="w-full rounded-xl border border-white/15 bg-white/10 p-3 text-left">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-100">Productos de computación</p>
+            <p class="mt-2 text-xs font-semibold leading-relaxed"><i class="fa-solid fa-memory mr-1.5 text-sky-200"></i>Componentes</p>
+            <p class="text-xs font-semibold leading-relaxed"><i class="fa-solid fa-keyboard mr-1.5 text-sky-200"></i>Periféricos</p>
+            <p class="text-xs font-semibold leading-relaxed"><i class="fa-solid fa-headphones mr-1.5 text-sky-200"></i>Accesorios</p>
           </div>
-
+          <a href="https://www.google.com/search?q=productos+de+computacion+componentes+y+accesorios" target="_blank" rel="noopener noreferrer" class="ad-promo-action">Ver productos <i class="fa-solid fa-arrow-right"></i></a>
         </div>
-
-        <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-slate-400">
-          <p>© 2026 SaludBarrial • Entidad SaludPrimero. Todos los derechos reservados.</p>
-          <p>Desarrollado con HTML5 Semántico, TailwindCSS y JS Vanilla para Río Cuarto.</p>
+        <div class="ad-unit ad-promo-square" style="width:160px;height:160px;">
+          <i class="fa-solid fa-keyboard text-2xl text-[#20309A] dark:text-blue-300"></i>
+          <h2 class="text-xs font-black leading-tight">Accesorios para tu PC</h2>
+          <p class="text-[10px] leading-tight text-slate-600 dark:text-slate-300">Teclados, periféricos y más.</p>
+          <a href="https://www.google.com/search?q=accesorios+para+computadora" target="_blank" rel="noopener noreferrer" class="ad-promo-action"><i class="fa-solid fa-arrow-up-right-from-square"></i> Explorar</a>
         </div>
-
       </div>
-    </footer>
+    </aside>
+
+  </div><!-- /ad-layout-wrapper -->
 
   </main>
 
+  <!-- =========================================================================
+       STICKY BOTTOM BANNER (Tablet/Mobile <1200px)
+       Se oculta automáticamente en desktop via CSS
+  ========================================================================= -->
+  <div class="ad-sticky-bottom" role="complementary" aria-label="Publicidad">
+    <button
+      type="button"
+      onclick="this.closest('.ad-sticky-bottom').style.display='none'; document.body.style.paddingBottom='0'; document.getElementById('floatingEmergencyBtn').style.bottom='24px';"
+      class="absolute top-1 right-2 w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 text-[9px] flex items-center justify-center hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer z-10"
+      aria-label="Cerrar banner"
+    >✕</button>
+    <div class="ad-unit ad-promo-horizontal">
+      <a href="https://www.google.com/search?q=autos+nuevos+y+usados+en+venta" target="_blank" rel="noopener noreferrer" class="ad-promo-mini">
+        <i class="fa-solid fa-car-side"></i>
+        <span><strong>Autos</strong><span>Ver opciones</span></span>
+      </a>
+      <a href="https://www.google.com/search?q=productos+de+computacion+componentes+y+accesorios" target="_blank" rel="noopener noreferrer" class="ad-promo-mini">
+        <i class="fa-solid fa-computer"></i>
+        <span><strong>Computación</strong><span>Ver productos</span></span>
+      </a>
+    </div>
+  </div>
+
   <!-- ========================================================================= -->
-  <!-- 8. BOTÓN FLOTANTE DE EMERGENCIA (FAB) ABAJO A LA DERECHA                  -->
+  <!-- 6. FOOTER INSTITUCIONAL FINO AL PIE EXACTO DE LA PÁGINA                  -->
+  <!-- ========================================================================= -->
+  <footer class="mt-auto w-full bg-white dark:bg-[#060E20] text-slate-600 dark:text-slate-400 border-t border-[#EAEEF4] dark:border-[#172138] py-4 sm:py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pb-3 border-b border-slate-200 dark:border-slate-800 text-xs">
+        
+        <!-- Identidad Tipográfica con Punto Verde -->
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+          <span class="text-base font-black text-[#0F172A] dark:text-white tracking-tight">SaludBarrial</span>
+          <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">|</span>
+          <span class="text-slate-500 dark:text-slate-400 text-[11px] hidden sm:inline">SaludPrimero • Constitución 988, Río Cuarto</span>
+        </div>
+
+        <!-- Contacto Rápido -->
+        <div class="flex flex-wrap items-center justify-center gap-4 text-[11px]">
+          <a href="tel:08004445454" class="hover:text-[#2563EB] dark:hover:text-[#89C7FD] transition-colors flex items-center gap-1">
+            <i class="fa-solid fa-phone text-[#2563EB] dark:text-[#89C7FD]"></i> 0800 444 5454
+          </a>
+          <a href="https://wa.me/5493584283673" target="_blank" rel="noopener noreferrer" class="hover:text-[#059669] dark:hover:text-[#00A572] transition-colors flex items-center gap-1">
+            <i class="fa-brands fa-whatsapp text-emerald-500"></i> 358 428 3673
+          </a>
+          <a href="mailto:contacto@saludprimero.gob.ar" class="hover:text-[#2563EB] dark:hover:text-[#89C7FD] transition-colors flex items-center gap-1">
+            <i class="fa-solid fa-envelope text-[#2563EB] dark:text-[#89C7FD]"></i> contacto@saludprimero.gob.ar
+          </a>
+        </div>
+
+        <!-- Redes Sociales -->
+        <div class="flex items-center gap-2">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-[#162035] hover:bg-[#2563EB] dark:hover:bg-[#4D8EFF] hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs transition-colors" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-[#162035] hover:bg-[#2563EB] dark:hover:bg-[#4D8EFF] hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs transition-colors" aria-label="Facebook">
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Copyright al ras del pie de página -->
+      <div class="pt-3 flex flex-col sm:flex-row items-center justify-between gap-1 text-[10px] text-slate-400 dark:text-slate-500">
+        <p>© 2026 SaludBarrial • Entidad SaludPrimero. Todos los derechos reservados.</p>
+        <p>Guía de Salud Comunitaria • Río Cuarto, Córdoba.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- 7. BOTÓN FLOTANTE DE EMERGENCIA (FAB 107) EN ROJO                         -->
   <!-- ========================================================================= -->
   <button 
     id="floatingEmergencyBtn"
     type="button" 
     onclick="openFloatingEmergencyModal()"
-    class="fixed bottom-6 right-4 md:right-8 z-50 flex items-center gap-2.5 px-4 md:px-5 py-3 md:py-3.5 bg-red-600 hover:bg-red-700 active:scale-95 text-white font-black text-xs md:text-sm rounded-full shadow-2xl shadow-red-600/60 animate-pulse transition-all cursor-pointer border-2 border-white/40"
+    class="fixed bottom-6 right-4 md:right-8 z-50 flex items-center gap-2.5 px-4 md:px-5 py-3 md:py-3.5 bg-[#DC2626] dark:bg-[#FF5451] hover:opacity-90 active:scale-95 text-white font-black text-xs md:text-sm rounded-full shadow-2xl animate-pulse transition-all cursor-pointer border-2 border-white/60"
     aria-label="Abrir asistente de emergencias médicas y botón 107"
   >
     <div class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-base">
-      <i class="fa-solid fa-phone-volume"></i>
+      <i class="fa-solid fa-phone"></i>
     </div>
     <span>EMERGENCIA 107</span>
   </button>
@@ -600,16 +1229,16 @@
     <div class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm transition-opacity" onclick="closeFloatingSuggestionModal()"></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-sky-200 dark:border-sky-800">
+      <div class="relative transform overflow-hidden rounded-3xl bg-white dark:bg-[#222A3D] text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-[#EAEEF4] dark:border-[#172138]">
         
-        <div class="bg-gradient-to-r from-sky-600 to-cyan-600 px-6 py-5 text-white flex items-center justify-between">
+        <div class="suggestions-modal-header px-6 py-5 text-white flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg">
               <i class="fa-solid fa-comment-medical"></i>
             </div>
             <div>
               <h3 id="modalSuggestionsHeader" class="text-lg font-black leading-tight">Buzón de Sugerencias Barriales</h3>
-              <p class="text-xs text-sky-100">SaludPrimero • Participación Ciudadana Río Cuarto</p>
+              <p class="text-xs text-blue-100">SaludPrimero • Participación Ciudadana Río Cuarto</p>
             </div>
           </div>
           <button type="button" onclick="closeFloatingSuggestionModal()" class="text-white/80 hover:text-white text-xl p-1 cursor-pointer" aria-label="Cerrar modal">
@@ -617,16 +1246,16 @@
           </button>
         </div>
 
-        <form id="floatingSuggestionForm" onsubmit="handleFloatingSuggestion(event)" class="p-6 space-y-4 text-slate-900 dark:text-slate-100">
+        <form id="floatingSuggestionForm" onsubmit="handleFloatingSuggestion(event)" class="p-6 space-y-4 text-[#0F172A] dark:text-[#DAE2FD]">
           
           <div>
             <label for="sugName" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nombre y Apellido</label>
-            <input type="text" id="sugName" required placeholder="Tu nombre" class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white">
+            <input type="text" id="sugName" required placeholder="Tu nombre" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white">
           </div>
 
           <div>
             <label for="sugBarrio" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tu Barrio en Río Cuarto</label>
-            <select id="sugBarrio" required class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white cursor-pointer">
+            <select id="sugBarrio" required class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white cursor-pointer">
               <option value="Banda Norte">Banda Norte</option>
               <option value="Alberdi">Alberdi</option>
               <option value="Villa Dalcar">Villa Dalcar</option>
@@ -637,7 +1266,7 @@
 
           <div>
             <label for="sugType" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tipo de Mensaje</label>
-            <select id="sugType" required class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white cursor-pointer">
+            <select id="sugType" required class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white cursor-pointer">
               <option value="Horario desactualizado">Reportar horario de atención desactualizado</option>
               <option value="Falta de especialista">Falta de médico de turno o insumos</option>
               <option value="Sugerencia general">Sugerencia para mejorar el servicio</option>
@@ -647,14 +1276,14 @@
 
           <div>
             <label for="sugMessage" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Detalle de tu Sugerencia</label>
-            <textarea id="sugMessage" rows="3" required placeholder="Escribí aquí tu mensaje..." class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white"></textarea>
+            <textarea id="sugMessage" rows="3" required placeholder="Escribí aquí tu mensaje..." class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white"></textarea>
           </div>
 
           <div class="pt-2 flex justify-end gap-2">
-            <button type="button" onclick="closeFloatingSuggestionModal()" class="px-4 py-2 bg-surface-insetLight dark:bg-surface-insetDark text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer">
+            <button type="button" onclick="closeFloatingSuggestionModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 cursor-pointer">
               Cancelar
             </button>
-            <button type="submit" class="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-md transition-colors flex items-center gap-1.5 cursor-pointer">
+            <button type="submit" class="px-5 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs rounded-xl shadow-md transition-colors flex items-center gap-1.5 cursor-pointer">
               <i class="fa-solid fa-paper-plane"></i> Enviar Sugerencia
             </button>
           </div>
@@ -666,17 +1295,17 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: ASISTENTE DE EMERGENCIA Y TRIAJE RÁPIDO                            -->
+  <!-- MODAL: ASISTENTE DE EMERGENCIA Y TRIAJE RÁPIDO EN ROJO                    -->
   <!-- ========================================================================= -->
-  <div id="floatingEmergencyModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modalEmergencyHeader" role="dialog" aria-modal="true">
+  <div id="floatingEmergencyModal" class="hidden fixed inset-0 z-50 overflow-hidden" aria-labelledby="modalEmergencyHeader" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="closeFloatingEmergencyModal()"></div>
 
-    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-xl border-2 border-sky-300 dark:border-sky-700">
+    <div class="flex h-full min-h-0 items-center justify-center p-2 text-center sm:p-4">
+      <div class="emergency-modal-card relative flex w-full max-w-xl flex-col overflow-hidden rounded-3xl bg-white dark:bg-[#222A3D] text-left shadow-2xl transition-all border-2 border-[#DC2626] dark:border-[#FF5451]">
         
-        <div class="bg-gradient-to-r from-sky-700 to-cyan-700 px-6 py-5 text-white flex items-center justify-between">
+        <div class="emergency-modal-header bg-gradient-to-r from-[#DC2626] to-[#B91C1C] dark:from-[#991B1B] dark:to-[#7F1D1D] px-4 py-3 sm:px-6 sm:py-4 text-white flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center text-xl">
+            <div class="emergency-modal-header-icon w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-lg sm:w-11 sm:h-11 sm:text-xl">
               <i class="fa-solid fa-truck-medical animate-bounce"></i>
             </div>
             <div>
@@ -689,46 +1318,46 @@
           </button>
         </div>
 
-        <div class="p-6 space-y-5">
+        <div class="emergency-modal-body min-h-0 p-3 sm:p-5 space-y-3 sm:space-y-4">
           
           <div>
-            <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
+            <label class="emergency-scenario-label block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5 sm:mb-2">
               ¿Qué situación está ocurriendo ahora mismo?
             </label>
             <div class="grid grid-cols-2 gap-2" id="triageTabs">
-              <button type="button" onclick="selectTriageScenario('rcp')" class="triage-tab active p-2.5 rounded-xl border text-left text-xs font-bold transition-all cursor-pointer bg-red-50 border-red-400 text-red-700 dark:bg-red-950/60 dark:border-red-700 dark:text-red-300">
-                <i class="fa-solid fa-heart-pulse mr-1"></i> 1. Paro / No Respira
+              <button type="button" data-scenario="rcp" onclick="selectTriageScenario('rcp')" class="triage-tab active cursor-pointer" aria-pressed="true">
+                <i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> 1. No respira / RCP
               </button>
-              <button type="button" onclick="selectTriageScenario('heimlich')" class="triage-tab p-2.5 rounded-xl border border-sky-200 dark:border-sky-700 text-left text-xs font-bold transition-all cursor-pointer text-slate-700 dark:text-slate-200 hover:bg-sky-100 dark:hover:bg-sky-900">
-                <i class="fa-solid fa-person-burst mr-1"></i> 2. Atragantamiento
+              <button type="button" data-scenario="heimlich" onclick="selectTriageScenario('heimlich')" class="triage-tab cursor-pointer" aria-pressed="false">
+                <i class="fa-solid fa-person-burst" aria-hidden="true"></i> 2. Atragantamiento
               </button>
-              <button type="button" onclick="selectTriageScenario('hemorragia')" class="triage-tab p-2.5 rounded-xl border border-sky-200 dark:border-sky-700 text-left text-xs font-bold transition-all cursor-pointer text-slate-700 dark:text-slate-200 hover:bg-sky-100 dark:hover:bg-sky-900">
-                <i class="fa-solid fa-droplet mr-1"></i> 3. Hemorragia
+              <button type="button" data-scenario="hemorragia" onclick="selectTriageScenario('hemorragia')" class="triage-tab cursor-pointer" aria-pressed="false">
+                <i class="fa-solid fa-droplet" aria-hidden="true"></i> 3. Hemorragia
               </button>
-              <button type="button" onclick="selectTriageScenario('desmayo')" class="triage-tab p-2.5 rounded-xl border border-sky-200 dark:border-sky-700 text-left text-xs font-bold transition-all cursor-pointer text-slate-700 dark:text-slate-200 hover:bg-sky-100 dark:hover:bg-sky-900">
-                <i class="fa-solid fa-bed mr-1"></i> 4. Desmayo / Caída
+              <button type="button" data-scenario="desmayo" onclick="selectTriageScenario('desmayo')" class="triage-tab cursor-pointer" aria-pressed="false">
+                <i class="fa-solid fa-bed" aria-hidden="true"></i> 4. Desmayo / caída
               </button>
             </div>
           </div>
 
-          <div id="triageContent" class="p-4 rounded-2xl bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 text-xs sm:text-sm text-slate-700 dark:text-slate-200 space-y-2.5">
+          <div id="triageContent" class="emergency-triage-content flex-1 min-h-0 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700" aria-live="polite">
             <!-- Inyectado por JS -->
           </div>
 
           <div class="pt-2">
-            <a href="tel:107" class="w-full py-3.5 px-4 bg-red-600 hover:bg-red-700 text-white font-black text-sm rounded-2xl shadow-xl shadow-red-600/40 flex items-center justify-center gap-2 active:scale-95 transition-all text-center">
+            <a href="tel:107" class="emergency-call-link w-full py-2.5 px-4 bg-[#DC2626] dark:bg-[#FF5451] hover:opacity-90 text-white font-black text-sm rounded-2xl shadow-xl shadow-red-600/30 flex items-center justify-center gap-2 active:scale-95 transition-all text-center">
               <i class="fa-solid fa-phone-volume text-lg animate-pulse"></i>
               <span>LLAMAR AHORA AL 107 (AMBULANCIA)</span>
             </a>
-            <span class="block text-center text-[11px] text-slate-400 mt-2">
+            <span class="emergency-call-note block text-center text-[11px] text-slate-500 dark:text-slate-400 mt-2">
               Llamada gratuita inmediata conectada a la central de emergencias de Río Cuarto.
             </span>
           </div>
 
         </div>
 
-        <div class="bg-surface-insetLight dark:bg-surface-insetDark px-6 py-3.5 flex justify-end border-t border-sky-200 dark:border-sky-800">
-          <button type="button" onclick="closeFloatingEmergencyModal()" class="px-4 py-2 bg-surface-insetLight dark:bg-surface-insetDark text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer">
+        <div class="emergency-modal-footer bg-slate-100 dark:bg-[#162035] px-4 py-2.5 sm:px-6 sm:py-3.5 flex justify-end border-t border-slate-200 dark:border-slate-700">
+          <button type="button" onclick="closeFloatingEmergencyModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-slate-300 dark:hover:bg-slate-700 cursor-pointer">
             Cerrar Asistente
           </button>
         </div>
@@ -744,16 +1373,16 @@
     <div class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm transition-opacity" onclick="closeDonationModal()"></div>
     
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-3xl bg-surface-light dark:bg-surface-dark text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-sky-200 dark:border-sky-800">
+      <div class="relative transform overflow-hidden rounded-3xl bg-white dark:bg-[#222A3D] text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-[#EAEEF4] dark:border-[#172138]">
         
-        <div class="bg-gradient-to-r from-sky-700 to-cyan-700 px-6 py-5 text-white flex items-center justify-between">
+        <div class="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] dark:from-[#1E3A8A] dark:to-[#172554] px-6 py-5 text-white flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg">
               <i class="fa-solid fa-hand-holding-heart"></i>
             </div>
             <div>
               <h3 id="modalDonationTitle" class="text-lg font-bold leading-6">Formulario de Donación</h3>
-              <p class="text-xs text-emerald-100">Apoyo a dispensarios de Río Cuarto</p>
+              <p class="text-xs text-blue-100">Apoyo a dispensarios de Río Cuarto</p>
             </div>
           </div>
           <button type="button" onclick="closeDonationModal()" class="text-white/80 hover:text-white text-lg p-1 cursor-pointer" aria-label="Cerrar modal">
@@ -761,33 +1390,33 @@
           </button>
         </div>
 
-        <form id="donationForm" onsubmit="handleDonationSubmit(event)" class="p-6 space-y-4 text-slate-900 dark:text-slate-100">
+        <form id="donationForm" onsubmit="handleDonationSubmit(event)" class="p-6 space-y-4 text-[#0F172A] dark:text-[#DAE2FD]">
           
-          <div class="p-3.5 rounded-2xl bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 text-xs text-slate-800 dark:text-slate-100">
-            <strong class="block font-bold mb-1"><i class="fa-solid fa-building-columns mr-1"></i> Aporte Bancario Directo (Cooperadora de Salud):</strong>
+          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-[#0B1326] border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-100">
+            <strong class="block font-bold mb-1"><i class="fa-solid fa-building-columns mr-1 text-[#2563EB] dark:text-[#89C7FD]"></i> Aporte Bancario Directo (Cooperadora de Salud):</strong>
             <div class="space-y-0.5">
-              <span><strong>Alias:</strong> <code class="bg-white/70 dark:bg-surface-dark px-1.5 py-0.5 rounded font-mono">SALUD.BARRIAL.RIO4</code></span><br>
-              <span><strong>CBU:</strong> <code class="bg-white/70 dark:bg-surface-dark px-1.5 py-0.5 rounded font-mono">0110432920043200981234</code></span><br>
-              <span class="text-[10px] text-sky-800 dark:text-sky-200">Banco de Córdoba • CUIT: 30-99912345-4</span>
+              <span><strong>Alias:</strong> <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">SALUD.BARRIAL.RIO4</code></span><br>
+              <span><strong>CBU:</strong> <code class="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">0110432920043200981234</code></span><br>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400">Banco de Córdoba • CUIT: 30-99912345-4</span>
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label for="donorName" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nombre y Apellido / Entidad</label>
-              <input type="text" id="donorName" required placeholder="Tu nombre o empresa" class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white">
+              <input type="text" id="donorName" required placeholder="Tu nombre o empresa" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white">
             </div>
 
             <div>
               <label for="donorContact" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Teléfono / WhatsApp</label>
-              <input type="tel" id="donorContact" required placeholder="Ej: 358 412 3456" class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white">
+              <input type="tel" id="donorContact" required placeholder="Ej: 358 412 3456" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white">
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label for="donationType" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tipo de Donación</label>
-              <select id="donationType" required class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white cursor-pointer">
+              <select id="donationType" required class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white cursor-pointer">
                 <option value="Insumos descartables">Insumos (Gasas, jeringas, apósitos)</option>
                 <option value="Medicamentos">Medicamentos esenciales</option>
                 <option value="Equipamiento médico">Equipamiento (Tensiómetro, balanza)</option>
@@ -797,7 +1426,7 @@
 
             <div>
               <label for="targetClinic" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Dispensario Destino</label>
-              <select id="targetClinic" required class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white cursor-pointer">
+              <select id="targetClinic" required class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white cursor-pointer">
                 <option value="Cualquiera que lo necesite">Cualquiera según prioridad</option>
                 <option value="Dispensario N° 3 - Banda Norte">Dispensario N° 3 - Banda Norte</option>
                 <option value="Centro de Salud Municipal - Alberdi">Centro Municipal - Alberdi</option>
@@ -809,14 +1438,14 @@
 
           <div>
             <label for="donationNotes" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Detalles de la donación / Horario para entrega</label>
-            <textarea id="donationNotes" rows="2" placeholder="Ej: 5 cajas de gasas estériles y 10 frascos de alcohol..." class="w-full px-3.5 py-2.5 text-sm bg-surface-insetLight dark:bg-surface-insetDark border border-sky-200 dark:border-sky-800 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none dark:text-white"></textarea>
+            <textarea id="donationNotes" rows="2" placeholder="Ej: 5 cajas de gasas estériles y 10 frascos de alcohol..." class="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-[#0B1326] border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-[#2563EB] focus:outline-none dark:text-white"></textarea>
           </div>
 
           <div class="pt-2 flex justify-end gap-2">
-            <button type="button" onclick="closeDonationModal()" class="px-4 py-2 bg-surface-insetLight dark:bg-surface-insetDark text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-sky-200 dark:hover:bg-sky-800 cursor-pointer">
+            <button type="button" onclick="closeDonationModal()" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-semibold text-xs rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 cursor-pointer">
               Cancelar
             </button>
-            <button type="submit" class="px-5 py-2 bg-sky-700 hover:bg-sky-800 text-white font-bold text-xs rounded-xl shadow-md transition-colors flex items-center gap-1.5 cursor-pointer">
+            <button type="submit" class="px-5 py-2 bg-[#DC2626] dark:bg-[#FF5451] hover:opacity-90 text-white font-bold text-xs rounded-xl shadow-md transition-colors flex items-center gap-1.5 cursor-pointer">
               <i class="fa-solid fa-heart mr-1"></i> Confirmar Aporte
             </button>
           </div>
@@ -830,111 +1459,22 @@
   <!-- ========================================================================= -->
   <!-- TOASTS DE CONFIRMACIÓN VISUAL (ESTADO DE ÉXITO)                            -->
   <!-- ========================================================================= -->
-  <div id="successToast" class="fixed top-20 right-4 z-50 transform translate-y-[-150%] opacity-0 pointer-events-none transition-all duration-300 max-w-sm bg-emerald-600 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
-    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-lg flex-shrink-0">
+  <div id="successToast" class="fixed top-20 right-4 z-50 transform translate-y-[-150%] opacity-0 pointer-events-none transition-all duration-300 max-w-sm bg-[#0F172A] dark:bg-[#162035] text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-200 dark:border-slate-700">
+    <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg flex-shrink-0">
       <i class="fa-solid fa-check"></i>
     </div>
     <div>
       <h4 id="toastTitle" class="font-bold text-xs">¡Acción realizada con éxito!</h4>
-      <p id="toastMessage" class="text-[11px] text-emerald-100">Gracias por colaborar con la comunidad de SaludBarrial.</p>
+      <p id="toastMessage" class="text-[11px] text-slate-300">Gracias por colaborar con la comunidad de SaludBarrial.</p>
     </div>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- JAVASCRIPT VANILLA ES6+ : SCROLL-DRIVEN VIDEO, MAPA, DIRECTORIO Y MODALES -->
+  <!-- JAVASCRIPT VANILLA ES6+ : MAPA, DIRECTORIO, GEOLOCALIZACIÓN Y MODALES    -->
   <!-- ========================================================================= -->
   <script>
     // =========================================================================
-    // 1. CONTROLADOR DE VIDEO CON SCROLL (SCROLL-DRIVEN VIDEO CON LERP SUAVE)
-    // =========================================================================
-    (function initScrollDrivenVideoEngine() {
-      const video = document.getElementById('scrollBgVideo');
-      if (!video) return;
-
-      let targetTime = 0;
-      let currentLerpTime = 0;
-      let isReady = false;
-      let isSeeking = false;
-
-      // Factor de suavizado (lerp): 0.08 proporciona una respuesta natural entre 0.5s y 0.8s
-      const LERP_FACTOR = 0.08;
-
-      function onVideoMetadataReady() {
-        isReady = true;
-        video.pause();
-        // Asegurar primer fotograma visible de inmediato sin parpadeo negro
-        video.currentTime = 0.001;
-        updateVideoTargetTime();
-      }
-
-      if (video.readyState >= 1) {
-        onVideoMetadataReady();
-      } else {
-        video.addEventListener('loadedmetadata', onVideoMetadataReady);
-      }
-
-      // Calcula el segundo exacto del video según la posición vertical del scroll
-      function updateVideoTargetTime() {
-        if (!isReady || !video.duration) return;
-
-        const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-        const scrollProgress = Math.min(1, Math.max(0, scrollY / maxScroll));
-
-        // Margen sutil (0.04s) antes del final absoluto para no disparar evento 'ended' del navegador
-        const playableDuration = Math.max(0, video.duration - 0.04);
-        targetTime = scrollProgress * playableDuration;
-      }
-
-      // Bucle continuo con requestAnimationFrame para sincronización fluida a 60fps/120fps
-      function videoRenderLoop() {
-        if (isReady && video.duration) {
-          const delta = targetTime - currentLerpTime;
-
-          if (Math.abs(delta) > 0.003) {
-            currentLerpTime += delta * LERP_FACTOR;
-            
-            // Delimitar dentro de rango seguro
-            currentLerpTime = Math.max(0, Math.min(currentLerpTime, video.duration - 0.02));
-
-            // Actualizar tiempo de reproducción si el navegador no está saturado
-            if (!isSeeking) {
-              isSeeking = true;
-              try {
-                video.currentTime = currentLerpTime;
-              } catch (e) {
-                isSeeking = false;
-              }
-            }
-          } else if (targetTime === 0 && currentLerpTime !== 0) {
-            // Forzar fotograma inicial en el tope de la página
-            currentLerpTime = 0;
-            try { video.currentTime = 0.001; } catch (e) {}
-          }
-        }
-
-        requestAnimationFrame(videoRenderLoop);
-      }
-
-      video.addEventListener('seeked', () => {
-        isSeeking = false;
-      });
-
-      // Listeners pasivos de alto rendimiento sin bloqueo de hilo
-      window.addEventListener('scroll', updateVideoTargetTime, { passive: true });
-      window.addEventListener('resize', updateVideoTargetTime, { passive: true });
-
-      requestAnimationFrame(videoRenderLoop);
-    })();
-
-    // =========================================================================
-    // 2. TRANSPARENCIA PERMANENTE DEL HEADER (SIN OSCURECERSE AL SCROLLEAR)
-    // =========================================================================
-    // El menú principal se mantiene siempre 100% transparente a petición del diseño
-
-
-    // =========================================================================
-    // 3. REGISTRO DE PROFESIONALES MÉDICOS (COLEGIO DE MÉDICOS DE CÓRDOBA - RÍO 4)
+    // 1. REGISTRO DE PROFESIONALES MÉDICOS (COLEGIO DE MÉDICOS DE CÓRDOBA - RÍO 4)
     // =========================================================================
     const directorioMedicos = [
       {
@@ -949,7 +1489,6 @@
         cobertura: "Atención Gratuita (Sin Obra Social)",
         telefono: "03584671104",
         esGratuito: true,
-        fotoIcon: "fa-baby",
         lat: -33.1380,
         lng: -64.3290
       },
@@ -965,7 +1504,6 @@
         cobertura: "Atención Gratuita (Sin Obra Social)",
         telefono: "03584671103",
         esGratuito: true,
-        fotoIcon: "fa-user-doctor",
         lat: -33.1095,
         lng: -64.3412
       },
@@ -981,7 +1519,6 @@
         cobertura: "Atención Gratuita y Vacunatorio",
         telefono: "03584671108",
         esGratuito: true,
-        fotoIcon: "fa-stethoscope",
         lat: -33.1180,
         lng: -64.3750
       },
@@ -997,7 +1534,6 @@
         cobertura: "Obras Sociales, Prepagas y Particular",
         telefono: "08004445454",
         esGratuito: false,
-        fotoIcon: "fa-heart-pulse",
         lat: -33.1270,
         lng: -64.3510
       },
@@ -1013,7 +1549,6 @@
         cobertura: "Pública y Obras Sociales (Guardia Hospitalaria)",
         telefono: "107",
         esGratuito: true,
-        fotoIcon: "fa-bone",
         lat: -33.1040,
         lng: -64.3350
       },
@@ -1029,7 +1564,6 @@
         cobertura: "Calendario Nacional Oficial Gratuito",
         telefono: "03584671103",
         esGratuito: true,
-        fotoIcon: "fa-syringe",
         lat: -33.1095,
         lng: -64.3412
       }
@@ -1060,13 +1594,13 @@
 
       doctors.forEach(med => {
         const item = document.createElement('div');
-        item.className = "py-4 px-3 sm:px-4 rounded-2xl bg-black/45 backdrop-blur-md hover:bg-black/60 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4 border border-white/20 hover:border-emerald-400/40 shadow-xl";
+        item.className = "py-4 px-3 sm:px-4 rounded-2xl bg-slate-50 dark:bg-[#162035] hover:bg-blue-50/50 dark:hover:bg-[#1C2842] transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4 border border-[#EAEEF4] dark:border-[#172138] shadow-xs";
 
         const badgeGratis = med.esGratuito 
-          ? `<span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">
+          ? `<span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                <i class="fa-solid fa-check"></i> Gratuito
              </span>`
-          : `<span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-white/15 text-slate-100 border border-white/20">
+          : `<span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                <i class="fa-solid fa-file-medical"></i> Obras Sociales
              </span>`;
 
@@ -1075,35 +1609,35 @@
         item.innerHTML = `
           <!-- Datos del Profesional -->
           <div class="flex items-start gap-3.5 flex-1">
-            <div class="w-11 h-11 rounded-2xl bg-white/10 text-emerald-400 flex items-center justify-center text-lg flex-shrink-0 shadow-sm mt-0.5 border border-white/15">
-              <i class="fa-solid ${med.fotoIcon}"></i>
+            <div class="w-11 h-11 rounded-2xl bg-[#2563EB] dark:bg-[#4D8EFF] text-white flex items-center justify-center text-lg flex-shrink-0 shadow-xs mt-0.5">
+              <i class="fa-solid fa-stethoscope"></i>
             </div>
             
             <div class="space-y-1 flex-1">
               <div class="flex items-center gap-2 flex-wrap">
-                <h4 class="text-base font-black text-white leading-tight">
+                <h4 class="text-base font-black text-[#0F172A] dark:text-white leading-tight">
                   ${med.nombre}
                 </h4>
-                <span class="inline-block text-[11px] font-extrabold px-2 py-0.5 bg-white/15 text-white rounded-md border border-white/10">
+                <span class="inline-block text-[11px] font-extrabold px-2 py-0.5 bg-slate-200 dark:bg-[#222A3D] text-slate-700 dark:text-slate-300 rounded-md">
                   ${med.matricula}
                 </span>
                 ${badgeGratis}
               </div>
 
-              <div class="text-xs font-semibold text-emerald-300">
+              <div class="text-xs font-bold text-[#2563EB] dark:text-[#89C7FD]">
                 ${med.especialidad}
               </div>
 
               <!-- Dónde Atiende -->
-              <div class="text-xs text-slate-200 pt-1 space-y-0.5">
+              <div class="text-xs text-slate-500 dark:text-[#94A3B8] pt-1 space-y-0.5">
                 <div class="flex items-center gap-1.5 flex-wrap">
-                  <i class="fa-solid fa-hospital text-emerald-400 w-3.5"></i>
+                  <i class="fa-solid fa-hospital text-[#2563EB] dark:text-[#89C7FD] w-3.5"></i>
                   <span><strong>Dónde atiende:</strong> ${med.centro}</span>
                   <span class="text-slate-400">•</span>
-                  <span class="text-slate-300">${med.direccion}</span>
+                  <span>${med.direccion}</span>
                 </div>
-                <div class="flex items-center gap-1.5 text-slate-200 font-medium">
-                  <i class="fa-regular fa-clock text-amber-300 w-3.5"></i>
+                <div class="flex items-center gap-1.5 font-medium text-slate-500 dark:text-[#94A3B8]">
+                  <i class="fa-regular fa-clock text-amber-500 w-3.5"></i>
                   <span>${med.diasHorarios}</span>
                 </div>
               </div>
@@ -1116,13 +1650,13 @@
               href="https://www.google.com/maps/dir/?api=1&destination=${med.lat},${med.lng}" 
               target="_blank" 
               rel="noopener noreferrer" 
-              class="flex-1 sm:flex-initial py-2 px-3 text-xs font-bold rounded-xl border border-white/25 text-white hover:bg-white/15 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              class="flex-1 sm:flex-initial py-2 px-3 text-xs font-bold rounded-xl border-2 border-[#2563EB] text-[#2563EB] dark:border-[#89C7FD] dark:text-[#89C7FD] hover:bg-[#2563EB] hover:text-white dark:hover:bg-[#4D8EFF] dark:hover:text-white transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <i class="fa-solid fa-location-dot text-emerald-400"></i> Cómo llegar
+              <i class="fa-solid fa-location-dot"></i> Cómo llegar
             </a>
             <a 
               href="${telLink}" 
-              class="flex-1 sm:flex-initial py-2 px-3.5 text-xs font-bold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-colors flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
+              class="flex-1 sm:flex-initial py-2 px-3.5 text-xs font-bold rounded-xl bg-[#DC2626] dark:bg-[#FF5451] hover:opacity-90 text-white transition-colors flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
             >
               <i class="fa-solid fa-phone"></i> Consultar Turno
             </a>
@@ -1175,7 +1709,7 @@
     locationFilterSelect.addEventListener('change', filterDoctors);
 
     // =========================================================================
-    // 4. GEOLOCALIZACIÓN GPS HACIA EL CENTRO ASISTENCIAL MÁS CERCANO
+    // 2. GEOLOCALIZACIÓN GPS HACIA EL CENTRO ASISTENCIAL MÁS CERCANO
     // =========================================================================
     const gpsStatusMessage = document.getElementById('gpsStatusMessage');
 
@@ -1205,7 +1739,7 @@
           });
 
           if (nearest) {
-            gpsStatusMessage.innerHTML = `El centro de salud más cercano es: <strong class="text-sky-600 dark:text-sky-400 font-bold">${nearest.centro}</strong> (${nearest.barrio}).`;
+            gpsStatusMessage.innerHTML = `El centro de salud más cercano es: <strong class="text-white font-bold underline">${nearest.centro}</strong> (${nearest.barrio}).`;
             setTimeout(() => {
               window.open(`https://www.google.com/maps/dir/?api=1&destination=${nearest.lat},${nearest.lng}`, '_blank');
             }, 800);
@@ -1222,7 +1756,7 @@
     }
 
     // =========================================================================
-    // 5. CONMUTADOR DE TEMA CLARO / OSCURO CALIBRADO
+    // 3. CONMUTADOR DE TEMA CLARO / OSCURO CALIBRADO
     // =========================================================================
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
@@ -1230,10 +1764,10 @@
     function updateThemeIcon() {
       const isDark = document.documentElement.classList.contains('dark');
       if (isDark) {
-        themeIcon.className = "fa-solid fa-sun text-amber-300 text-base pointer-events-none";
+        themeIcon.className = "fa-solid fa-sun text-amber-300 text-xs sm:text-sm pointer-events-none";
         themeToggleBtn.setAttribute('aria-label', 'Cambiar a modo claro');
       } else {
-        themeIcon.className = "fa-solid fa-moon text-white text-base pointer-events-none";
+        themeIcon.className = "fa-solid fa-moon text-slate-600 text-xs sm:text-sm pointer-events-none";
         themeToggleBtn.setAttribute('aria-label', 'Cambiar a modo oscuro');
       }
     }
@@ -1251,7 +1785,7 @@
     updateThemeIcon();
 
     // =========================================================================
-    // 6. MENÚ MÓVIL DESPLEGABLE
+    // 4. MENÚ MÓVIL DESPLEGABLE
     // =========================================================================
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -1264,18 +1798,18 @@
       } else {
         mobileMenu.classList.remove('hidden');
         mobileMenuBtn.setAttribute('aria-expanded', 'true');
-        menuIcon.className = 'fa-solid fa-xmark text-lg pointer-events-none';
+        menuIcon.className = 'fa-solid fa-xmark text-sm pointer-events-none';
       }
     });
 
     function closeMobileMenu() {
       mobileMenu.classList.add('hidden');
       mobileMenuBtn.setAttribute('aria-expanded', 'false');
-      menuIcon.className = 'fa-solid fa-bars text-lg pointer-events-none';
+      menuIcon.className = 'fa-solid fa-bars text-sm pointer-events-none';
     }
 
     // =========================================================================
-    // 7. MODAL FLOTANTE DE SUGERENCIAS Y REPORTES
+    // 5. MODAL FLOTANTE DE SUGERENCIAS Y REPORTES
     // =========================================================================
     const suggestionsFloatingModal = document.getElementById('suggestionsFloatingModal');
 
@@ -1298,75 +1832,42 @@
     }
 
     // =========================================================================
-    // 8. ASISTENTE FLOTANTE DE EMERGENCIAS Y TRIAJE RÁPIDO
+    // 6. ASISTENTE FLOTANTE DE EMERGENCIAS Y TRIAJE RÁPIDO
     // =========================================================================
     const floatingEmergencyModal = document.getElementById('floatingEmergencyModal');
     const triageContent = document.getElementById('triageContent');
 
     const triageScenarios = {
       rcp: {
-        title: "Paro Cardíaco / Paciente No Respira",
-        color: "text-red-600 dark:text-red-400",
-        steps: [
-          "<strong>1. Llamar de inmediato al 107</strong> solicitando ambulancia y desfibrilador (DEA).",
-          "<strong>2. Colocar al paciente boca arriba</strong> sobre una superficie plana y firme.",
-          "<strong>3. Posición de manos:</strong> Apoyá el talón de una mano en el centro del esternón y la otra entrelazada encima.",
-          "<strong>4. Compresiones continuas:</strong> Comprimí a un ritmo constante de 100 a 120 compresiones por minuto sin parar hasta que llegue el personal del 107."
-        ]
+        image: "img/guias-emergencia/rcp.png",
+        imageAlt: "Guía rápida de RCP con cinco pasos ilustrados."
       },
       heimlich: {
-        title: "Atragantamiento Severo / Maniobra de Heimlich",
-        color: "text-amber-600 dark:text-amber-400",
-        steps: [
-          "<strong>1. Identificar signo de asfixia:</strong> Manos al cuello sin emitir sonido ni poder toser.",
-          "<strong>2. Posicionate detrás:</strong> Rodeá la cintura de la persona con tus brazos.",
-          "<strong>3. Posicioná tu puño:</strong> Un puño cerrado con el pulgar hacia adentro, 2 dedos arriba del ombligo.",
-          "<strong>4. Compresión hacia adentro y arriba:</strong> Abrazá tu puño con la otra mano y tirá con fuerza hacia adentro y hacia arriba para expulsar el cuerpo extraño."
-        ]
+        image: "img/guias-emergencia/atragantamiento.png",
+        imageAlt: "Guía rápida de la maniobra de Heimlich para atragantamiento."
       },
       hemorragia: {
-        title: "Hemorragia Severa / Corte Profundo",
-        color: "text-rose-600 dark:text-rose-400",
-        steps: [
-          "<strong>1. Presión directa continua:</strong> Colocá una gasa estéril o paño limpio y apretá con firmeza.",
-          "<strong>2. No retirar apósitos:</strong> Si se empapa de sangre, no lo saques; colocá otro encima y continuá presionando.",
-          "<strong>3. Elevar la extremidad:</strong> Mantené el miembro sangrante por encima del nivel del corazón.",
-          "<strong>4. Llamar al 107</strong> para asistencia médica urgente."
-        ]
+        image: "img/guias-emergencia/hemorragia.png",
+        imageAlt: "Guía rápida para detener una hemorragia con pasos ilustrados."
       },
       desmayo: {
-        title: "Desmayo / Pérdida Transitoria de Conocimiento",
-        color: "text-sky-600 dark:text-sky-400",
-        steps: [
-          "<strong>1. Despejar el entorno:</strong> Asegurar aire fresco y aflojar corbatas o cinturones.",
-          "<strong>2. Elevar piernas:</strong> Subir las piernas a 30 cm para facilitar el retorno venoso al cerebro.",
-          "<strong>3. Posición Lateral de Seguridad (PLS):</strong> Si no recobra rápido la conciencia pero respira, colocarlo de costado.",
-          "<strong>4. No dar líquidos ni comida</strong> mientras permanezca aturdido."
-        ]
+        image: "img/guias-emergencia/desmayo-caida.png",
+        imageAlt: "Guía rápida ante pérdida de conocimiento por desmayo o caída."
       }
     };
 
     function selectTriageScenario(key) {
+      const scenarioKey = Object.hasOwn(triageScenarios, key) ? key : 'rcp';
       const tabs = document.querySelectorAll('.triage-tab');
       tabs.forEach(tab => {
-        tab.classList.remove('bg-red-50', 'border-red-400', 'text-red-700', 'dark:bg-red-950/60', 'dark:border-red-700', 'dark:text-red-300');
-        tab.classList.add('border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
+        const isSelected = tab.dataset.scenario === scenarioKey;
+        tab.classList.toggle('active', isSelected);
+        tab.setAttribute('aria-pressed', String(isSelected));
       });
 
-      const clickedBtn = event.currentTarget;
-      if (clickedBtn) {
-        clickedBtn.classList.remove('border-slate-200', 'dark:border-slate-700', 'text-slate-700', 'dark:text-slate-300');
-        clickedBtn.classList.add('bg-red-50', 'border-red-400', 'text-red-700', 'dark:bg-red-950/60', 'dark:border-red-700', 'dark:text-red-300');
-      }
-
-      const data = triageScenarios[key] || triageScenarios.rcp;
+      const data = triageScenarios[scenarioKey];
       triageContent.innerHTML = `
-        <h4 class="font-black ${data.color} text-sm flex items-center gap-1.5 mb-2">
-          <i class="fa-solid fa-circle-exclamation"></i> ${data.title}
-        </h4>
-        <ul class="space-y-2">
-          ${data.steps.map(step => `<li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-red-500 mt-1 flex-shrink-0"></i><span>${step}</span></li>`).join('')}
-        </ul>
+        <img class="emergency-guide-image" src="${data.image}" alt="${data.imageAlt}" width="600" height="327" decoding="async">
       `;
     }
 
@@ -1382,7 +1883,7 @@
     }
 
     // =========================================================================
-    // 9. MODAL DE DONACIONES COMUNITARIAS
+    // 7. MODAL DE DONACIONES COMUNITARIAS
     // =========================================================================
     const donationModal = document.getElementById('donationModal');
 
@@ -1404,7 +1905,7 @@
     }
 
     // =========================================================================
-    // 10. TOAST GENÉRICO REUTILIZABLE
+    // 8. TOAST GENÉRICO REUTILIZABLE
     // =========================================================================
     const successToast = document.getElementById('successToast');
     const toastTitle = document.getElementById('toastTitle');
@@ -1434,7 +1935,7 @@
     });
 
     // =========================================================================
-    // 11. INICIALIZACIÓN AL CARGAR DOM
+    // 9. INICIALIZACIÓN AL CARGAR DOM
     // =========================================================================
     document.addEventListener('DOMContentLoaded', () => {
       renderDoctorsList(directorioMedicos);

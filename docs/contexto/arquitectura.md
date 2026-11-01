@@ -9,33 +9,26 @@
 | Capa | Tecnología Seleccionada | Justificación Técnica |
 | :--- | :--- | :--- |
 | **Estructura** | **HTML5 Semántico** | Accesibilidad nativa, SEO local y soporte universal en navegadores móviles. |
-| **Estilos** | **TailwindCSS v3 (vía CDN)** | Utilidades modernas, soporte dark mode, diseño responsive y glassmorphism (`backdrop-blur-md`). |
-| **Fondo Multimedia** | **Video MP4 de Alta Resolución (`img/fondo.mp4`)** | Video fijo a pantalla completa (`100vw`, `100vh`, `fixed`, `z-index: -1`, `object-fit: cover`) con ambulancia y fondo verde quirúrgico (`#143830`). |
-| **Sincronización Video** | **JavaScript Vanilla ES6+ (RAF + Lerp)** | Scrub de video controlado por scroll con interpolación lineal fluida (0.5s - 0.8s) hacia adelante y hacia atrás. |
+| **Estilos** | **TailwindCSS v3 (vía CDN)** | Utilidades modernas, paleta tricolor institucional (`#20309A`, `#FFFFFF`, `#BB232B`), soporte dark mode y diseño responsive. |
+| **Hero Multimedia** | **Imagen Hero (`img/fondo_imagen.png`)** | Imagen de alta resolución situada directamente debajo del menú con overlay degradado que maximiza el contraste tipográfico. |
 | **Tipografía** | **Google Fonts ('Inter')** | Alta legibilidad para personas de todas las edades. |
 | **Mapa Real** | **Google Maps Embed + Geolocation API** | Mapa callejero real en vivo de Río Cuarto sin dependencias complejas, con cálculo GPS al centro más cercano. |
 | **Datos Médicos** | **Colegio de Médicos de Córdoba** | Modelo de datos de profesionales con Matrícula Profesional (MP), lugar de atención y horarios. |
-| **Interactividad** | **JavaScript Vanilla (ES6+)** | Lógica de filtrado reactivo, geolocalización, triaje médico y modales sin dependencias pesadas. |
+| **Interactividad** | **JavaScript Vanilla (ES6+)** | Lógica de filtrado reactivo, geolocalización, triaje médico y modales sin dependencias pesadas ni frameworks. |
 
 ---
 
 ## 3. Jerarquía de Secciones (Vertical Layout)
 
-0. **Fondo de Video Controlado por Scroll**:
-   - Elemento `<video id="scrollBgVideo">` posicionado fixed con `pointer-events-none` y `z-index: -1`. Reproducción sincronizada con la posición vertical del scroll (`currentTime` mapeado de 0 a fin).
+1. **Header Fino con Efecto Vidrio (Glass Effect)**:
+   - Barra superior sticky reducida en altura (`h-14 sm:h-16`) con efecto vidrio esmerilado (`bg-[#20309A]/80 dark:bg-[#0A1026]/85 backdrop-blur-md border-b border-white/20`).
+   - Logo tipográfico `SaludBarrial` sin recuadros ni imagen, botones interactivos sutiles y menú móvil desplegable translúcido (`backdrop-blur-xl`).
 
-1. **Header y Navegación**:
-   - Completamente transparente en el Hero (`backdrop-blur-none`, tipografía blanca y esmeralda).
-   - Efecto vidrio esmerilado suave al descender en la página (`bg-slate-950/80 backdrop-blur-md`).
-   - Logo oficial (`img/logo.jpg`), enlaces directos, conmutador de modo claro/oscuro y menú hamburguesa accesible en móvil.
-
-2. **Hero Zone Despejada (100vh)**:
-   - Primera pantalla de impacto visual con la ambulancia del video como protagonista en el centro/derecha.
-   - Espacio superior amplio y despejado.
-   - Tarjeta esmerilada inferior con etiqueta de red barrial, título principal, subtítulo explicativo e indicador de scroll animado.
+2. **Sección de Presentación Principal**:
+   - Bloque inicial tipográfico con badge barrial, título uniforme sin colores diferenciados (*"Encontrá tu dispensario, guardia médica y turnos en tu barrio"*), subtítulo y botones de acción rápida ("Explorar Centros en Mapa" y "Llamar al 107").
 
 3. **Cards de Contacto Directo de Auxilio Rápido**:
-   - 4 tarjetas de auxilio con efecto glassmorphism: **107 (Ambulancia)**, **CardioMed (0800 444 5454)**, **Policía (911/101)** y **Ojos en Alerta (WhatsApp)**.
+   - 4 tarjetas de auxilio con bordes destacados y estados interactivos claros: **107 (Ambulancia - Rojo #BB232B)**, **CardioMed (0800 444 5454 - Azul #20309A)**, **Policía (911/101 - Azul #20309A)** y **Ojos en Alerta (WhatsApp - Rojo #BB232B)**.
 
 4. **Mapa Real Interactivo de la Ciudad de Río Cuarto**:
    - Google Maps Embed callejero de Río Cuarto con geolocalización GPS (`navigator.geolocation`) que guía en tiempo real al dispensario u hospital más cercano.
@@ -47,8 +40,8 @@
 6. **Módulo de Donaciones Comunitarias**:
    - Tarjeta al 100% de ancho con datos bancarios oficiales (Alias / CBU) y botón hacia modal de aporte.
 
-7. **Footer Institucional**:
-   - Constitución 988, Río Cuarto, redes comunitarias y créditos institucionales con fondo traslúcido.
+7. **Footer Institucional Fino al Ras**:
+   - Posicionado exactamente en el pie de página (`mt-auto`) sin separación inferior, con estructura compacta y tipográfica.
 
 8. **Botón Flotante de Emergencia (FAB 107) y Modales**:
    - Botón rojo pulsante anclado abajo a la derecha (`fixed bottom-6 right-4 md:right-8 z-50`).

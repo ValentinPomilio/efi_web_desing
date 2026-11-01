@@ -50,11 +50,59 @@ Este documento almacena los acuerdos, directivas permanentes y contexto consolid
 ---
 
 ### [2026-10-22] Transparencia Total de Frames y Botón GPS Blanco (ADR-014)
-- **Navbar Siempre Transparente**: Desactivado el oscurecimiento por scroll; la barra de navegación se mantiene 100% transparente en cualquier posición de la página.
-- **Hero Frame Transparente**: Eliminada la caja contenedora del Hero para exhibir la ambulancia con tipografía en alto contraste y sombras.
-- **Mapa y Botón GPS**: Marco del mapa completamente transparente (`bg-transparent`); botón *"Ver el centro más cercano (GPS)"* estilizado en blanco con tipografía negra (`bg-white text-black font-black`).
-- **Directorio Médico**: Contenedor principal 100% transparente; tarjetas individuales de médicos con opacidad esmerilada equilibrada (`bg-black/45 backdrop-blur-md border border-white/20`).
-- **Donaciones y Footer Transparentes**: Secciones de donaciones y pie de página con fondos transparentes y bordes limpios sin cortar la visibilidad del video.
+- **Estado**: Superado por ADR-015.
 
+---
 
+### [2026-10-30] Reemplazo de Video por Hero con `fondo_imagen.png` y Paleta Tricolor Institucional (ADR-015)
+- **Eliminación del Video**: Retiro total del `<video id="scrollBgVideo">`, estilos de video fijo y la función JS de sincronización con lerp/requestAnimationFrame.
+- **Hero Section Debajo del Menú**: Posicionamiento directo bajo el navbar con la imagen `img/fondo_imagen.png`, overlay degradado en `#20309A` para máxima legibilidad, botones CTA "Explorar Centros en Mapa" (blanco) y "Llamar al 107" (rojo), e indicador animado de scroll.
+- **Paleta Cromática Institucional (#20309A, #FFFFFF, #BB232B)**:
+  - **Azul Primario (`#20309A`)**: Navbar sticky, botones principales, bordes de sección, títulos destacados, badge de médicos y encabezados de modales.
+  - **Blanco Puro (`#FFFFFF`)**: Superficies limpias en modo claro, tarjetas de doctores y mapa, tipografía sobre fondos oscuros/azules y botones de alto impacto.
+  - **Rojo de Emergencia (`#BB232B`)**: Card de auxilio Línea 107, FAB flotante con pulso, botón de llamado en modal de triaje y botón de confirmación de donaciones.
+- **Consistencia y Accesibilidad**: Cero scroll horizontal (`overflow-x-hidden`), validación completa de scripts sin errores y soporte nativo para conmutación de modo claro y oscuro.
 
+---
+
+### [2026-11-01] Card de Donaciones con Paleta y Degradado del Hero
+- **Coherencia Visual**: La card de donaciones (`#donaciones`) adopta el mismo degradado del Hero: `from-[#06152d] → #0a2347 → #071534`.
+- **Light Mode**: Fondo sólido con el degradado del Hero sin imagen visible (`.donation-hero-img { opacity: 0 }`). El overlay `.donation-overlay` cubre la imagen al 100%.
+- **Dark Mode**: La imagen `Hero.jpg` aparece con opacidad `0.28` en el lateral derecho (`.dark .donation-hero-img { opacity: 0.28 }`), camuflándose bajo el mismo overlay degradado del Hero para lograr continuidad visual.
+- **Técnica**: Se usó CSS nativo (`.donation-hero-img` y `.donation-overlay`) en vez de clases Tailwind `dark:opacity-*`, ya que las variantes `dark:` de Tailwind CDN no se aplican sobre `style=""` inline ni en clases dinámicas fuera del HTML inicial.
+- **Imagen Oficial Hero (`img/Hero.jpg`)**: Ocupa el 100% del ancho del viewport (`w-full`) con encuadre a la derecha (`object-right md:object-[85%_center] lg:object-right`) para preservar con total nitidez la figura de los 3 profesionales de salud.
+- **Título Institucional a la Izquierda**:
+  - Badge institucional: `RED BARRIAL DE SALUD PRIMARIA • RÍO CUARTO`.
+  - Título oficial de la aplicación: `SaludBarrial` con acento en `Barrial` (`#FF5451`) y bajada `SaludPrimero • Río Cuarto`.
+  - Encabezado descriptivo: `Encontrá tu dispensario, guardia médica y turnos en tu barrio`.
+  - Enlace indicador de navegación: Desplazamiento fluido hacia `#lineas-urgencia`.
+- **Degradado Asimétrico Accesible**: Overlay `from-[#06152d]/95 via-[#0a2347]/80 to-transparent` que otorga contraste superior a 14:1 (WCAG AAA) sobre el texto en el lateral izquierdo sin entorpecer la visual de los profesionales de la derecha.
+
+### [2026-11-01] Refinamiento de cards y modales
+- Menú principal más compacto; Hero con esquinas suavemente redondeadas y cards de urgencia más bajas.
+- Directorio médico con estetoscopio unificado; imagen de donaciones visible bajo el degradado azul del Hero y header de sugerencias en `#20309A`.
+- Asistente de emergencia ajustado a la altura del viewport para mostrar la card completa sin scroll; selección de triaje ligada al escenario seleccionado.
+
+### [2026-11-01] Hero de ancho completo y anuncios debajo
+- Hero renderizado a todo el ancho debajo del header, antes del layout de anuncios; los espacios publicitarios comienzan después de la sección.
+
+### [2026-11-01] Espacios publicitarios con contenido útil
+- Se reemplazaron los placeholders vacíos por promociones internas para el mapa, el directorio, las donaciones y la línea 107, adaptadas a banners laterales y al banner móvil/tablet.
+- El banner fijo móvil/tablet ocupa el borde inferior, con el FAB de emergencias por encima para evitar superposición de controles.
+
+### [2026-11-01] Anuncios de autos y computación; actualización visual de donaciones
+- Los anuncios laterales se separaron del borde de la ventana y se asignaron a categorías de autos y productos de computación; el banner móvil incluye ambas.
+- La tarjeta de donaciones adopta el diseño de referencia compartido, conserva la fotografía y los datos bancarios y gana espacio antes del footer.
+
+### [2026-11-01] Banner móvil a pantalla completa y acceso de emergencia compacto
+- El banner de anuncios en móvil/tablet queda fijado al borde inferior y ocupa todo el ancho de la pantalla.
+- El FAB de emergencia queda por encima del banner; en móvil muestra solo el ícono telefónico y mantiene su etiqueta accesible.
+
+### [2026-11-01] Modal de emergencia estable y guía visual local
+- El encabezado del buzón de sugerencias usa el degradado azul marino compartido por Hero y donaciones.
+- La card de emergencias conserva la misma altura entre los cuatro escenarios y muestra guías visuales locales, sin API externa.
+- El material gráfico se presenta como orientación y no sustituye la formación ni las instrucciones del operador del 107.
+
+### [2026-11-01] Botones de triaje con imágenes aportadas
+- Los botones del modal de emergencia conservan texto e íconos. Al elegir uno, el contenido explicativo inferior se reemplaza por la infografía correspondiente, almacenada localmente en `img/guias-emergencia/`.
+- Se conserva la selección visible, `aria-pressed` y el texto accesible de cada botón.

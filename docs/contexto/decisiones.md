@@ -104,11 +104,110 @@ Este documento registra cronológicamente las decisiones técnicas y de diseño 
 
 ### [ADR-014] Transparencia Total de Contenedores y Botón GPS de Alto Contraste
 - **Fecha y Hora**: 2026-10-22 17:35:00
-- **Estado**: Aceptado e Implementado
-- **Contexto**: Ajuste de diseño solicitado por el usuario para maximizar la inmersión del video de fondo (`img/fondo.mp4`), eliminando las cajas sólidas o contenedores oscuros de cada sección:
-  1. **Navegación Fija Siempre Transparente**: El navbar (`#mainHeader`) permanece 100% transparente en todo momento (`bg-transparent border-none`), retirando cualquier oscurecimiento o fondo blur al scrollear hacia abajo.
-  2. **Hero Frame 100% Transparente**: El contenedor de *"Encontrá tu dispensario, guardia médica y turnos en tu barrio"* se despoja de tarjeta/caja opaca, dejando los textos flotando directamente sobre la ambulancia con sombras tipográficas acentuadas (`drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]`).
-  3. **Contenedor del Mapa Transparente & Botón GPS Blanco**: El marco exterior del mapa pasa a `bg-transparent`. El botón *"Ver el centro más cercano (GPS)"* se rediseña a fondo blanco sólido con tipografía e ícono negros (`bg-white text-black font-black`), logrando el máximo contraste y accesibilidad.
-  4. **Directorio Médico Transparente con Tarjetas Semi-Opacas**: El marco exterior del directorio pasa a ser completamente transparente (`bg-transparent`), mientras que cada fila/tarjeta individual de profesional médico mantiene una ligera opacidad esmerilada (`bg-black/45 backdrop-blur-md border border-white/20`) para asegurar una lectura cómoda sobre el video en movimiento.
-  5. **Módulo de Donaciones y Footer Transparentes**: Tanto el contenedor de donaciones como el pie de página (`footer`) adoptan fondo 100% transparente con bordes sutiles (`border-white/10`), permitiendo visualizar la escena final del video sin interrupciones.
+- **Estado**: Superado por ADR-015
+- **Contexto**: Ajuste previo para video de fondo con transparencia.
 
+---
+
+### [ADR-015] Retiro del Video, Implementación de Hero con `img/fondo_imagen.png` y Nueva Paleta Cromática Institucional (#20309A, #FFFFFF, #BB232B)
+- **Fecha y Hora**: 2026-10-30 16:00:00
+- **Estado**: Aceptado e Implementado
+- **Contexto**: Solicitud explícita del usuario para retirar el video de fondo (`img/fondo.mp4`) y toda su lógica de animación por scroll, reemplazándolo por una Hero section con la imagen `img/fondo_imagen.png` ubicada debajo del menú, y unificar toda la estética de la aplicación bajo una tríada cromática institucional:
+  1. **Retiro Completo del Video y Animación Lerp**:
+     - Eliminación del tag `<video id="scrollBgVideo">` y estilos CSS de fijación.
+     - Supresión total del motor JS de sincronización de video por scroll (`initScrollDrivenVideoEngine`), liberando uso de CPU y decodificación de hardware.
+  2. **Hero Section con `img/fondo_imagen.png`**:
+     - Sección destacada (`min-h-[75vh] md:min-h-[85vh]`) debajo del menú de navegación.
+     - Integración de `img/fondo_imagen.png` con overlay gradiente en `#20309A` para contraste tipográfico de alta legibilidad (WCAG AAA).
+     - Incorporación de dos botones de acción directa: "Explorar Centros en Mapa" (blanco `#FFFFFF` con texto `#20309A`) y "Llamar al 107" (rojo `#BB232B` con texto `#FFFFFF`).
+  3. **Identidad Visual y Paleta Cromática (#20309A, #FFFFFF, #BB232B)**:
+     - **Azul Primario (`#20309A`)**: Color dominante para el navbar sticky, bordes estructurados, cabeceras de modales, botones de acción principal, badges y títulos de sección.
+     - **Blanco Puro (`#FFFFFF`)**: Color base de superficies (cards en modo claro), botones de alto impacto visual y tipografías en contraste sobre fondos azules y rojos.
+     - **Rojo de Emergencia (`#BB232B`)**: Color de máxima prioridad sanitaria para llamadas de auxilio (Línea 107, FAB flotante, botón de confirmación de donaciones, alerta de WhatsApp y especialidades médicas).
+     - Mantenimiento estricto del modo claro y oscuro calibrados con los nuevos tokens.
+
+---
+
+### [ADR-016] Hero Limpio sin Superposición y Menú con Efecto Glassmorphism
+- **Fecha y Hora**: 2026-10-30 16:15:00
+- **Estado**: Superado por ADR-017
+- **Contexto**: Ajuste previo de Hero y menú.
+
+---
+
+### [ADR-017] Header Fino con Glass Effect, Retiro de Foto de Ambulancia, Inversión Light/Dark y Footer al Ras
+- **Fecha y Hora**: 2026-10-30 16:26:00
+- **Estado**: Superado por ADR-018
+- **Contexto**: Ajustes previos de layout y tipografía.
+
+---
+
+### [ADR-020] Integración de Hero con Imagen Hero.jpg de Ancho Completo y Título a la Izquierda
+- **Fecha y Hora**: 2026-11-01 09:50:00
+- **Estado**: Aceptado e Implementado
+- **Contexto**: Solicitud del usuario para implementar una sección Hero de ancho completo (`w-full`) con la fotografía oficial `img/Hero.jpg`.
+- **Decisión y Características**:
+  1. **Ancho Completo y Composición Visual**: La sección abarca el 100% del viewport sin recortes laterales artificiales (`w-full overflow-hidden`).
+  2. **Posicionamiento Estratégico del Encabezado**: Dado que la fotografía presenta a 3 profesionales médicos sobre el cuadrante derecho, el contenido textual (badge institucional, título oficial `SaludBarrial`, subtítulo y encabezado principal) se ubicó alineado a la izquierda (`text-left`, `max-w-xl lg:max-w-2xl`).
+  3. **Overlay de Alto Contraste (WCAG AAA)**: Se incorporó un degradado asimétrico (`from-[#06152d]/95 via-[#0a2347]/80 to-transparent`) que garantiza lectura impecable en fondo oscuro en la izquierda sin opacar ni ocultar la imagen nítida de los profesionales en la derecha.
+  4. **Adaptabilidad Móvil**: En pantallas reducidas (360px-412px), el gradiente se gradúa suavemente para proteger el texto y mantener la armonía estética sin desbordes horizontales (`overflow-x-hidden`).
+
+---
+
+### [ADR-021] Ajustes de jerarquía visual y modal de emergencia sin scroll
+- **Fecha**: 2026-11-01
+- **Estado**: Aceptado e Implementado
+- **Decisión**:
+  1. Afinar la altura del header y el peso visual de los enlaces del menú principal; redondear sutilmente las esquinas del Hero.
+  2. Reducir el alto visual de las cards de líneas rápidas y unificar los íconos del directorio en el estetoscopio.
+  3. Mostrar la fotografía de Hero en donaciones con el mismo degradado azul institucional y aplicar `#20309A` al encabezado del modal de sugerencias.
+  4. Mantener el asistente de emergencias completo dentro del viewport, compactando sus espacios en ventanas bajas y evitando depender del scroll. El estado activo del triaje se resuelve por escenario y no por el evento global del navegador.
+
+---
+
+### [ADR-022] Hero a ancho completo antes del layout publicitario
+- **Fecha**: 2026-11-01
+- **Estado**: Aceptado e Implementado
+- **Decisión**: El Hero ocupa todo el ancho disponible bajo el header y se muestra antes del layout de contenido con anuncios laterales. El layout publicitario comienza debajo del Hero para que los banners no compartan su primera pantalla ni reduzcan su ancho.
+
+---
+
+### [ADR-023] Promociones internas en espacios publicitarios
+- **Fecha**: 2026-11-01
+- **Estado**: Aceptado e Implementado
+- **Decisión**: Completar los espacios publicitarios con accesos internos a funciones existentes de SaludBarrial (mapa, directorio, donaciones y llamada al 107), en vez de anuncios externos o contenido comercial inventado. Mantener variantes adaptadas a laterales de escritorio y banner fijo de móvil/tablet.
+- **Responsive**: El banner móvil/tablet ocupa el borde inferior; el FAB se ubica por encima para mantener ambos accesos visibles.
+
+---
+
+### [ADR-024] Separación de anuncios, rediseño de donaciones y categorías publicitarias
+- **Fecha**: 2026-11-01
+- **Estado**: Aceptado e Implementado
+- **Decisión**:
+  1. Separar levemente los anuncios laterales del borde de la ventana en escritorio.
+  2. Rediseñar la tarjeta de donaciones siguiendo la referencia compartida: fotografía, tratamiento azul, datos bancarios, llamada a la acción roja y acentos decorativos; aumentar la separación con el footer.
+  3. Asignar un lateral a autos y el otro a productos de computación. El banner compacto presenta ambos rubros con enlaces a búsquedas genéricas, sin atribuir ofertas a comercios no confirmados.
+
+---
+
+### [ADR-025] Banner publicitario móvil a ancho completo y FAB compacto
+- **Fecha**: 2026-11-01
+- **Estado**: Aceptado e Implementado
+- **Decisión**: En anchos menores a 1200 px, fijar el banner publicitario al borde inferior y extenderlo al ancho completo de la ventana. Mantener el botón de emergencia por encima del banner; en móviles menores a 768 px, mostrar únicamente el ícono telefónico y conservar un `aria-label` descriptivo.
+
+---
+
+### [ADR-026] Modal de emergencias de tamaño estable con esquemas locales
+- **Fecha**: 2026-11-01
+- **Estado**: Aceptado e Implementado
+- **Decisión**:
+  1. Aplicar al encabezado del buzón de sugerencias el degradado azul marino del Hero y de donaciones.
+  2. Mantener una altura fija y adaptable al viewport para la tarjeta de emergencias, independientemente del escenario de triaje elegido.
+  3. Usar material gráfico local para cada situación, sin llamadas a APIs ni dependencias de terceros. Las imágenes son orientativas y remiten a seguir las indicaciones del operador del 107.
+
+---
+
+### [ADR-027] Acceso visual a escenarios de emergencia
+- **Fecha**: 2026-11-01
+- **Estado**: Aceptado e Implementado
+- **Decisión**: Mantener cuatro botones textuales de triaje. Al seleccionar un escenario, reemplazar el contenido explicativo de abajo por su infografía correspondiente, respetando el orden RCP, atragantamiento, hemorragia y desmayo/caída. Las imágenes se guardan en `img/guias-emergencia/`; los botones conservan el estado seleccionado y navegación por teclado.
