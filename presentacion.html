@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaludBarrial — Pitch Deck Oficial</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              blue: '#20309A',
+              red: '#BB232B',
+              dark: '#10243A',
+              sky: '#0284c7',
+              emerald: '#10b981',
+              lightBg: '#C7DCEB',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #10243A; }
+    .slide { display: none; }
+    .slide.active { display: flex; animation: fadeIn 0.35s ease-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-[#BB232B] selection:text-white">
+
+  <!-- BARRA SUPERIOR -->
+  <header class="w-full px-6 py-4 border-b border-white/10 backdrop-blur-md bg-[#20309A]/70 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-[#BB232B] flex items-center justify-center font-black text-lg shadow-lg shadow-red-900/30">
+        +
+      </div>
+      <div>
+        <h1 class="text-lg font-black tracking-tight leading-none text-white">SaludBarrial</h1>
+        <p class="text-[11px] text-sky-200 uppercase tracking-widest font-semibold mt-0.5">Río Cuarto • Plataforma Comunitaria</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <span id="slideCounter" class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/10 text-slate-200 border border-white/15">
+        01 / 07
+      </span>
+      <span class="text-xs hidden sm:inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold">
+        Pitch Mode
+      </span>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL DE SLIDES -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8 py-6 flex items-center justify-center">
+
+    <!-- SLIDE 1: PORTADA / PRODUCT PITCH -->
+    <section class="slide active flex-col items-center text-center justify-center gap-6 w-full py-8" data-step="1">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-sky-300 border border-sky-400/30 text-xs font-bold uppercase tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Plataforma Activa
+      </span>
+      
+      <h2 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white max-w-4xl leading-tight">
+        Salud pública al alcance de <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-white to-red-400">cada vecino.</span>
+      </h2>
+      
+      <p class="text-xl sm:text-2xl font-semibold text-slate-300 max-w-2xl">
+        Conectando a Río Cuarto en momentos críticos.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full max-w-3xl mt-4">
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-center">
+          <p class="text-2xl sm:text-3xl font-black text-sky-300">100%</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Barrial & Cercano</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-center">
+          <p class="text-2xl sm:text-3xl font-black text-[#BB232B]">1 Toque</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Marcado SOS</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-center">
+          <p class="text-2xl sm:text-3xl font-black text-emerald-300">GPS</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Ruta en Vivo</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-center">
+          <p class="text-2xl sm:text-3xl font-black text-white">0 Seg</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Sin Intermediarios</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: EL PROBLEMA -->
+    <section class="slide flex-col items-center text-center justify-center gap-8 w-full py-8" data-step="2">
+      <span class="px-3 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold uppercase tracking-wider">
+        Puntos de Dolor en la Ciudad
+      </span>
+      
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        ¿Qué vive un vecino ante una necesidad de salud?
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl text-left mt-2">
+        <div class="p-6 rounded-2xl bg-red-950/20 border border-red-500/30 flex flex-col justify-between">
+          <div class="text-4xl mb-4">⏳</div>
+          <h3 class="text-xl font-bold text-red-200">Demoras y Desconocimiento</h3>
+          <p class="text-sm text-slate-300 mt-2 font-medium">¿Dónde está la guardia abierta? ¿Qué dispensario corresponde hoy?</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col justify-between">
+          <div class="text-4xl mb-4">📞</div>
+          <h3 class="text-xl font-bold text-slate-200">Teléfonos Dispersos</h3>
+          <p class="text-sm text-slate-300 mt-2 font-medium">Líneas de auxilio fragmentadas y difíciles de hallar bajo estrés.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col justify-between">
+          <div class="text-4xl mb-4">🩺</div>
+          <h3 class="text-xl font-bold text-slate-200">Falta de Certeza</h3>
+          <p class="text-sm text-slate-300 mt-2 font-medium">Dificultad para validar profesionales matriculados y cobertura barrial.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: NÚCLEO 1 - BOTÓN ROJO SOS & AUXILIO DIRECTO -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="3">
+      <span class="px-3 py-1 rounded-full bg-[#BB232B]/30 text-red-300 border border-[#BB232B] text-xs font-bold uppercase tracking-wider">
+        Respuesta Inmediata
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Central de Emergencias con 1 Toque
+      </h2>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl mt-4">
+        <!-- 107 -->
+        <div class="p-5 rounded-2xl bg-[#BB232B] text-white flex flex-col items-center justify-center shadow-lg shadow-red-950/50">
+          <span class="text-3xl sm:text-4xl font-black">107</span>
+          <span class="text-sm font-bold mt-2">Ambulancia</span>
+          <span class="text-[11px] opacity-80 mt-1">Urgencias Médicas</span>
+        </div>
+        <!-- CardioMed -->
+        <div class="p-5 rounded-2xl bg-[#20309A] text-white flex flex-col items-center justify-center border border-white/15">
+          <span class="text-2xl sm:text-3xl font-black">0800</span>
+          <span class="text-sm font-bold mt-2">CardioMed</span>
+          <span class="text-[11px] text-sky-200 mt-1">Emergencias Privadas</span>
+        </div>
+        <!-- Policía -->
+        <div class="p-5 rounded-2xl bg-[#20309A] text-white flex flex-col items-center justify-center border border-white/15">
+          <span class="text-3xl sm:text-4xl font-black">911</span>
+          <span class="text-sm font-bold mt-2">Seguridad</span>
+          <span class="text-[11px] text-sky-200 mt-1">Policía / Guardia</span>
+        </div>
+        <!-- WhatsApp Alerta -->
+        <div class="p-5 rounded-2xl bg-[#BB232B] text-white flex flex-col items-center justify-center shadow-lg shadow-red-950/50">
+          <span class="text-2xl sm:text-3xl font-black">Alerta</span>
+          <span class="text-sm font-bold mt-2">Ojos en Alerta</span>
+          <span class="text-[11px] opacity-80 mt-1">Vía WhatsApp</span>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl bg-white/5 border border-white/10 max-w-2xl w-full flex items-center justify-center gap-3">
+        <span class="w-3 h-3 rounded-full bg-[#BB232B] animate-pulse"></span>
+        <span class="text-sm font-semibold text-slate-200">FAB Flotante persistente en pantalla durante toda la navegación.</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: NÚCLEO 2 - MAPA GPS EN VIVO -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="4">
+      <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 text-xs font-bold uppercase tracking-wider">
+        Geolocalización Real
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Mapa Interactivo Callejero de Río Cuarto
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl text-left mt-2">
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col justify-between">
+          <span class="text-3xl text-sky-400 font-black">📍</span>
+          <h3 class="text-xl font-bold text-white mt-3">Dispensarios & Guardias</h3>
+          <p class="text-xs text-slate-300 mt-2 font-medium">Ubicaciones exactas en Alberdi, Banda Norte, Villa Dalcar y Centro.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-gradient-to-b from-[#20309A]/50 to-transparent border border-sky-400/30 flex flex-col justify-between">
+          <span class="text-3xl text-emerald-400 font-black">🧭</span>
+          <h3 class="text-xl font-bold text-white mt-3">GPS con 1 Clic</h3>
+          <p class="text-xs text-slate-300 mt-2 font-medium">Detección de distancia en tiempo real y cálculo de ruta al punto más cercano.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col justify-between">
+          <span class="text-3xl text-red-400 font-black">⏱️</span>
+          <h3 class="text-xl font-bold text-white mt-3">Horarios Claros</h3>
+          <p class="text-xs text-slate-300 mt-2 font-medium">Identificación rápida entre atención diurna y guardias activas 24hs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: NÚCLEO 3 - DIRECTORIO & GUÍAS DE TRIAJE -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="5">
+      <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold uppercase tracking-wider">
+        Confianza Médica & Educación
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Directorio Validado y Protocolos de Vida
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl text-left mt-2">
+        <!-- Directorio -->
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-black text-sky-400">Colegio de Médicos</span>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-sky-500/20 text-sky-300">Oficial</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mt-4">Profesionales Matriculados</h3>
+          <p class="text-xs text-slate-300 mt-2 font-medium">Búsqueda rápida por Matrícula Profesional, especialidad, barrio y atención sin obra social.</p>
+        </div>
+
+        <!-- Guías -->
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-black text-red-400">Primeros Auxilios</span>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/20 text-red-300">Paso a Paso</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mt-4">Triaje Gráfico</h3>
+          <p class="text-xs text-slate-300 mt-2 font-medium">Protocolos ilustrados de RCP, Maniobra de Heimlich, Hemorragias y Desmayos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: COMUNIDAD Y ACCESIBILIDAD -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="6">
+      <span class="px-3 py-1 rounded-full bg-white/10 text-slate-300 border border-white/15 text-xs font-bold uppercase tracking-wider">
+        Impacto Local & Accesibilidad
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Diseñado para Todo Tipo de Vecino
+      </h2>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl mt-3 text-center">
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <p class="text-3xl">📱</p>
+          <p class="text-sm font-bold text-white mt-2">Mobile First</p>
+          <p class="text-[11px] text-slate-300 mt-1">Uso fluido con una mano</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <p class="text-3xl">🤝</p>
+          <p class="text-sm font-bold text-white mt-2">Donaciones</p>
+          <p class="text-[11px] text-slate-300 mt-1">Aporte solidario por CBU/Alias</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <p class="text-3xl">👁️</p>
+          <p class="text-sm font-bold text-white mt-2">WCAG AA</p>
+          <p class="text-[11px] text-slate-300 mt-1">Contraste y lectura clara</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <p class="text-3xl">💬</p>
+          <p class="text-sm font-bold text-white mt-2">Buzón Abierto</p>
+          <p class="text-[11px] text-slate-300 mt-1">Escucha activa comunitaria</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: CONCLUSIÓN / LLAMADO A LA ACCIÓN -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="7">
+      <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold uppercase tracking-wider">
+        Conclusión
+      </span>
+
+      <h2 class="text-4xl sm:text-6xl font-black text-white max-w-3xl leading-tight">
+        SaludBarrial es <span class="text-[#BB232B]">tranquilidad</span> para Río Cuarto.
+      </h2>
+
+      <p class="text-lg sm:text-xl font-medium text-slate-300 max-w-2xl">
+        Una herramienta pública, rápida y solidaria lista para implementarse y salvar vidas.
+      </p>
+
+      <div class="mt-6 flex flex-col sm:flex-row gap-4">
+        <a href="index.html" target="_blank" class="px-8 py-4 rounded-xl bg-[#BB232B] hover:bg-red-700 text-white font-extrabold text-lg shadow-xl shadow-red-950/40 transition-all hover:scale-105">
+          Probar la App en Vivo
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BARRA INFERIOR DE NAVEGACIÓN DE DIAPOSITIVAS -->
+  <footer class="w-full px-6 py-4 border-t border-white/10 bg-[#10243A]/90 backdrop-blur-md flex items-center justify-between sticky bottom-0 z-50">
+    <div class="flex items-center gap-2 text-xs text-slate-400">
+      <span class="hidden sm:inline">Teclas:</span>
+      <kbd class="px-2 py-1 rounded bg-white/10 border border-white/15 text-slate-200 font-mono">←</kbd>
+      <kbd class="px-2 py-1 rounded bg-white/10 border border-white/15 text-slate-200 font-mono">→</kbd>
+    </div>
+
+    <!-- PUNTOS INDICADORES -->
+    <div class="flex items-center gap-2" id="dotsContainer"></div>
+
+    <!-- BOTONES PREV / NEXT -->
+    <div class="flex items-center gap-2">
+      <button id="prevBtn" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-all disabled:opacity-30 disabled:pointer-events-none">
+        Anterior
+      </button>
+      <button id="nextBtn" class="px-5 py-2 rounded-lg bg-[#20309A] hover:bg-blue-800 text-white font-bold text-sm transition-all shadow-md">
+        Siguiente
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+
+    const slideCounter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('dotsContainer');
+
+    // Generar dots
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.className = `w-2.5 h-2.5 rounded-full transition-all ${idx === 0 ? 'bg-[#BB232B] w-6' : 'bg-white/30'}`;
+      dot.setAttribute('aria-label', `Ir a diapositiva ${idx + 1}`);
+      dot.addEventListener('click', () => goToSlide(idx));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = dotsContainer.querySelectorAll('button');
+
+    function updatePresentation() {
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === currentSlide);
+      });
+
+      dots.forEach((dot, idx) => {
+        if (idx === currentSlide) {
+          dot.className = 'w-6 h-2.5 rounded-full bg-[#BB232B] transition-all';
+        } else {
+          dot.className = 'w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all';
+        }
+      });
+
+      slideCounter.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.textContent = currentSlide === totalSlides - 1 ? 'Reiniciar' : 'Siguiente';
+    }
+
+    function goToSlide(index) {
+      if (index >= 0 && index < totalSlides) {
+        currentSlide = index;
+        updatePresentation();
+      }
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 0) goToSlide(currentSlide - 1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentSlide < totalSlides - 1) {
+        goToSlide(currentSlide + 1);
+      } else {
+        goToSlide(0);
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft') {
+        if (currentSlide > 0) goToSlide(currentSlide - 1);
+      }
+    });
+
+    updatePresentation();
+  </script>
+</body>
+</html>

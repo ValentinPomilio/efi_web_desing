@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaludBarrial — Presentación Técnica y Arquitectura Frontend</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { 
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              blue: '#20309A',
+              red: '#BB232B',
+              dark: '#10243A',
+              sky: '#0284c7',
+              emerald: '#10b981',
+              glassBg: 'rgba(24, 54, 79, 0.85)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #10243A; }
+    .slide { display: none; }
+    .slide.active { display: flex; animation: slideFade 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes slideFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .custom-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-[#BB232B] selection:text-white">
+
+  <!-- BARRA SUPERIOR TÉCNICA -->
+  <header class="w-full px-6 py-4 border-b border-white/10 backdrop-blur-md bg-[#20309A]/75 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#BB232B] to-red-500 flex items-center justify-center font-mono font-bold text-white text-base shadow-lg shadow-red-950/40">
+        &lt;/&gt;
+      </div>
+      <div>
+        <h1 class="text-lg font-black tracking-tight leading-none text-white">SaludBarrial <span class="text-sky-300 font-mono font-normal text-xs">// Tech Stack</span></h1>
+        <p class="text-[11px] text-sky-200 uppercase tracking-widest font-semibold mt-0.5">Ingeniería Web • Arquitectura y Maquetado</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <span id="slideCounter" class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/10 text-slate-200 border border-white/15">
+        01 / 07
+      </span>
+      <span class="text-xs hidden sm:inline-block px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 font-semibold font-mono">
+        Frontend Engine
+      </span>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL DE SLIDES -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8 py-6 flex items-center justify-center">
+
+    <!-- SLIDE 1: PORTADA TÉCNICA -->
+    <section class="slide active flex-col items-center text-center justify-center gap-6 w-full py-8" data-step="1">
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-sky-300 border border-sky-400/30 text-xs font-mono font-bold uppercase tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-sky-400"></span> Especificación de Ingeniería
+      </span>
+      
+      <h2 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white max-w-4xl leading-tight">
+        Arquitectura & <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-white to-red-400">Diseño Web Moderno</span>
+      </h2>
+      
+      <p class="text-xl sm:text-2xl font-semibold text-slate-300 max-w-2xl">
+        Patrones, accesibilidad, performance y estructura de componentes.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl mt-4">
+        <div class="custom-pill p-4 rounded-2xl text-center">
+          <p class="font-mono text-2xl sm:text-3xl font-black text-sky-300">HTML5</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">100% Semántico</p>
+        </div>
+        <div class="custom-pill p-4 rounded-2xl text-center">
+          <p class="font-mono text-2xl sm:text-3xl font-black text-sky-400">Tailwind</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Design Tokens</p>
+        </div>
+        <div class="custom-pill p-4 rounded-2xl text-center">
+          <p class="font-mono text-2xl sm:text-3xl font-black text-emerald-300">Mobile 1st</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">360px a Desktop</p>
+        </div>
+        <div class="custom-pill p-4 rounded-2xl text-center">
+          <p class="font-mono text-2xl sm:text-3xl font-black text-[#BB232B]">Vanilla JS</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Cero Dependencias</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: ESTRUCTURA SEMÁNTICA HTML5 -->
+    <section class="slide flex-col items-center text-center justify-center gap-6 w-full py-8" data-step="2">
+      <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 text-xs font-mono font-bold uppercase tracking-wider">
+        Esqueleto del Documento
+      </span>
+      
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Estructura Semántica Estricta
+      </h2>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-4xl text-left mt-2 font-mono">
+        <div class="custom-pill p-4 rounded-xl border-l-4 border-l-sky-500">
+          <p class="text-lg font-bold text-sky-300">&lt;header&gt; & &lt;nav&gt;</p>
+          <p class="text-xs text-slate-300 font-sans mt-1">Sticky glass bar + menú hamburguesa accesible</p>
+        </div>
+        <div class="custom-pill p-4 rounded-xl border-l-4 border-l-[#20309A]">
+          <p class="text-lg font-bold text-blue-300">&lt;main&gt;</p>
+          <p class="text-xs text-slate-300 font-sans mt-1">Contenedor único central de la aplicación</p>
+        </div>
+        <div class="custom-pill p-4 rounded-xl border-l-4 border-l-emerald-500">
+          <p class="text-lg font-bold text-emerald-300">&lt;section&gt;</p>
+          <p class="text-xs text-slate-300 font-sans mt-1">Módulos temáticos independientes y descriptivos</p>
+        </div>
+        <div class="custom-pill p-4 rounded-xl border-l-4 border-l-purple-500">
+          <p class="text-lg font-bold text-purple-300">&lt;article&gt;</p>
+          <p class="text-xs text-slate-300 font-sans mt-1">Tarjetas autocontenidas de dispensarios y médicos</p>
+        </div>
+        <div class="custom-pill p-4 rounded-xl border-l-4 border-l-[#BB232B]">
+          <p class="text-lg font-bold text-red-300">&lt;button&gt; vs &lt;a&gt;</p>
+          <p class="text-xs text-slate-300 font-sans mt-1">Separación total entre acciones JS y enlaces `tel:`</p>
+        </div>
+        <div class="custom-pill p-4 rounded-xl border-l-4 border-l-slate-400">
+          <p class="text-lg font-bold text-slate-200">&lt;footer&gt;</p>
+          <p class="text-xs text-slate-300 font-sans mt-1">Pie institucional al ras con enlaces de guardia</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: FILOSOFÍA MOBILE FIRST & RESPONSIVE BREAKPOINTS -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="3">
+      <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-mono font-bold uppercase tracking-wider">
+        Adaptabilidad de Pantalla
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Filosofía Mobile-First Real
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-4xl text-left mt-2">
+        <div class="custom-pill p-6 rounded-2xl flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-mono font-bold text-emerald-400">Mobile</span>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">&lt; 768px</span>
+          </div>
+          <h3 class="text-lg font-bold text-white mt-4">1 Columna + Thumb Zone</h3>
+          <p class="text-xs text-slate-300 mt-2">Botones mínimos de 44px de alto para tacto fácil. Cero desbordes (`overflow-x-hidden`).</p>
+        </div>
+
+        <div class="custom-pill p-6 rounded-2xl flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-mono font-bold text-sky-400">Tablet</span>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">md: 768px</span>
+          </div>
+          <h3 class="text-lg font-bold text-white mt-4">Grilla Adaptable</h3>
+          <p class="text-xs text-slate-300 mt-2">Distribución balanceada a 2 columnas con orden visual optimizado.</p>
+        </div>
+
+        <div class="custom-pill p-6 rounded-2xl flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-mono font-bold text-purple-400">Desktop</span>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">lg: 1024px+</span>
+          </div>
+          <h3 class="text-lg font-bold text-white mt-4">3 Columnas + Max Width</h3>
+          <p class="text-xs text-slate-300 mt-2">Contenedor acotado (`max-w-7xl mx-auto`) para evitar líneas de lectura infinitas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: ANATOMÍA DE BOTONES, INTERACCIONES Y ESTADOS -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="4">
+      <span class="px-3 py-1 rounded-full bg-[#BB232B]/30 text-red-300 border border-[#BB232B] text-xs font-mono font-bold uppercase tracking-wider">
+        Microinteracciones UI
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Anatomía de Botones y Estados
+      </h2>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl text-center mt-3">
+        <!-- Botón SOS -->
+        <div class="custom-pill p-5 rounded-2xl flex flex-col items-center">
+          <div class="w-12 h-12 rounded-full bg-[#BB232B] flex items-center justify-center text-white font-black text-lg animate-pulse mb-3 shadow-lg shadow-red-950/60">
+            SOS
+          </div>
+          <p class="font-bold text-sm text-red-300">Botón Flotante</p>
+          <p class="text-[11px] text-slate-400 mt-1 font-mono">animate-pulse & z-50</p>
+        </div>
+
+        <!-- Protocolo tel: -->
+        <div class="custom-pill p-5 rounded-2xl flex flex-col items-center">
+          <div class="w-12 h-12 rounded-xl bg-[#20309A] flex items-center justify-center text-white font-mono font-bold text-lg mb-3">
+            tel:
+          </div>
+          <p class="font-bold text-sm text-blue-300">Llamada Nativa</p>
+          <p class="text-[11px] text-slate-400 mt-1 font-mono">href="tel:107"</p>
+        </div>
+
+        <!-- Feedback Táctil -->
+        <div class="custom-pill p-5 rounded-2xl flex flex-col items-center">
+          <div class="w-12 h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-mono font-bold text-lg mb-3">
+            -5%
+          </div>
+          <p class="font-bold text-sm text-emerald-300">Feedback Táctil</p>
+          <p class="text-[11px] text-slate-400 mt-1 font-mono">active:scale-95</p>
+        </div>
+
+        <!-- Glassmorphism -->
+        <div class="custom-pill p-5 rounded-2xl flex flex-col items-center">
+          <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-bold text-lg mb-3">
+            Blur
+          </div>
+          <p class="font-bold text-sm text-slate-200">Efecto Vidrio</p>
+          <p class="text-[11px] text-slate-400 mt-1 font-mono">backdrop-blur-md</p>
+        </div>
+      </div>
+
+      <div class="custom-pill p-3 rounded-xl max-w-2xl w-full flex items-center justify-around font-mono text-xs text-slate-300">
+        <span class="text-sky-300 font-bold">4 Estados UI:</span>
+        <span>⏳ Loading</span>
+        <span>📭 Empty</span>
+        <span>❌ Error</span>
+        <span>✅ Success</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: FORMATOS, MULTIMEDIA Y PERFORMANCE -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="5">
+      <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-400/30 text-xs font-mono font-bold uppercase tracking-wider">
+        Assets y Rendimiento
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Formatos y Carga Ultrarrápida
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full max-w-4xl text-left mt-2">
+        <div class="custom-pill p-6 rounded-2xl flex flex-col justify-between">
+          <div class="font-mono text-3xl font-black text-purple-400">.AVIF / .PNG</div>
+          <h3 class="text-lg font-bold text-white mt-3">Compresión Moderna</h3>
+          <p class="text-xs text-slate-300 mt-2">Formatos de alta densidad sin pérdida de calidad y bajo peso de transferencia en redes móviles 3G/4G.</p>
+        </div>
+
+        <div class="custom-pill p-6 rounded-2xl flex flex-col justify-between">
+          <div class="font-mono text-3xl font-black text-sky-400">CDN Native</div>
+          <h3 class="text-lg font-bold text-white mt-3">Sin Bundles Pesados</h3>
+          <p class="text-xs text-slate-300 mt-2">Carga instantánea de estilos y fuentes sin requerir proceso de build ni servidores Node.js.</p>
+        </div>
+
+        <div class="custom-pill p-6 rounded-2xl flex flex-col justify-between">
+          <div class="font-mono text-3xl font-black text-emerald-400">GPS & Map</div>
+          <h3 class="text-lg font-bold text-white mt-3">Integración Liviana</h3>
+          <p class="text-xs text-slate-300 mt-2">Google Maps Embed responsivo + Geolocation API estándar nativa del navegador.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: MODELO DE MONETIZACIÓN E INGRESOS (ADS / DONACIONES) -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="6">
+      <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-mono font-bold uppercase tracking-wider">
+        Sustentabilidad Económica
+      </span>
+
+      <h2 class="text-3xl sm:text-5xl font-black text-white max-w-3xl">
+        Monetización y Modelo de Ingresos
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-4xl text-left mt-2">
+        <!-- Ads Nativos -->
+        <div class="custom-pill p-6 rounded-2xl border-t-4 border-t-sky-400 flex flex-col justify-between">
+          <div class="font-mono text-2xl font-bold text-sky-300">01. Ads Nativos</div>
+          <h3 class="text-lg font-bold text-white mt-2">Publicidad No Invasiva</h3>
+          <p class="text-xs text-slate-300 mt-2">Banners patrocinados para farmacias de turno, centros de diagnóstico y obras sociales locales.</p>
+        </div>
+
+        <!-- Donaciones Comunitarias -->
+        <div class="custom-pill p-6 rounded-2xl border-t-4 border-t-emerald-400 flex flex-col justify-between">
+          <div class="font-mono text-2xl font-bold text-emerald-300">02. Donaciones</div>
+          <h3 class="text-lg font-bold text-white mt-2">Aporte Directo (CBU / Alias)</h3>
+          <p class="text-xs text-slate-300 mt-2">Módulo nativo integrado con modal de confirmación y datos oficiales sin comisión.</p>
+        </div>
+
+        <!-- Directorio Destacado -->
+        <div class="custom-pill p-6 rounded-2xl border-t-4 border-t-purple-400 flex flex-col justify-between">
+          <div class="font-mono text-2xl font-bold text-purple-300">03. Perfiles Pro</div>
+          <h3 class="text-lg font-bold text-white mt-2">Membresías Médicas</h3>
+          <p class="text-xs text-slate-300 mt-2">Destacados para consultorios privados, clínicas barriales y servicios de teleconsulta.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: RESUMEN TÉCNICO & CIERRE -->
+    <section class="slide flex-col items-center justify-center gap-6 w-full py-8 text-center" data-step="7">
+      <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-mono font-bold uppercase tracking-wider">
+        Checklist Técnico
+      </span>
+
+      <h2 class="text-4xl sm:text-6xl font-black text-white max-w-3xl leading-tight">
+        Código Limpio, Ligero y <span class="text-emerald-400">Escalable</span>.
+      </h2>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-3xl mt-2 text-center font-mono">
+        <div class="custom-pill p-4 rounded-xl">
+          <p class="text-xl font-bold text-sky-300">WCAG AA</p>
+          <p class="text-[11px] text-slate-400 font-sans mt-0.5">Accesible</p>
+        </div>
+        <div class="custom-pill p-4 rounded-xl">
+          <p class="text-xl font-bold text-emerald-300">0 KB</p>
+          <p class="text-[11px] text-slate-400 font-sans mt-0.5">Framework Overload</p>
+        </div>
+        <div class="custom-pill p-4 rounded-xl">
+          <p class="text-xl font-bold text-purple-300">100%</p>
+          <p class="text-[11px] text-slate-400 font-sans mt-0.5">Responsive</p>
+        </div>
+        <div class="custom-pill p-4 rounded-xl">
+          <p class="text-xl font-bold text-red-300">&lt; 1s</p>
+          <p class="text-[11px] text-slate-400 font-sans mt-0.5">Tiempo de Carga</p>
+        </div>
+      </div>
+
+      <div class="mt-6 flex flex-col sm:flex-row gap-4">
+        <a href="index.html" target="_blank" class="px-8 py-4 rounded-xl bg-[#20309A] hover:bg-blue-800 text-white font-extrabold text-lg shadow-xl shadow-blue-950/40 transition-all hover:scale-105">
+          Inspeccionar App en F12
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BARRA INFERIOR DE NAVEGACIÓN -->
+  <footer class="w-full px-6 py-4 border-t border-white/10 bg-[#10243A]/90 backdrop-blur-md flex items-center justify-between sticky bottom-0 z-50">
+    <div class="flex items-center gap-2 text-xs text-slate-400 font-mono">
+      <span class="hidden sm:inline">Navegar:</span>
+      <kbd class="px-2 py-1 rounded bg-white/10 border border-white/15 text-slate-200">←</kbd>
+      <kbd class="px-2 py-1 rounded bg-white/10 border border-white/15 text-slate-200">→</kbd>
+    </div>
+
+    <!-- PUNTOS INDICADORES -->
+    <div class="flex items-center gap-2" id="dotsContainer"></div>
+
+    <!-- BOTONES PREV / NEXT -->
+    <div class="flex items-center gap-2">
+      <button id="prevBtn" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition-all disabled:opacity-30 disabled:pointer-events-none">
+        Anterior
+      </button>
+      <button id="nextBtn" class="px-5 py-2 rounded-lg bg-[#BB232B] hover:bg-red-700 text-white font-bold text-sm transition-all shadow-md">
+        Siguiente
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+
+    const slideCounter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('dotsContainer');
+
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.className = `w-2.5 h-2.5 rounded-full transition-all ${idx === 0 ? 'bg-[#BB232B] w-6' : 'bg-white/30'}`;
+      dot.setAttribute('aria-label', `Ir a diapositiva ${idx + 1}`);
+      dot.addEventListener('click', () => goToSlide(idx));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = dotsContainer.querySelectorAll('button');
+
+    function updatePresentation() {
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === currentSlide);
+      });
+
+      dots.forEach((dot, idx) => {
+        if (idx === currentSlide) {
+          dot.className = 'w-6 h-2.5 rounded-full bg-[#BB232B] transition-all';
+        } else {
+          dot.className = 'w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all';
+        }
+      });
+
+      slideCounter.textContent = `${String(currentSlide + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.textContent = currentSlide === totalSlides - 1 ? 'Reiniciar' : 'Siguiente';
+    }
+
+    function goToSlide(index) {
+      if (index >= 0 && index < totalSlides) {
+        currentSlide = index;
+        updatePresentation();
+      }
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 0) goToSlide(currentSlide - 1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentSlide < totalSlides - 1) {
+        goToSlide(currentSlide + 1);
+      } else {
+        goToSlide(0);
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft') {
+        if (currentSlide > 0) goToSlide(currentSlide - 1);
+      }
+    });
+
+    updatePresentation();
+  </script>
+</body>
+</html>

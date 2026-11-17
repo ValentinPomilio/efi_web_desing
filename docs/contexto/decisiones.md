@@ -211,3 +211,10 @@ Este documento registra cronológicamente las decisiones técnicas y de diseño 
 - **Fecha**: 2026-11-01
 - **Estado**: Aceptado e Implementado
 - **Decisión**: Mantener cuatro botones textuales de triaje. Al seleccionar un escenario, reemplazar el contenido explicativo de abajo por su infografía correspondiente, respetando el orden RCP, atragantamiento, hemorragia y desmayo/caída. Las imágenes se guardan en `img/guias-emergencia/`; los botones conservan el estado seleccionado y navegación por teclado.
+
+---
+
+### [ADR-028] Footer móvil alineado con el banner publicitario
+- **Fecha**: 2026-11-01
+- **Estado**: Aceptado e Implementado
+- **Decisión**: En móvil/tablet, reservar al final del documento únicamente el alto del banner publicitario fijo (61 px), para que el footer quede inmediatamente encima cuando el anuncio está visible. Al cerrar el banner, eliminar la reserva y permitir que el footer llegue al borde inferior de la página/viewport.

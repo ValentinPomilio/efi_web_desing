@@ -106,3 +106,7 @@ Este documento almacena los acuerdos, directivas permanentes y contexto consolid
 ### [2026-11-01] Botones de triaje con imágenes aportadas
 - Los botones del modal de emergencia conservan texto e íconos. Al elegir uno, el contenido explicativo inferior se reemplaza por la infografía correspondiente, almacenada localmente en `img/guias-emergencia/`.
 - Se conserva la selección visible, `aria-pressed` y el texto accesible de cada botón.
+
+### [2026-11-01] Footer móvil arriba del anuncio fijo
+- Mientras el banner publicitario móvil/tablet está visible, el documento reserva solo sus 61 px de alto para que el footer quede inmediatamente encima del banner.
+- Al cerrar el banner, se quita la reserva inferior; el footer vuelve al final de la página.
