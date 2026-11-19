@@ -1,0 +1,238 @@
+/* ===================================================================
+   SaludBarrial — Componentes: Donaciones, Modales y Asistente de Triaje
+   =================================================================== */
+
+/* Donaciones: misma fotografía y paleta azul del Hero */
+.donation-hero-img {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.donation-overlay {
+  background: linear-gradient(108deg, #06152d 0%, rgba(7,32,77,0.97) 43%, rgba(10,65,132,0.88) 68%, rgba(0,116,218,0.76) 100%);
+}
+.donation-card {
+  min-height: 320px;
+}
+.donation-blue-shape {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  width: 48%;
+  background: linear-gradient(135deg, rgba(20,126,220,0.12), rgba(20,145,245,0.5));
+  clip-path: polygon(37% 0, 100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+.donation-action {
+  display: flex;
+  width: 100%;
+  min-height: 60px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 9999px;
+  background: linear-gradient(100deg, #ff2936, #e7192c);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(220,38,38,0.32), inset 0 1px 0 rgba(255,255,255,0.22);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.donation-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(220,38,38,0.4), inset 0 1px 0 rgba(255,255,255,0.22);
+}
+.donation-action-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  font-size: 18px;
+}
+.donation-action-arrow {
+  flex: 0 0 auto;
+  font-size: 16px;
+}
+.donation-bank-panel {
+  border-left: 2px solid #60a5fa;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.1);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+@media (max-width: 640px) {
+  .donation-card {
+    min-height: 0;
+  }
+  .donation-action {
+    min-height: 54px;
+    font-size: 12px;
+  }
+  .donation-blue-shape {
+    width: 70%;
+  }
+}
+
+/* Modales y Asistente Flotante de Emergencia */
+#floatingEmergencyModal .emergency-modal-card {
+  height: min(680px, calc(100dvh - 1rem));
+  max-height: calc(100dvh - 1rem);
+}
+#floatingEmergencyModal .emergency-modal-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+#floatingEmergencyModal .emergency-triage-content {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+#floatingEmergencyModal .triage-tab {
+  display: flex;
+  min-height: 2.5rem;
+  min-width: 0;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem;
+  border: 2px solid #cbd5e1;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #334155;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+#floatingEmergencyModal .triage-tab i {
+  flex: 0 0 auto;
+  color: #dc2626;
+}
+#floatingEmergencyModal .triage-tab:hover {
+  border-color: #94a3b8;
+}
+#floatingEmergencyModal .triage-tab:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+#floatingEmergencyModal .triage-tab.active,
+#floatingEmergencyModal .triage-tab[aria-pressed="true"] {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #991b1b;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+.dark #floatingEmergencyModal .triage-tab {
+  border-color: #475569;
+  background: #162035;
+  color: #dae2fd;
+}
+.dark #floatingEmergencyModal .triage-tab i {
+  color: #ff7b79;
+}
+.dark #floatingEmergencyModal .triage-tab.active,
+.dark #floatingEmergencyModal .triage-tab[aria-pressed="true"] {
+  border-color: #ff5451;
+  background: rgba(127, 29, 29, 0.45);
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 84, 81, 0.3);
+}
+#floatingEmergencyModal .emergency-guide-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  object-fit: contain;
+}
+#suggestionsFloatingModal .suggestions-modal-header {
+  background: linear-gradient(110deg, #06152d 0%, #0a2347 55%, #071534 100%);
+}
+#floatingEmergencyModal .emergency-modal-body > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.375rem;
+}
+#floatingEmergencyModal .emergency-triage-content {
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background: #fff;
+}
+.dark #floatingEmergencyModal .emergency-triage-content {
+  background: #fff;
+}
+@media (max-width: 640px), (max-height: 700px) {
+  #floatingEmergencyModal .emergency-call-note {
+    display: none;
+  }
+  #floatingEmergencyModal .emergency-call-link {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
+}
+
+@media (max-height: 700px) {
+  #floatingEmergencyModal .emergency-modal-header {
+    padding: 0.5rem 0.75rem;
+  }
+  #floatingEmergencyModal .emergency-modal-header-icon {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+  }
+  #floatingEmergencyModal .emergency-modal-body {
+    gap: 0.5rem;
+    padding: 0.625rem 0.75rem;
+  }
+  #floatingEmergencyModal .emergency-scenario-label {
+    margin-bottom: 0.25rem;
+  }
+  #floatingEmergencyModal .triage-tab { padding: 0.375rem; }
+  #floatingEmergencyModal .emergency-call-link {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.75rem;
+  }
+  #floatingEmergencyModal .emergency-modal-footer {
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+@media (max-height: 600px) {
+  #floatingEmergencyModal .emergency-modal-header {
+    padding: 0.375rem 0.5rem;
+  }
+  #floatingEmergencyModal .emergency-modal-header-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.875rem;
+  }
+  #floatingEmergencyModal .emergency-modal-header h3 {
+    font-size: 0.8125rem;
+  }
+  #floatingEmergencyModal .emergency-modal-body {
+    gap: 0.375rem;
+    padding: 0.375rem 0.5rem;
+  }
+  #floatingEmergencyModal .triage-tab {
+    min-height: 2.25rem;
+    padding: 0.25rem;
+    font-size: 0.6875rem;
+  }
+  #floatingEmergencyModal .emergency-modal-body > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.25rem;
+  }
+  #floatingEmergencyModal .emergency-modal-footer {
+    padding: 0.25rem 0.5rem;
+  }
+  #floatingEmergencyModal .emergency-modal-footer button {
+    padding: 0.25rem 0.5rem;
+  }
+}

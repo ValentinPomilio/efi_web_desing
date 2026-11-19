@@ -218,3 +218,14 @@ Este documento registra cronológicamente las decisiones técnicas y de diseño 
 - **Fecha**: 2026-11-01
 - **Estado**: Aceptado e Implementado
 - **Decisión**: En móvil/tablet, reservar al final del documento únicamente el alto del banner publicitario fijo (61 px), para que el footer quede inmediatamente encima cuando el anuncio está visible. Al cerrar el banner, eliminar la reserva y permitir que el footer llegue al borde inferior de la página/viewport.
+
+---
+
+### [ADR-029] Modularización Arquitectónica Profesional y Estudio de Mercado
+- **Fecha**: 2026-11-18
+- **Estado**: Aceptado e Implementado
+- **Decisión**:
+  1. **Desacoplamiento Front-End**: Modularizar el archivo monolítico `index.html` separando estilos en `assets/css/` (`main.css`, `components.css`) y lógica en JavaScript Vanilla ES6+ (`assets/js/` con entrypoint `app.js`, datos en `data/doctors.data.js` y submódulos independientes `theme.js`, `navigation.js`, `geolocation.js`, `doctors.js`, `emergency.js`, `suggestions.js`, `donations.js`, `toast.js`).
+  2. **Organización del Workspace**: Crear carpetas de alto nivel con responsabilidades unívocas: `assets/` (recursos web), `presentation/` (slides, PDFs y guión de defensa), `tools/` (scripts de soporte y generación de assets) y `docs/`.
+  3. **Estudio de Mercado Sociosanitario**: Crear `docs/estudio-de-mercado/` estructurado en 4 documentos técnicos (`01_resumen_ejecutivo.md`, `02_problematica_local.md`, `03_analisis_mercado.md`, `04_impacto_y_solucion.md`) documentando la problemática de la salud barrial en Río Cuarto, el mapa de actores y el valor social de SaludBarrial.
+  4. **Cero Impacto Visual/Diseño**: Garantizar 100% de paridad visual, responsiva y de comportamiento interactivo respecto al diseño original.

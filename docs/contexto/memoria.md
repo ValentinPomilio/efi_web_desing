@@ -110,3 +110,14 @@ Este documento almacena los acuerdos, directivas permanentes y contexto consolid
 ### [2026-11-01] Footer móvil arriba del anuncio fijo
 - Mientras el banner publicitario móvil/tablet está visible, el documento reserva solo sus 61 px de alto para que el footer quede inmediatamente encima del banner.
 - Al cerrar el banner, se quita la reserva inferior; el footer vuelve al final de la página.
+
+### [2026-11-18] Modularización Completa del Proyecto y Creación de Estudio de Mercado (ADR-029)
+- **Modularización Front-End**:
+  - `assets/css/main.css`: Variables, scrollbars, sombras azules y layout de anuncios.
+  - `assets/css/components.css`: Estilos de donaciones, modales y asistente de emergencias.
+  - `assets/js/`: Entrypoint `app.js`, datos en `data/doctors.data.js`, y 8 submódulos funcionales (`theme.js`, `navigation.js`, `geolocation.js`, `doctors.js`, `emergency.js`, `suggestions.js`, `donations.js`, `toast.js`).
+- **Organización de Carpetas**:
+  - `presentation/`: Centralización de presentaciones HTML (`slides/`), PDFs (`pdf/`) y guión de defensa (`guion/`).
+  - `tools/`: Reubicación de scripts de captura (`capture_clean_modules.py`, `generate_screenshots.py`, `update_dark_shots.py`) y sus assets generados (`tools/assets/`).
+  - `docs/estudio-de-mercado/`: 4 documentos técnicos (`01_resumen_ejecutivo.md`, `02_problematica_local.md`, `03_analisis_mercado.md`, `04_impacto_y_solucion.md`) documentando la problemática de la salud barrial en Río Cuarto, el mapa de actores y el impacto de SaludBarrial.
+- **Invarianza**: El diseño, paleta, animaciones, accesibilidad y comportamiento funcional se mantuvieron 100% idénticos.

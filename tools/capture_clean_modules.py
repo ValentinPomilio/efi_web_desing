@@ -2,7 +2,7 @@ import os
 import subprocess
 
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-ASSETS_DIR = os.path.abspath("slides_assets")
+ASSETS_DIR = os.path.abspath("tools/assets")
 os.makedirs(ASSETS_DIR, exist_ok=True)
 
 with open("index.html", "r", encoding="utf-8") as f:

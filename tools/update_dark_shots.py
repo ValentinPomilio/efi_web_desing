@@ -30,7 +30,7 @@ cmd1 = [
     "--disable-gpu",
     "--no-sandbox",
     "--window-size=1440,850",
-    "--screenshot=" + os.path.abspath("slides_assets/shot_hero_desktop_dark.png"),
+    "--screenshot=" + os.path.abspath("tools/assets/shot_hero_desktop_dark.png"),
     "file:///" + tmp_file.replace("\\", "/")
 ]
 subprocess.run(cmd1, capture_output=True)
@@ -41,7 +41,7 @@ cmd2 = [
     "--disable-gpu",
     "--no-sandbox",
     "--window-size=390,844",
-    "--screenshot=" + os.path.abspath("slides_assets/shot_hero_mobile_dark.png"),
+    "--screenshot=" + os.path.abspath("tools/assets/shot_hero_mobile_dark.png"),
     "file:///" + tmp_file.replace("\\", "/")
 ]
 subprocess.run(cmd2, capture_output=True)
